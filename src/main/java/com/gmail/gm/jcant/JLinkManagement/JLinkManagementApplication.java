@@ -1,7 +1,12 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class JLinkManagementApplication {
@@ -10,14 +15,14 @@ public class JLinkManagementApplication {
 		SpringApplication.run(JLinkManagementApplication.class, args);
 	}
 
-//	@Bean
-//	public CommandLineRunner demo(final UserService userService) {
-//		return new CommandLineRunner() {
-//			@Override
-//			public void run(String... strings) throws Exception {
-//				userService.addUser(new CustomUser("admin", "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8", UserRole.ADMIN));
-//				userService.addUser(new CustomUser("user", "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8", UserRole.USER));
-//			}
-//		};
-//	}
+	@Bean
+	public CommandLineRunner demo(final JLinkUserService userService) {
+		return new CommandLineRunner() {
+			@Override
+			public void run(String... strings) throws Exception {
+				userService.addUser(new JLinkUser("admin", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.ADMIN));
+				userService.addUser(new JLinkUser("user", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.USER));
+			}
+		};
+	}
 }
