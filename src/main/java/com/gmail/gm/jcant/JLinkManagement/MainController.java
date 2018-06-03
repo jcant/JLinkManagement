@@ -59,7 +59,7 @@ public class MainController {
             model.addAttribute("exists", true);
             return "register";
         }
-        
+
         String passHash = encoder.encode(password);
 
         JLinkUser dbUser = new JLinkUser(login, passHash, JlinkUserRole.USER, email);
