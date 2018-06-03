@@ -13,7 +13,7 @@
             Password:<br/><input type="password" name="j_password"><br/>
             <input type="submit" />
 
-            <p><a href="/register">Register new user</a></p>
+            <p><a href="/register">Register NEW user</a></p>
 
             <c:if test="${param.error ne null}">
                 <p>Wrong login or password!</p>
