@@ -1,4 +1,4 @@
-package com.gmail.gm.jcant.JLinkManagement;
+package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;

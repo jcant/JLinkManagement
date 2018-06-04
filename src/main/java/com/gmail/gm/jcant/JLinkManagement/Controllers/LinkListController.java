@@ -1,4 +1,4 @@
-package com.gmail.gm.jcant.JLinkManagement;
+package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
