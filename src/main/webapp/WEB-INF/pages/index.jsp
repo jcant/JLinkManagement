@@ -14,10 +14,11 @@
         <c:url value="/update" var="updateUrl" />
         <form action="${updateUrl}" method="POST">
             E-mail:<br/><input type="text" name="email" value="${email}" /><br/>
-            Phone:<br/><input type="text" name="phone" value="${phone}" /><br/>
             <input type="submit" value="Update" />
         </form>
 
+        <c:url value="/links" var="linksUrl" />
+        <p>view Links List: <a href="${linksUrl}">Links</a></p>
         <c:url value="/logout" var="logoutUrl" />
         <p>Click to logout: <a href="${logoutUrl}">LOGOUT</a></p>
     </div>

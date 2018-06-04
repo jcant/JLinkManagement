@@ -1,8 +1,13 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
+import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
+
+import java.util.Date;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,12 +21,25 @@ public class JLinkManagementApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(final JLinkUserService userService) {
+	public CommandLineRunner demo(final JLinkUserService userService, final JLinkService linkService) {
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... strings) throws Exception {
-				userService.addUser(new JLinkUser("admin", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.ADMIN));
-				userService.addUser(new JLinkUser("user", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.USER));
+				JLinkUser admin = new JLinkUser("admin", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.ADMIN);
+				JLinkUser user = new JLinkUser("user", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.USER);
+				
+				userService.addUser(admin);
+				userService.addUser(user);
+				
+				linkService.addLink(new JLink("q1.com", "jcant.facebook.com", admin, new Date(), new Date()));
+				linkService.addLink(new JLink("q2.com", "jcant.instagramm.com", admin, new Date(), new Date()));
+				linkService.addLink(new JLink("q3.com", "jcant.linkedin.com", admin, new Date(), new Date()));
+				
+				linkService.addLink(new JLink("u1.com", "user.facebook.com", user, new Date(), new Date()));
+				linkService.addLink(new JLink("u2.com", "user.twitter.com", user, new Date(), new Date()));
+				
+				//non unique url - must throws an exception
+				//linkService.addLink(new JLink("u2.com", "user.linkedin.com", user, new Date(), new Date()));
 			}
 		};
 	}
