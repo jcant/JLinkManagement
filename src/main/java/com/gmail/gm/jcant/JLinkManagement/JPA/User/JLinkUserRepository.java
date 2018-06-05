@@ -10,7 +10,4 @@ public interface JLinkUserRepository extends JpaRepository<JLinkUser, Long> {
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM JLinkUser u WHERE u.login = :login")
     boolean existsByLogin(@Param("login") String login);
-
-    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM JLinkUser u WHERE u.id = :id")
-    boolean existsById(@Param("id") long id);
 }

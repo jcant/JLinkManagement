@@ -1,6 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,21 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/users/{id}")
-    public JLinkUser getUserById(@PathVariable(value = "id") long id){
-        return userService.getUserById(id);
+    public JLinkUser getUserById(@PathVariable(value = "id") long id) throws UserRestControllerException{
+    	JLinkUser user = null;
+    	try {
+    		user = userService.getUserById(id);
+    	}catch(JLinkUserException e) {
+    		e.printStackTrace();
+    		throw new UserRestControllerException();
+    	}
+    	return user;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<Void> addUser(@RequestParam String login,
-                                    @RequestParam String password,
-                                    @RequestParam(required = false) String email) {
+                                    	@RequestParam String password,
+                                    	@RequestParam(required = false) String email) {
         if (userService.existsByLogin(login)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

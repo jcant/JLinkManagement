@@ -84,4 +84,5 @@ public class MainController {
         model.addAttribute("login", user.getUsername());
         return "unauthorized";
     }
+    
 }
