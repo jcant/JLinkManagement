@@ -31,8 +31,8 @@ public class JLinkManagementApplication {
 				userService.addUser(admin);
 				userService.addUser(user);
 				
-				linkService.addLink(new JLink("q1.com", "jcant.facebook.com", admin, new Date(), new Date()));
-				linkService.addLink(new JLink("q2.com", "jcant.instagramm.com", admin, new Date(), new Date()));
+				linkService.addLink(new JLink("http://u1.short2.jca:8080/", "http://google.com", admin, new Date(), new Date()));
+				linkService.addLink(new JLink("http://u2.short2.jca:8080/", "http://gmail.com", admin, new Date(), new Date()));
 				linkService.addLink(new JLink("q3.com", "jcant.linkedin.com", admin, new Date(), new Date()));
 				
 				linkService.addLink(new JLink("u1.com", "user.facebook.com", user, new Date(), new Date()));

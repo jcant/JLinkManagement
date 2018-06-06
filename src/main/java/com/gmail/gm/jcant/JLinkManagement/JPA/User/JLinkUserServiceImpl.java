@@ -42,12 +42,12 @@ public class JLinkUserServiceImpl implements JLinkUserService{
     public boolean existsByLogin(String login) {
         return userRepository.existsByLogin(login);
     }
+
     @Override
     @Transactional(readOnly = true)
     public boolean existsById(long id) {
         return userRepository.existsById(id);
     }
-    
 
     @Override
     @Transactional

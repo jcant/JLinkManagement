@@ -25,15 +25,16 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/users/{id}")
-    public JLinkUser getUserById(@PathVariable(value = "id") long id) throws UserRestControllerException{
+    public JLinkUser getUserById(@PathVariable(value = "id") long id) {
     	JLinkUser user = null;
-    	try {
-    		user = userService.getUserById(id);
-    	}catch(JLinkUserException e) {
-    		e.printStackTrace();
-    		throw new UserRestControllerException();
-    	}
-    	return user;
+
+        try {
+            user = userService.getUserById(id);
+        } catch (JLinkUserException e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
