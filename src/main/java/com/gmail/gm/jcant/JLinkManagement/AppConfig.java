@@ -1,5 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
+import com.gmail.gm.jcant.JLinkManagement.Controllers.MainController;
+import com.gmail.gm.jcant.JLinkManagement.Controllers.RequestFilter;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.Filter;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -30,6 +34,11 @@ public class AppConfig {
 
     @Value("${hbm2ddl.auto}")
     private String hbm2dllAuto;
+
+    @Bean
+    public MainController getController(){
+        return new MainController();
+    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
@@ -77,6 +86,11 @@ public class AppConfig {
         return new JLinkUserDetailServiceImpl();
     }
 
+    @Bean
+    public RequestFilter getServletFilter() {
+        System.out.println("in GET SERVLET FILTER**********************************");
+        return new RequestFilter();
+    }
 
 }
 

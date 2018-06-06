@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
+//@Controller
 @RequestMapping(headers="Host=short1.jca:8080")
 public class FrontEndController {
 
@@ -24,6 +24,7 @@ public class FrontEndController {
 
     @RequestMapping(value = "/")
     public String index(Model model){
+
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
 

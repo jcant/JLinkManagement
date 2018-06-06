@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+//@Controller
 public class MainController {
     @Autowired
     private JLinkService linkService;
