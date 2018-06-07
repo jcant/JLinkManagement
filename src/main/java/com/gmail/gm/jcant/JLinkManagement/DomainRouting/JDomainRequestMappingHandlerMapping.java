@@ -25,11 +25,17 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 	
 	@Override
 	protected RequestCondition<?> getCustomMethodCondition(Method method) {
+		System.out.println("in getCustomMethodCondition");
 		JDomain methodAnnotation = AnnotationUtils.findAnnotation(method, JDomain.class);
 		return createCondition(methodAnnotation);
 	}
 	
 	private RequestCondition<?> createCondition(JDomain accessMapping) {
-		return (accessMapping != null) ? new JDomainRequestCondition(accessMapping.value()) : null;
+		System.out.println("in createCondition="+accessMapping);
+		JDomainRequestCondition cond = null;
+		if (accessMapping != null) {
+			cond = new JDomainRequestCondition(accessMapping.value());
+		}
+		return cond;
 	}
 }

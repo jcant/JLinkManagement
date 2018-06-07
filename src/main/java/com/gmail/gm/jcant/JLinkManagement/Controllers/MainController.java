@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@JDomain(value = "short1.jca:8080")
+
 public class MainController {
     @Autowired
     private JLinkService linkService;
 
     @RequestMapping("/")
+    @JDomain(value = "http://short1.jca:8080/")
     public String index(Model model, HttpServletRequest request) {
         if (isRootLink(request)) {
             JLink link = linkService.getLinkByUrl(request.getRequestURL().toString());

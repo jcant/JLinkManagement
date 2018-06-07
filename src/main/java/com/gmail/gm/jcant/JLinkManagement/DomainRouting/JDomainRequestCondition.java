@@ -34,6 +34,7 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 			String value = getRequestDomain(request); // this is where you will have the code to work out the subdomain
 			if (value != null) {
 				for (String s : this.jdomains) {
+					System.out.println("jdomain="+s+" value="+value);
 					if (s.equalsIgnoreCase(value)) {
 						condition = this;
 					}
@@ -49,6 +50,8 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 	
 	@Override
 	public JDomainRequestCondition combine(JDomainRequestCondition other) {
+		System.out.println("in combine");
+		
 		Set<String> allRoles = new LinkedHashSet<String>(this.jdomains);
 		allRoles.addAll(other.jdomains);
 		return new JDomainRequestCondition(allRoles);
@@ -56,6 +59,8 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 
 	@Override
 	public int compareTo(JDomainRequestCondition other, HttpServletRequest request) {
+		System.out.println("in compareTo");
+		
 		return other.jdomains.size() - this.jdomains.size();
 	}
 
@@ -63,6 +68,7 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 	
 	
 	private String getRequestDomain(HttpServletRequest request) {
+		System.out.println("in getRequestDomain");
 		String url = request.getRequestURL().toString();
 		return url;
 	}
