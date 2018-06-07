@@ -7,15 +7,32 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
+
+@PropertySource("classpath:application.properties")
 public class JDomainRequestCondition implements RequestCondition<JDomainRequestCondition> {
+
+	@Autowired
+	EnvironmentGetter environmentGetter;
 
 	//@Value("${frontend.domains}")
 	private final Set<String> jdomains;
 
+	public JDomainRequestCondition(String property) {
+		System.out.println("in JDomainRequesCondition constructor property=" + property);
+		System.out.println("environmentGetter="+environmentGetter);
+		String prVal = environmentGetter.getProperty(property);
+		System.out.println("**********prVal="+prVal);
+		String[] value = prVal.split(",");
+		jdomains = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(value)));
+	}
+
 	public JDomainRequestCondition(String[] value) {
-		System.out.println("in JDomainRequesCondition constructor " + Arrays.toString(value));
+		System.out.println("in JDomainRequesCondition constructor value[]=" + Arrays.toString(value));
 		jdomains = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(value)));
 	}
 	

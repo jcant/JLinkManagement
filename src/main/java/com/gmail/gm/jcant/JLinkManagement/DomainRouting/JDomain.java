@@ -11,5 +11,6 @@ import java.lang.annotation.Target;
 @Target({TYPE, METHOD})
 //@Documented
 public @interface JDomain {
-	String[] value();
+	String[] value() default "";
+	String property() default "";
 }

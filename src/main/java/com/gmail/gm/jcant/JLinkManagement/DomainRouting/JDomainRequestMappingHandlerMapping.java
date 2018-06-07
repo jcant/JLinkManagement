@@ -8,21 +8,14 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 
 public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMapping{
-	@Override 
+
+	@Override
 	protected RequestCondition<?> getCustomTypeCondition(Class<?> handlerType) {
-        
 		System.out.println("in getCustomTypeCondition");
-		
 		JDomain typeAnnotation = AnnotationUtils.findAnnotation(handlerType, JDomain.class);
-//        JDomainRequestCondition requestCondition = null;
-//        if (typeAnnotation != null) {
-//        	requestCondition = new JDomainRequestCondition(typeAnnotation.value());
-//        }
-//        
-//        return requestCondition;
 		return createCondition(typeAnnotation);
-    }
-	
+	}
+
 	@Override
 	protected RequestCondition<?> getCustomMethodCondition(Method method) {
 		System.out.println("in getCustomMethodCondition");
@@ -34,7 +27,11 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 		System.out.println("in createCondition="+accessMapping);
 		JDomainRequestCondition cond = null;
 		if (accessMapping != null) {
-			cond = new JDomainRequestCondition(accessMapping.value());
+			if (!accessMapping.property().equals("")) {
+				cond = new JDomainRequestCondition(accessMapping.property());
+			}else{
+				cond = new JDomainRequestCondition(accessMapping.value());
+			}
 		}
 		return cond;
 	}
