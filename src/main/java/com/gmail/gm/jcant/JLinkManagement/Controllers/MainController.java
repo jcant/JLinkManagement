@@ -1,5 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
+import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-//@Controller
+@Controller
+@JDomain(value = "short1.jca:8080")
 public class MainController {
     @Autowired
     private JLinkService linkService;
@@ -33,7 +35,7 @@ public class MainController {
     private boolean isRootLink(HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         System.out.println("isRootLink url= "+url);
-        if (url.endsWith("short2.jca:8080/") || url.endsWith("short3.jca:8080/")) {
+        if (url.endsWith("short1.jca:8080/") || url.endsWith("short2.jca:8080/") || url.endsWith("short3.jca:8080/")) {
             return true;
         } else {
             return false;

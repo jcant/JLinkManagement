@@ -1,5 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
+import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 //@Controller
-@RequestMapping(headers="Host=short1.jca:8080")
+//@RequestMapping(headers="Host=short1.jca:8080")
+//@JDomain(value = "short1.jca:8080")
 public class FrontEndController {
 
     @Autowired
