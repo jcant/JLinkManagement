@@ -1,75 +1,79 @@
 package com.gmail.gm.jcant.JLinkManagement.DomainRouting;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
 public class JDomainRequestCondition implements RequestCondition<JDomainRequestCondition> {
 
-	private String[] jDomainValue = null;
+    private String[] jDomainValue = null;
 
-	public JDomainRequestCondition(String[] value) {
-		jDomainValue = value;
-	}
-	
-	public JDomainRequestCondition(Collection<String> collection) {
-		if (collection != null) {
-			jDomainValue = collection.toArray(new String[] {});
-		}
-	}
+    public JDomainRequestCondition(String[] value) {
+        jDomainValue = value;
+    }
 
-	@Override
-	public JDomainRequestCondition getMatchingCondition(HttpServletRequest request) {
+    public JDomainRequestCondition(Collection<String> collection) {
+        if (collection != null) {
+            jDomainValue = collection.toArray(new String[]{});
+        }
+    }
 
-		JDomainRequestCondition condition = null;
-		String requestDomain = getRequestDomain(request);
+    @Override
+    public JDomainRequestCondition getMatchingCondition(HttpServletRequest request) {
 
-		if (requestDomain != null) {
-			for (String domain : jDomainValue) {
-				System.out.println("requestDomain="+requestDomain+" domain="+domain);
-				if (domain.equalsIgnoreCase(requestDomain)) {
-					condition = this;
-					break;
-				}
-			}
-		}
+        System.out.println("IN getMatchingCondition");
+        JDomainRequestCondition condition = null;
+        String requestDomain = getRequestDomain(request);
 
-		return condition;
-	}
+        //if (requestDomain != null) {
+        for (String domain : jDomainValue) {
+            System.out.println("requestDomain=" + requestDomain + " domain=" + domain);
+            if (requestDomain.toLowerCase().endsWith(domain.toLowerCase())) {
+                condition = this;
+                break;
+            }
+        }
+        //}
+        System.out.println("***return condition=" + condition);
+        return condition;
+    }
 
-	// @Override
-	// public JDomainRequestCondition combine(JDomainRequestCondition other) {
-	// System.out.println("in combine");
-	//
-	// Set<String> allRoles = new LinkedHashSet<String>(this.jdomains);
-	// allRoles.addAll(other.jdomains);
-	// return new JDomainRequestCondition(allRoles);
-	// }
-	//
-	// @Override
-	// public int compareTo(JDomainRequestCondition other, HttpServletRequest
-	// request) {
-	// System.out.println("in compareTo");
-	//
-	// return other.jdomains.size() - this.jdomains.size();
-	// }
+    @Override
+    public JDomainRequestCondition combine(JDomainRequestCondition other) {
+        System.out.println("in combine");
 
-	@Override
-	public JDomainRequestCondition combine(JDomainRequestCondition arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public int compareTo(JDomainRequestCondition arg0, HttpServletRequest arg1) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	private String getRequestDomain(HttpServletRequest request) {
-		//return request.getRequestURL().toString();
-		return request.getQueryString();
-	}
+
+        String[] all = new String[this.jDomainValue.length + other.jDomainValue.length];
+        System.arraycopy(this.jDomainValue, 0, all, 0, this.jDomainValue.length);
+        System.arraycopy(other.jDomainValue, 0, all, this.jDomainValue.length, other.jDomainValue.length);
+
+        return new JDomainRequestCondition(all);
+    }
+
+    @Override
+    public int compareTo(JDomainRequestCondition other, HttpServletRequest
+            request) {
+        System.out.println("in compareTo");
+
+        return other.jDomainValue.length - this.jDomainValue.length;
+    }
+
+    private String getRequestDomain(HttpServletRequest request) {
+        //return request.getRequestURL().toString();
+        String scheme = request.getScheme();
+        String sname = request.getServerName();
+        String sport = "" + request.getServerPort();
+        String url = request.getScheme() + "://" + request.getServerName();
+        if (!sport.equals("")) {
+            url += ":" + sport;
+        }
+        System.out.println("REQUEST = " + url);
+        return url;
+    }
 
 }

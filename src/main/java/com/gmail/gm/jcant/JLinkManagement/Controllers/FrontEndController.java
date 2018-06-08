@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-
+@RequestMapping(value = "/")
+@JDomain(property = "frontend.domains")
 public class FrontEndController {
 
     @Autowired
@@ -31,6 +32,7 @@ public class FrontEndController {
     private PasswordEncoder encoder;
 
     @RequestMapping(value = "/")
+    //@JDomain(property = "frontend.domains")
     public String index(Model model){
 
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -46,6 +48,7 @@ public class FrontEndController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
+    //@JDomain(property = "frontend.domains")
     public String update(@RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
@@ -59,6 +62,7 @@ public class FrontEndController {
     }
 
     @RequestMapping(value = "/newuser", method = RequestMethod.POST)
+    //@JDomain(property = "frontend.domains")
     public String update(@RequestParam String login,
                          @RequestParam String password,
                          @RequestParam(required = false) String email,
@@ -77,16 +81,19 @@ public class FrontEndController {
     }
 
     @RequestMapping("/register")
+    //@JDomain(property = "frontend.domains")
     public String register() {
         return "register";
     }
 
     @RequestMapping("/admin")
+    //@JDomain(property = "frontend.domains")
     public String admin(){
         return "admin";
     }
 
     @RequestMapping("/unauthorized")
+    //@JDomain(property = "frontend.domains")
     public String unauthorized(Model model){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("login", user.getUsername());
@@ -94,6 +101,7 @@ public class FrontEndController {
     }
     
     @RequestMapping("/links")
+    //@JDomain(property = "frontend.domains")
 	public String links(Model model){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();

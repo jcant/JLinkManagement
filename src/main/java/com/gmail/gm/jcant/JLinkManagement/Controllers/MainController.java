@@ -16,8 +16,8 @@ public class MainController {
     private JLinkService linkService;
 
     @RequestMapping("/")
-    //@JDomain(fromBase = true)
-    @JDomain(value = {"http://short2.jca:8080/","http://short3.jca:8080/"})
+    @JDomain(fromBase = true)
+    //@JDomain(value = {"http://short2.jca:8080","http://short3.jca:8080"})
     public String index(Model model, HttpServletRequest request) {
         if (isRootLink(request)) {
             JLink link = linkService.getLinkByUrl(request.getRequestURL().toString());
@@ -36,7 +36,7 @@ public class MainController {
     private boolean isRootLink(HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         //System.out.println("isRootLink url= "+url);
-        if (url.endsWith("short2.jca:8080/") || url.endsWith("short3.jca:8080/")) {
+        if (url.endsWith("short1.jca:8080/") || url.endsWith("short2.jca:8080/") || url.endsWith("short3.jca:8080/")) {
             return true;
         } else {
             return false;
