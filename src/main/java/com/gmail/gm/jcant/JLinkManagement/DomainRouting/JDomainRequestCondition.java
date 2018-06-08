@@ -1,5 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.DomainRouting;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
@@ -10,6 +12,12 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 	public JDomainRequestCondition(String[] value) {
 		jDomainValue = value;
 	}
+	
+	public JDomainRequestCondition(Collection<String> collection) {
+		if (collection != null) {
+			jDomainValue = collection.toArray(new String[] {});
+		}
+	}
 
 	@Override
 	public JDomainRequestCondition getMatchingCondition(HttpServletRequest request) {
@@ -19,6 +27,7 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 
 		if (requestDomain != null) {
 			for (String domain : jDomainValue) {
+				System.out.println("requestDomain="+requestDomain+" domain="+domain);
 				if (domain.equalsIgnoreCase(requestDomain)) {
 					condition = this;
 					break;
@@ -59,7 +68,8 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 	}
 
 	private String getRequestDomain(HttpServletRequest request) {
-		return request.getRequestURL().toString();
+		//return request.getRequestURL().toString();
+		return request.getQueryString();
 	}
 
 }

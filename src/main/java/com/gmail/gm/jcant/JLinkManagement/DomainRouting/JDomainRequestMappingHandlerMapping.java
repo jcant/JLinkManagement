@@ -3,6 +3,7 @@ package com.gmail.gm.jcant.JLinkManagement.DomainRouting;
 import java.lang.reflect.Method;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
@@ -13,6 +14,10 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 	
 	@Autowired
 	private Environment environment;
+	
+	@Autowired
+	@Qualifier(value = "JRootLinkDomainListImpl")
+	private JDomainList domainList;
 	
 	@Override
 	protected RequestCondition<?> getCustomTypeCondition(Class<?> handlerType) {
@@ -27,12 +32,16 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 	}
 	
 	private RequestCondition<?> createCondition(JDomain accessMapping) {
-
+		
+		System.out.println("JRootLinkDomainListImpl="+domainList);
+		
 		JDomainRequestCondition cond = null;
 		if (accessMapping != null) {
 			if (!accessMapping.property().equals("")) {
 				String[] values = environment.getProperty(accessMapping.property()).split(",");
 				cond = new JDomainRequestCondition(values);
+			}else if(accessMapping.fromBase()) {
+				cond = new JDomainRequestCondition(domainList.getDomainList());
 			}else{
 				cond = new JDomainRequestCondition(accessMapping.value());
 			}

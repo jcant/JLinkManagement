@@ -1,9 +1,14 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -14,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-//@Controller
-//@RequestMapping(headers="Host=short1.jca:8080")
-//@JDomain(value = "short1.jca:8080")
+@Controller
+
 public class FrontEndController {
 
     @Autowired
     private JLinkUserService userService;
+    @Autowired
+	private JLinkService linkService;
     @Autowired
     private PasswordEncoder encoder;
 
@@ -85,5 +91,25 @@ public class FrontEndController {
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("login", user.getUsername());
         return "unauthorized";
+    }
+    
+    @RequestMapping("/links")
+	public String links(Model model){
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String login = user.getUsername();
+
+        JLinkUser dbUser = userService.getUserByLogin(login);
+
+        model.addAttribute("login", login);
+        model.addAttribute("roles", user.getAuthorities());
+        model.addAttribute("email", dbUser.getEmail());
+        
+        List<JLink> list = linkService.getLinksByUser(dbUser);
+        
+        System.out.println("LIST="+list);
+        
+        model.addAttribute("links", list);
+
+        return "links";
     }
 }

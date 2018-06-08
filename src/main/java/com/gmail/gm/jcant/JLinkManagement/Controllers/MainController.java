@@ -11,15 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/")
-@JDomain(value = {"http://short1.jca:8080/", "http://short2.jca:8080/"})
-//@JDomain(property = "frontend.domains")
 public class MainController {
     @Autowired
     private JLinkService linkService;
 
     @RequestMapping("/")
-    //@JDomain(value = "http://short1.jca:8080/")
+    //@JDomain(fromBase = true)
+    @JDomain(value = {"http://short2.jca:8080/","http://short3.jca:8080/"})
     public String index(Model model, HttpServletRequest request) {
         if (isRootLink(request)) {
             JLink link = linkService.getLinkByUrl(request.getRequestURL().toString());
@@ -38,7 +36,7 @@ public class MainController {
     private boolean isRootLink(HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         //System.out.println("isRootLink url= "+url);
-        if (url.endsWith("short1.jca:8080/") || url.endsWith("short2.jca:8080/") || url.endsWith("short3.jca:8080/")) {
+        if (url.endsWith("short2.jca:8080/") || url.endsWith("short3.jca:8080/")) {
             return true;
         } else {
             return false;
