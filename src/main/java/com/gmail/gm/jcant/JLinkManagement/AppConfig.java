@@ -1,14 +1,10 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
-import com.gmail.gm.jcant.JLinkManagement.DomainRouting.EnvironmentGetter;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserDetailServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -34,15 +30,6 @@ public class AppConfig {
 
     @Value("${hbm2ddl.auto}")
     private String hbm2dllAuto;
-
-    @Autowired
-    private Environment environment;
-
-    @Bean
-    public EnvironmentGetter getEnvironment(){
-        System.out.println("BEAN CREATED ENVIRONMENT: "+environment);
-        return new EnvironmentGetter(environment);
-    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf){

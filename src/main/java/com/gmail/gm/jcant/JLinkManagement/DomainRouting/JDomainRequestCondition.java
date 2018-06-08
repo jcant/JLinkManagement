@@ -1,92 +1,65 @@
 package com.gmail.gm.jcant.JLinkManagement.DomainRouting;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
-
-@PropertySource("classpath:application.properties")
 public class JDomainRequestCondition implements RequestCondition<JDomainRequestCondition> {
 
-	@Autowired
-	EnvironmentGetter environmentGetter;
-
-	//@Value("${frontend.domains}")
-	private final Set<String> jdomains;
-
-	public JDomainRequestCondition(String property) {
-		System.out.println("in JDomainRequesCondition constructor property=" + property);
-		System.out.println("environmentGetter="+environmentGetter);
-		String prVal = environmentGetter.getProperty(property);
-		System.out.println("**********prVal="+prVal);
-		String[] value = prVal.split(",");
-		jdomains = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(value)));
-	}
+	private String[] jDomainValue = null;
 
 	public JDomainRequestCondition(String[] value) {
-		System.out.println("in JDomainRequesCondition constructor value[]=" + Arrays.toString(value));
-		jdomains = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(value)));
+		jDomainValue = value;
 	}
-	
-	public JDomainRequestCondition(Collection<String> value) {
-		jdomains = Collections.unmodifiableSet(new HashSet<String>(value));
-	}
-	
+
 	@Override
 	public JDomainRequestCondition getMatchingCondition(HttpServletRequest request) {
-		
-		System.out.println("in getMatchingCondition");
-		
-		JDomainRequestCondition condition = null;
 
-		try {
-			String value = getRequestDomain(request); // this is where you will have the code to work out the subdomain
-			if (value != null) {
-				for (String s : this.jdomains) {
-					System.out.println("jdomain="+s+" value="+value);
-					if (s.equalsIgnoreCase(value)) {
-						condition = this;
-					}
+		JDomainRequestCondition condition = null;
+		String requestDomain = getRequestDomain(request);
+
+		if (requestDomain != null) {
+			for (String domain : jDomainValue) {
+				if (domain.equalsIgnoreCase(requestDomain)) {
+					condition = this;
+					break;
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 		return condition;
 	}
 
-	
+	// @Override
+	// public JDomainRequestCondition combine(JDomainRequestCondition other) {
+	// System.out.println("in combine");
+	//
+	// Set<String> allRoles = new LinkedHashSet<String>(this.jdomains);
+	// allRoles.addAll(other.jdomains);
+	// return new JDomainRequestCondition(allRoles);
+	// }
+	//
+	// @Override
+	// public int compareTo(JDomainRequestCondition other, HttpServletRequest
+	// request) {
+	// System.out.println("in compareTo");
+	//
+	// return other.jdomains.size() - this.jdomains.size();
+	// }
+
 	@Override
-	public JDomainRequestCondition combine(JDomainRequestCondition other) {
-		System.out.println("in combine");
-		
-		Set<String> allRoles = new LinkedHashSet<String>(this.jdomains);
-		allRoles.addAll(other.jdomains);
-		return new JDomainRequestCondition(allRoles);
+	public JDomainRequestCondition combine(JDomainRequestCondition arg0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public int compareTo(JDomainRequestCondition other, HttpServletRequest request) {
-		System.out.println("in compareTo");
-		
-		return other.jdomains.size() - this.jdomains.size();
+	public int compareTo(JDomainRequestCondition arg0, HttpServletRequest arg1) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	
-	
-	
 	private String getRequestDomain(HttpServletRequest request) {
-		System.out.println("in getRequestDomain");
-		String url = request.getRequestURL().toString();
-		return url;
+		return request.getRequestURL().toString();
 	}
+
 }
