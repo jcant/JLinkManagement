@@ -20,11 +20,9 @@ public class JRootLinkDomainListImpl implements JDomainList{
 
 	@Override
 	public List<String> getDomainList() {
-		System.out.println("JRootLinkRepository="+rlinkRepository);
-		
 		//Java8! :-))
 		List<String> list = rlinkRepository.findAll().stream().map(r -> r.getUrl()).collect(Collectors.toCollection(ArrayList::new));
-		System.out.println("in *** getDomainList() list="+list);
+
 		return list;
 	}
 	

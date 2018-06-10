@@ -24,29 +24,21 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
     @Override
     public JDomainRequestCondition getMatchingCondition(HttpServletRequest request) {
 
-        System.out.println("IN getMatchingCondition");
         JDomainRequestCondition condition = null;
         String requestDomain = getRequestDomain(request);
 
-        //if (requestDomain != null) {
         for (String domain : jDomainValue) {
-            System.out.println("requestDomain=" + requestDomain + " domain=" + domain);
             if (requestDomain.toLowerCase().endsWith(domain.toLowerCase())) {
                 condition = this;
                 break;
             }
         }
-        //}
-        System.out.println("***return condition=" + condition);
+
         return condition;
     }
 
     @Override
     public JDomainRequestCondition combine(JDomainRequestCondition other) {
-        System.out.println("in combine");
-
-
-
 
         String[] all = new String[this.jDomainValue.length + other.jDomainValue.length];
         System.arraycopy(this.jDomainValue, 0, all, 0, this.jDomainValue.length);
@@ -56,23 +48,20 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
     }
 
     @Override
-    public int compareTo(JDomainRequestCondition other, HttpServletRequest
-            request) {
-        System.out.println("in compareTo");
-
+    public int compareTo(JDomainRequestCondition other, HttpServletRequest request) {
         return other.jDomainValue.length - this.jDomainValue.length;
     }
 
     private String getRequestDomain(HttpServletRequest request) {
-        //return request.getRequestURL().toString();
+
         String scheme = request.getScheme();
         String sname = request.getServerName();
         String sport = "" + request.getServerPort();
-        String url = request.getScheme() + "://" + request.getServerName();
+        String url = scheme + "://" + sname;
         if (!sport.equals("")) {
             url += ":" + sport;
         }
-        System.out.println("REQUEST = " + url);
+
         return url;
     }
 
