@@ -1,6 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserDetailServiceImpl;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,7 +74,7 @@ public class AppConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return new JLinkUserDetailServiceImpl();
+        return new JUserDetailServiceImpl();
     }
     
 }

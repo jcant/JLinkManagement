@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class JLinkUser {
+public class JUser {
 	@Id
 	@GeneratedValue
 	private long id;
@@ -15,28 +15,28 @@ public class JLinkUser {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	private JlinkUserRole role;
+	private JUserRole role;
 
 	private String email;
 	private String name;
 
-	public JLinkUser() {
+	public JUser() {
 	}
 
-	public JLinkUser(String login, String password, JlinkUserRole role) {
+	public JUser(String login, String password, JUserRole role) {
 		this.login = login;
 		this.password = password;
 		this.role = role;
 	}
 
-	public JLinkUser(String login, String password, JlinkUserRole role, String email) {
+	public JUser(String login, String password, JUserRole role, String email) {
 		this.login = login;
 		this.password = password;
 		this.role = role;
 		this.email = email;
 	}
 
-	public JLinkUser(String login, String password, JlinkUserRole role, String email, String name) {
+	public JUser(String login, String password, JUserRole role, String email, String name) {
 		this.login = login;
 		this.password = password;
 		this.role = role;
@@ -68,11 +68,11 @@ public class JLinkUser {
 		this.password = password;
 	}
 
-	public JlinkUserRole getRole() {
+	public JUserRole getRole() {
 		return role;
 	}
 
-	public void setRole(JlinkUserRole role) {
+	public void setRole(JUserRole role) {
 		this.role = role;
 	}
 
@@ -95,7 +95,7 @@ public class JLinkUser {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("JLinkUser [id=");
+		builder.append("JUser [id=");
 		builder.append(id);
 		builder.append(", login=");
 		builder.append(login);

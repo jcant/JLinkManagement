@@ -4,9 +4,9 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 
 import java.util.Date;
 
@@ -23,12 +23,12 @@ public class JLinkManagementApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(final JLinkUserService userService, final JLinkService linkService, final JRootLinkService rlinkService) {
+	public CommandLineRunner demo(final JUserService userService, final JLinkService linkService, final JRootLinkService rlinkService) {
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... strings) throws Exception {
-//				JLinkUser admin = new JLinkUser("admin", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.ADMIN);
-//				JLinkUser user = new JLinkUser("user", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JlinkUserRole.USER);
+//				JUser admin = new JUser("admin", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JUserRole.ADMIN);
+//				JUser user = new JUser("user", "$2a$10$mvuMNa9iOkNJK1LyWLPj9uh.xaICWGjC78iRZkkdF9auHDjZLbjx.", JUserRole.USER);
 //
 //				userService.addUser(admin);
 //				userService.addUser(user);

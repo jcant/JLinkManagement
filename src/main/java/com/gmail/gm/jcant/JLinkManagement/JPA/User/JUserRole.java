@@ -1,6 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.JPA.User;
 
-public enum JlinkUserRole {
+public enum JUserRole {
     ADMIN, USER;
 
     @Override

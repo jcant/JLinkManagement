@@ -1,9 +1,9 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserException;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +15,22 @@ import java.util.List;
 //@RestController
 public class UserRestController {
     @Autowired
-    private JLinkUserService userService;
+    private JUserService userService;
     @Autowired
     private PasswordEncoder encoder;
 
     @RequestMapping(value = "/users")
-    public List<JLinkUser> getUsers(){
+    public List<JUser> getUsers(){
         return userService.getAllUsers();
     }
 
     @RequestMapping(value = "/users/{id}")
-    public JLinkUser getUserById(@PathVariable(value = "id") long id) {
-    	JLinkUser user = null;
+    public JUser getUserById(@PathVariable(value = "id") long id) {
+    	JUser user = null;
 
         try {
             user = userService.getUserById(id);
-        } catch (JLinkUserException e) {
+        } catch (JUserException e) {
             e.printStackTrace();
         }
 
@@ -47,7 +47,7 @@ public class UserRestController {
 
         String passHash = encoder.encode(password);
 
-        JLinkUser dbUser = new JLinkUser(login, passHash, JlinkUserRole.USER, email);
+        JUser dbUser = new JUser(login, passHash, JUserRole.USER, email);
         userService.addUser(dbUser);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

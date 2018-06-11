@@ -8,32 +8,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class JLinkUserServiceImpl implements JLinkUserService{
+public class JUserServiceImpl implements JUserService{
     @Autowired
-    private JLinkUserRepository userRepository;
+    private JUserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public List<JLinkUser> getAllUsers(){
+    public List<JUser> getAllUsers(){
         return userRepository.findAll();
     }
     @Override
     @Transactional(readOnly = true)
-    public JLinkUser getUserById(long id) throws JLinkUserException{
-    	JLinkUser user = null;
+    public JUser getUserById(long id) throws JUserException{
+    	JUser user = null;
     	try {
     		user = userRepository.getOne(id);
     	}catch(HttpMessageNotWritableException e) {
-    		throw new JLinkUserException("NO USER FOUND FOR ID = "+id);
+    		throw new JUserException("NO USER FOUND FOR ID = "+id);
     	}
     	if (user == null) {
-    		throw new JLinkUserException();
+    		throw new JUserException();
     	}
     	return user;
     }
     @Override
     @Transactional(readOnly = true)
-    public JLinkUser getUserByLogin(String login) {
+    public JUser getUserByLogin(String login) {
         return userRepository.findByLogin(login);
     }
 
@@ -51,13 +51,13 @@ public class JLinkUserServiceImpl implements JLinkUserService{
 
     @Override
     @Transactional
-    public void addUser(JLinkUser user) {
+    public void addUser(JUser user) {
         userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void updateUser(JLinkUser user) {
+    public void updateUser(JUser user) {
         userRepository.save(user);
     }
 

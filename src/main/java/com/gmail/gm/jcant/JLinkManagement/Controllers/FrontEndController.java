@@ -3,9 +3,9 @@ package com.gmail.gm.jcant.JLinkManagement.Controllers;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JlinkUserRole;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class FrontEndController {
 
     @Autowired
-    private JLinkUserService userService;
+    private JUserService userService;
     @Autowired
 	private JLinkService linkService;
     @Autowired
@@ -38,7 +38,7 @@ public class FrontEndController {
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
 
-        JLinkUser dbUser = userService.getUserByLogin(login);
+        JUser dbUser = userService.getUserByLogin(login);
 
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
@@ -53,7 +53,7 @@ public class FrontEndController {
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
 
-        JLinkUser dbUser = userService.getUserByLogin(login);
+        JUser dbUser = userService.getUserByLogin(login);
         dbUser.setEmail(email);
 
         userService.updateUser(dbUser);
@@ -74,7 +74,7 @@ public class FrontEndController {
 
         String passHash = encoder.encode(password);
 
-        JLinkUser dbUser = new JLinkUser(login, passHash, JlinkUserRole.USER, email);
+        JUser dbUser = new JUser(login, passHash, JUserRole.USER, email);
         userService.addUser(dbUser);
 
         return "redirect:/";
@@ -106,7 +106,7 @@ public class FrontEndController {
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
 
-        JLinkUser dbUser = userService.getUserByLogin(login);
+        JUser dbUser = userService.getUserByLogin(login);
 
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());

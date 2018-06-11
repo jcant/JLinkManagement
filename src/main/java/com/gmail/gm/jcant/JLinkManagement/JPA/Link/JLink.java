@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 @Entity
 public class JLink {
@@ -25,7 +25,7 @@ public class JLink {
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private JLinkUser user;
+	private JUser user;
 	
 	@Column(nullable = false)
 	private Date startDate;
@@ -36,7 +36,7 @@ public class JLink {
 	public JLink() {
 	}
 
-	public JLink(String url, String target, JLinkUser user, Date startDate, Date endDate) {
+	public JLink(String url, String target, JUser user, Date startDate, Date endDate) {
 		this.url = url;
 		this.target = target;
 		this.user = user;
@@ -68,11 +68,11 @@ public class JLink {
 		this.target = target;
 	}
 
-	public JLinkUser getUser() {
+	public JUser getUser() {
 		return user;
 	}
 
-	public void setUser(JLinkUser user) {
+	public void setUser(JUser user) {
 		this.user = user;
 	}
 

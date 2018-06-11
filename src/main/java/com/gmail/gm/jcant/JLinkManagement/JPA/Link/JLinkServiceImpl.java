@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 @Service
 public class JLinkServiceImpl implements JLinkService{
@@ -40,7 +40,7 @@ public class JLinkServiceImpl implements JLinkService{
     
     @Override
     @Transactional
-    public List<JLink> getLinksByUser(JLinkUser user) {
+    public List<JLink> getLinksByUser(JUser user) {
         return linkRepository.getLinksByUser(user);
     }
 

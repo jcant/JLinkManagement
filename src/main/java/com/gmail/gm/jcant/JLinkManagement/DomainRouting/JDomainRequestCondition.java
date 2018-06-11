@@ -1,6 +1,5 @@
 package com.gmail.gm.jcant.JLinkManagement.DomainRouting;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,10 +27,13 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
         String requestDomain = getRequestDomain(request);
 
         for (String domain : jDomainValue) {
-            if (requestDomain.toLowerCase().endsWith(domain.toLowerCase())) {
-                condition = this;
+            //System.out.print("getMatchingCondition: request="+requestDomain+" condition="+domain);
+        	if (requestDomain.toLowerCase().endsWith(domain.toLowerCase())) {
+                //System.out.println("   - true");
+        		condition = this;
                 break;
             }
+        	System.out.println("   - false");
         }
 
         return condition;
@@ -55,11 +57,11 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
     private String getRequestDomain(HttpServletRequest request) {
 
         String scheme = request.getScheme();
-        String sname = request.getServerName();
-        String sport = "" + request.getServerPort();
-        String url = scheme + "://" + sname;
-        if (!sport.equals("")) {
-            url += ":" + sport;
+        String name = request.getServerName();
+        String port = "" + request.getServerPort();
+        String url = scheme + "://" + name;
+        if (!port.equals("")) {
+            url += ":" + port;
         }
 
         return url;

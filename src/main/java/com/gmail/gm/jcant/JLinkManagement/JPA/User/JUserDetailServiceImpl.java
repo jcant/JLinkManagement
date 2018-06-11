@@ -13,13 +13,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class JLinkUserDetailServiceImpl implements UserDetailsService {
+public class JUserDetailServiceImpl implements UserDetailsService {
     @Autowired
-    private JLinkUserService userService;
+    private JUserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        JLinkUser user = userService.getUserByLogin(login);
+        JUser user = userService.getUserByLogin(login);
         if (user == null)
             throw new UsernameNotFoundException(login + " not found");
 

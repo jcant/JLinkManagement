@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JLinkUserService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 
 //@Controller
 public class LinkListController {
 //	@Autowired
-//    private JLinkUserService userService;
+//    private JUserService userService;
 //	@Autowired
 //	private JLinkService linkService;
 //	
@@ -26,7 +26,7 @@ public class LinkListController {
 //        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        String login = user.getUsername();
 //
-//        JLinkUser dbUser = userService.getUserByLogin(login);
+//        JUser dbUser = userService.getUserByLogin(login);
 //
 //        model.addAttribute("login", login);
 //        model.addAttribute("roles", user.getAuthorities());
