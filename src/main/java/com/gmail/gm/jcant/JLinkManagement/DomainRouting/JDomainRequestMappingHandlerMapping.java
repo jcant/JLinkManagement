@@ -38,7 +38,7 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 			if (!accessMapping.property().equals("")) {
 				String[] values = environment.getProperty(accessMapping.property()).split(",");
 				cond = new JDomainRequestCondition(values);
-			}else if(accessMapping.fromBase()) {
+			}else if(accessMapping.fromMethod()) {
 				cond = new JDomainRequestCondition(domainList.getDomainList());
 			}else{
 				cond = new JDomainRequestCondition(accessMapping.value());

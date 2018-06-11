@@ -9,12 +9,12 @@ import org.springframework.data.repository.query.Param;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 public interface JLinkClickRepository extends JpaRepository<JLinkClick, Long> {
-	@Query("SELECT lc FROM JLinkClick lc WHERE lc.JLink.url = :url")
+	@Query("SELECT lc, l FROM JLinkClick lc JOIN lc.link l WHERE l.url = :url")     //is this good?!
     List<JLinkClick> getByUrl(@Param("url") String url);
 
 //    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM JLink l WHERE l.url = :url")
 //    boolean existsByUrl(@Param("url") String url);
     
-    @Query("SELECT lc FROM JLinkClick lc WHERE lc.JLink.user = :user")
+    @Query("SELECT lc, l FROM JLinkClick lc JOIN lc.link l WHERE l.user = :user")
     List<JLinkClick> getByUser(@Param("user") JUser user);
 }

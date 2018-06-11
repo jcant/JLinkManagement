@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
-@JDomain(fromBase = true)
+@JDomain(fromMethod = true)
 public class RedirectController {
     @Autowired
     private JLinkService linkService;

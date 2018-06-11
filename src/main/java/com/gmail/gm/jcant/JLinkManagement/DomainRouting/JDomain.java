@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Target({TYPE, METHOD})
 //@Documented
 public @interface JDomain {
-	String[] value() default "";
-	String property() default "";
-	boolean fromBase() default false;
+	String[] value() default "";		//direct values (in-line)
+	String property() default "";		//values from app.property file
+	boolean fromMethod() default false;	//values from method witch take them from base or other sources
 }
 
 

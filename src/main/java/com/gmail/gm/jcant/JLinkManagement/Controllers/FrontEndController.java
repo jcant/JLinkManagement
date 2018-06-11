@@ -3,6 +3,8 @@ package com.gmail.gm.jcant.JLinkManagement.Controllers;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClick;
+import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClickService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
@@ -28,6 +30,8 @@ public class FrontEndController {
     private JUserService userService;
     @Autowired
 	private JLinkService linkService;
+    @Autowired
+    private JLinkClickService linkClickService;
     @Autowired
     private PasswordEncoder encoder;
 
@@ -119,5 +123,26 @@ public class FrontEndController {
         model.addAttribute("links", list);
 
         return "links";
+    }
+
+    @RequestMapping("/stats")
+    //@JDomain(property = "frontend.domains")
+    public String stats(Model model){
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String login = user.getUsername();
+
+        JUser dbUser = userService.getUserByLogin(login);
+
+        model.addAttribute("login", login);
+        model.addAttribute("roles", user.getAuthorities());
+        model.addAttribute("email", dbUser.getEmail());
+
+        List<JLinkClick> list = linkClickService.getByUser(dbUser);
+
+        System.out.println("LIST="+list);
+
+        model.addAttribute("linkLogs", list);
+
+        return "stats";
     }
 }
