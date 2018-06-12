@@ -33,7 +33,7 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
         		condition = this;
                 break;
             }
-        	System.out.println("   - false");
+        	//System.out.println("   - false");
         }
 
         return condition;

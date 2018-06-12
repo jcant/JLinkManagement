@@ -138,8 +138,10 @@ public class FrontEndController {
         model.addAttribute("email", dbUser.getEmail());
 
         List<JLinkClick> list = linkClickService.getByUser(dbUser);
+        
+        //list.forEach(n->System.out.println(n));
 
-        System.out.println("LIST="+list);
+        //System.out.println("LIST="+list);
 
         model.addAttribute("linkLogs", list);
 

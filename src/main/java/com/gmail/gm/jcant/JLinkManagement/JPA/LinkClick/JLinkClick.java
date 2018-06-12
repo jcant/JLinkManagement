@@ -71,8 +71,8 @@ public class JLinkClick {
 		StringBuilder builder = new StringBuilder();
 		builder.append("JLinkClick [id=");
 		builder.append(id);
-		builder.append(", link=");
-		builder.append(link);
+		//builder.append(", link=");
+		//builder.append(link);
 		builder.append(", date=");
 		builder.append(date);
 		builder.append(", country=");
