@@ -9,6 +9,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,24 +36,33 @@ public class FrontEndController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @RequestMapping(value = "/")
-    //@JDomain(property = "frontend.domains")
-    public String index(Model model){
+    @RequestMapping(value = "/") //main page
+    public String index(Model model, Principal principal){
 
-        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String login = user.getUsername();
+        if (principal != null) {
 
-        JUser dbUser = userService.getUserByLogin(login);
+            User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            //User user = (User)principal;
+            String login = user.getUsername();
 
-        model.addAttribute("login", login);
-        model.addAttribute("roles", user.getAuthorities());
-        model.addAttribute("email", dbUser.getEmail());
+            //String login = principal.getName();
+
+            System.out.println("LOGIN = " + login);
+            //JUser dbUser = userService.getUserByLogin(login);
+
+            model.addAttribute("auth", true);
+            model.addAttribute("login", login);
+            model.addAttribute("roles", user.getAuthorities());
+            //model.addAttribute("email", dbUser.getEmail());
+        } else {
+            model.addAttribute("auth", false);
+            model.addAttribute("login", "NONAME!");
+        }
 
         return "index";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    //@JDomain(property = "frontend.domains")
     public String update(@RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
@@ -66,7 +76,6 @@ public class FrontEndController {
     }
 
     @RequestMapping(value = "/newuser", method = RequestMethod.POST)
-    //@JDomain(property = "frontend.domains")
     public String update(@RequestParam String login,
                          @RequestParam String password,
                          @RequestParam(required = false) String email,
@@ -85,19 +94,16 @@ public class FrontEndController {
     }
 
     @RequestMapping("/register")
-    //@JDomain(property = "frontend.domains")
     public String register() {
         return "register";
     }
 
     @RequestMapping("/admin")
-    //@JDomain(property = "frontend.domains")
     public String admin(){
         return "admin";
     }
 
     @RequestMapping("/unauthorized")
-    //@JDomain(property = "frontend.domains")
     public String unauthorized(Model model){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("login", user.getUsername());
@@ -105,7 +111,6 @@ public class FrontEndController {
     }
     
     @RequestMapping("/links")
-    //@JDomain(property = "frontend.domains")
 	public String links(Model model){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
@@ -126,7 +131,6 @@ public class FrontEndController {
     }
 
     @RequestMapping("/stats")
-    //@JDomain(property = "frontend.domains")
     public String stats(Model model){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
