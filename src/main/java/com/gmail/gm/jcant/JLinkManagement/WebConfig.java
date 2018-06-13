@@ -18,5 +18,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
 		handlerMapping.setInterceptors(getInterceptors());
 		return handlerMapping;
 	}
+	
 
 }
