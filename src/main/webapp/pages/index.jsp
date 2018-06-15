@@ -41,7 +41,7 @@
 			</ul>
 			<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#loginFormModal">Login</button>
 			<span>&nbsp;</span>
-			<button type="button" class="btn btn-outline-success">Register new</button>
+			<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#registerFormModal">Register new</button>
 
 		</div>
 	</nav>
@@ -84,10 +84,10 @@
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
+	      
 	      <div class="modal-body">
-
-					<c:url value="/j_spring_security_check" var="loginUrl" />
-	        <form action="${loginUrl}" method="POST">
+			<c:url value="/j_spring_security_check" var="loginUrl" />
+	        	<form action="${loginUrl}" method="POST">
   					<div class="form-group">
     					<label for="inputLogin1">Login</label>
     					<input type="text" name="j_login" class="form-control" id="inputLogin1" placeholder="Enter login">
@@ -97,13 +97,49 @@
     					<input type="password" name="j_password" class="form-control" id="inputPassword1" placeholder="Password">
   					</div>
   					<button type="submit" class="btn btn-primary">Submit</button>
-					</form>
+				</form>
 
-				</div>
+			</div>
 	    </div>
 	  </div>
 	</div>
+	
+	<!-- Modal Register new Form -->
+	<div class="modal fade" id="registerFormModal" tabindex="-1" role="dialog" aria-labelledby="registerFormTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="registerFormTitle">Register New User</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+			<c:url value="/newuser" var="regUrl" />
+	        <form action="${regUrl}" method="POST">
+  				<div class="form-group">
+    				<label for="inputLogin2">Login</label>
+    				<input type="text" name="login" class="form-control" id="inputLogin2" placeholder="Enter login">
+  				</div>
+  				<div class="form-group">
+    				<label for="inputPassword2">Password</label>
+    				<input type="password" name="password" class="form-control" id="inputPassword2" placeholder="Password">
+  				</div>
+  				<div class="form-group">
+    				<label for="inputEmail2">Password</label>
+    				<input type="email" name="email" class="form-control" id="inputEmail2" aria-describedby="email2Help" placeholder="Enter email">
+    				<small id="email2Help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  				</div>
+  				<button type="submit" class="btn btn-primary">Submit</button>
+  				<c:if test="${exists ne null}">
+            		<p>User already exists!</p>
+        		</c:if>
+			</form>
 
+		  </div>
+	    </div>
+	  </div>
+	</div>
 
 </body>
 </html>

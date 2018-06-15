@@ -6,6 +6,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClick;
 import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClickService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 
@@ -47,7 +48,7 @@ public class FrontEndController {
 
             //String login = principal.getName();
 
-            System.out.println("LOGIN = " + login);
+            //System.out.println("LOGIN = " + login);
             //JUser dbUser = userService.getUserByLogin(login);
 
             model.addAttribute("auth", true);
@@ -79,10 +80,9 @@ public class FrontEndController {
     public String update(@RequestParam String login,
                          @RequestParam String password,
                          @RequestParam(required = false) String email,
-                         Model model) {
+                         Model model) throws JUserException {
         if (userService.existsByLogin(login)) {
-            model.addAttribute("exists", true);
-            return "register";
+            throw new JUserException("user - "+ login + " allready exist!");
         }
 
         String passHash = encoder.encode(password);

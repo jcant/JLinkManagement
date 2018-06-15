@@ -1,26 +1,47 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
-import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
+import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomainRequestMappingHandlerMapping;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserDetailServiceImpl;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 
-import java.util.Date;
+import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
 
 @SpringBootApplication
-public class JLinkManagementApplication {
+public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 
+    @Value("${hibernate.dialect}")
+    private String sqlDialect;
+
+    @Value("${hbm2ddl.auto}")
+    private String hbm2dllAuto;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(JLinkManagementApplication.class, args);
 	}
+	
 
 	@Bean
 	public CommandLineRunner demo(final JUserService userService, final JLinkService linkService, final JRootLinkService rlinkService) {
@@ -47,5 +68,78 @@ public class JLinkManagementApplication {
 				//linkService.addLink(new JLink("u2.com", "user.linkedin.com", user, new Date(), new Date()));
 			}
 		};
+	}
+	
+	
+
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+        return new JpaTransactionManager(emf);
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory
+            (DataSource dataSource, JpaVendorAdapter jpaVendeorAdapter)
+    {
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactory.setDataSource(dataSource);
+        entityManagerFactory.setJpaVendorAdapter(jpaVendeorAdapter);
+        entityManagerFactory.setJpaProperties(additionalProperties());
+        entityManagerFactory.setPackagesToScan("com.gmail.gm.jcant.JLinkManagement");
+        return entityManagerFactory;
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        adapter.setShowSql(true);
+        adapter.setDatabasePlatform(sqlDialect);
+
+        return adapter;
+    }
+    private Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", hbm2dllAuto);
+        return properties;
+    }
+	
+    @Bean
+    public UrlBasedViewResolver setupViewResolver() {
+    	UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+        resolver.setPrefix("/pages/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
+
+        return resolver;
+    }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	registry
+        .addResourceHandler("/css/**")
+        .addResourceLocations("/resources/css/");
+    	
+    	registry
+    	.addResourceHandler("/images/**")
+        .addResourceLocations("/resources/images/");
+    	
+    	registry
+    	.addResourceHandler("/js/**")
+        .addResourceLocations("/resources/js/"); 
+    }
+    
+    
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new JUserDetailServiceImpl();
+    }
+
+    @Bean
+	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+		RequestMappingHandlerMapping handlerMapping = new JDomainRequestMappingHandlerMapping();
+		handlerMapping.setOrder(0);
+		handlerMapping.setInterceptors(getInterceptors());
+		return handlerMapping;
 	}
 }
