@@ -1,6 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.Security;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
     @RequestMapping
     public String loginPage() {
-        return "login";
+        return "redirect:/";
+        //return "index";
     }
 }

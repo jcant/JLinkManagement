@@ -1,6 +1,8 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticle;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticleService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClick;
@@ -11,6 +13,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,30 +40,29 @@ public class FrontEndController {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private JArticleService articleService;
+
     @RequestMapping(value = "/") //main page
     public String index(Model model, Principal principal){
 
         if (principal != null) {
-
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            //User user = (User)principal;
             String login = user.getUsername();
-
-            //String login = principal.getName();
-
-            //System.out.println("LOGIN = " + login);
-            //JUser dbUser = userService.getUserByLogin(login);
-
             model.addAttribute("auth", true);
             model.addAttribute("login", login);
             model.addAttribute("roles", user.getAuthorities());
-            //model.addAttribute("email", dbUser.getEmail());
         } else {
             model.addAttribute("auth", false);
             model.addAttribute("login", "NONAME!");
+            model.addAttribute("articles", getArticles());
         }
 
         return "index";
+    }
+
+    private List<JArticle> getArticles(){
+        return articleService.getInDateArticles(new Date());
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -142,11 +144,6 @@ public class FrontEndController {
         model.addAttribute("email", dbUser.getEmail());
 
         List<JLinkClick> list = linkClickService.getByUser(dbUser);
-        
-        //list.forEach(n->System.out.println(n));
-
-        //System.out.println("LIST="+list);
-
         model.addAttribute("linkLogs", list);
 
         return "stats";

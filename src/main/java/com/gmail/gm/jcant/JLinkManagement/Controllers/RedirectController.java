@@ -7,8 +7,10 @@ import com.gmail.gm.jcant.JLinkManagement.Statistics.JStatistics;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,5 +37,11 @@ public class RedirectController {
             return "wrong_url";
         }
 
+    }
+
+    @RequestMapping("/{shortcut}")
+    public String indexWithURI(Model model, @PathVariable(value = "shortcut") String shortcut){
+        model.addAttribute("target", shortcut);
+        return "fake_redirect";
     }
 }

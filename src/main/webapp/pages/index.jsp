@@ -19,6 +19,8 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
 	integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
 	crossorigin="anonymous"></script>
+
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFFFFF;">
@@ -34,42 +36,75 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto nav-tabs">
-				<li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Link1</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Link2</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Link3</a></li>
+				<c:if test = "${auth eq true}">
+					<li class="nav-item"><a class="nav-link active" href="#">Profile</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Free Links</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Payed Links</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Statictics</a></li>
+				</c:if>
 			</ul>
+
+			<c:if test = "${auth eq false}">
 			<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#loginFormModal">Login</button>
 			<span>&nbsp;</span>
 			<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#registerFormModal">Register new</button>
-
+			</c:if>
+			<c:if test = "${auth eq true}">
+				<c:url value="/logout" var="logoutUrl" />
+				<span>${login}</span>
+				<span>&nbsp</span>
+				<span><a href="${logoutUrl}">exit</a></span>
+			</c:if>
 		</div>
 	</nav>
 
 
-	<div align="center">
-		<h1>Your login is: ${login}, your roles are:</h1>
-		<c:forEach var="s" items="${roles}">
-			<h3>
-				<c:out value="${s}" />
-			</h3>
-		</c:forEach>
+	<c:if test = "${auth eq false}">
+		<!-- news -->
+		<div>
+			<div class="row">
+				<div class="col-sm">
+					One of three columns
+				</div>
+				<div class="col">
+					<c:forEach var = "article" items="${articles}">
+						<div class="container">
+							<h3>
+								<c:out value="${article.getHeader()}" />
+							</h3>
+							<div class="container">
+								<c:out value="${article.getText()}" />
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+				<div class="col-sm">
+					One of three columns
+				</div>
+			</div>
+		</div>
+		<!-- end news -->
+	</c:if>
 
-		<c:url value="/update" var="updateUrl" />
-		<form action="${updateUrl}" method="POST">
-			E-mail:<br />
-			<input type="text" name="email" value="${email}" /><br /> <input
-				type="submit" value="Update" />
-		</form>
+	<c:if test = "${auth eq true}">
+		<!-- profile -->
+		<div>
+			<div class="row">
+				<div class="col-sm">
+					left menu
+				</div>
+				<div class="col">
+					main content of account
+				</div>
+			</div>
+		</div>
+		<!-- end news -->
+	</c:if>
 
-		<c:url value="/links" var="linksUrl" />
-		<p>
-			view Links List: <a href="${linksUrl}">Links</a>
-		</p>
-		<c:url value="/logout" var="logoutUrl" />
-		<p>
-			Click to logout: <a href="${logoutUrl}">LOGOUT</a>
-		</p>
+	<div align="center" class="footer">
+		<div class="created_by">
+			<span class="badge badge-info">jCant</span> Graduate Project
+		</div>
 	</div>
 
 
@@ -134,6 +169,7 @@
   				<c:if test="${exists ne null}">
             		<p>User already exists!</p>
         		</c:if>
+				<div class="g-recaptcha" data-sitekey="6LcYQ18UAAAAACBiieV9IG2i21FpbhVLk5PXAxow"></div>
 			</form>
 
 		  </div>

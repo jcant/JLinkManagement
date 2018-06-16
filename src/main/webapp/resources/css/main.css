@@ -19,3 +19,7 @@
 .nav-tabs{
   border-bottom-color: rgb(255,155,0);
 }
+
+.footer{
+    border-top: 1px solid rgb(255,155,0);
+}
