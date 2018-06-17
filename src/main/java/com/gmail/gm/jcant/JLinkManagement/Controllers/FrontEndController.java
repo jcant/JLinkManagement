@@ -55,15 +55,11 @@ public class FrontEndController {
         } else {
             model.addAttribute("auth", false);
             model.addAttribute("login", "NONAME!");
-            model.addAttribute("articles", getArticles());
         }
 
         return "index";
     }
 
-    private List<JArticle> getArticles(){
-        return articleService.getInDateArticles(new Date());
-    }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@RequestParam(required = false) String email, @RequestParam(required = false) String phone) {

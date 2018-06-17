@@ -126,7 +126,7 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
     	
     	registry
     	.addResourceHandler("/js/**")
-        .addResourceLocations("/resources/js/"); 
+        .addResourceLocations("/resources/js/");
     }
     
     

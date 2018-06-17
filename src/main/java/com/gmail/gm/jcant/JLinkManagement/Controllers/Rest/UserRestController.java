@@ -1,4 +1,4 @@
-package com.gmail.gm.jcant.JLinkManagement.Controllers;
+package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
