@@ -12,13 +12,12 @@ function getArticles(url, id) {
     getting.done(function (data) {
         var hstring = "";
         data.forEach(function (article) {
-
             hstring += '<div class="container">\n' +
                 '<h3>' + article.header + '</h3>\n' +
                 '<div class="container">' + article.text + '</div>\n' +
                 '</div>';
-            $('#' + id).html(hstring);
         });
+        $('#' + id).html(hstring);
     });
     getting.fail(function (event) {
         console.log(event.responseText);
@@ -38,8 +37,8 @@ function getAdv(url, id) {
                 '<h4>' + adv.header + '</h4>\n' +
                 '<div class="container">' + adv.text + '</div>\n' +
                 '</div>';
-            $('#' + id).html(hstring);
         });
+        $('#' + id).html(hstring);
     });
     advGetting.fail(function (event) {
         console.log(event);

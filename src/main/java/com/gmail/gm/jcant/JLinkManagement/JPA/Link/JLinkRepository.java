@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticle;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 public interface JLinkRepository  extends JpaRepository<JLink, Long> {
@@ -17,4 +18,5 @@ public interface JLinkRepository  extends JpaRepository<JLink, Long> {
     
     @Query("SELECT l FROM JLink l WHERE l.user = :user")
     List<JLink> getLinksByUser(@Param("user") JUser user);
+
 }

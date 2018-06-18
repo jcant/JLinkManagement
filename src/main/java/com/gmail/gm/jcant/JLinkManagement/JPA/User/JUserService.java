@@ -6,7 +6,7 @@ public interface JUserService {
 	
 	List<JUser> getAllUsers();
     JUser getUserById (long id) throws JUserException;
-	JUser getUserByLogin(String login);
+	JUser getUserByLogin(String login) throws JUserException;
     
 	boolean existsByLogin(String login);
     boolean existsById(long id);

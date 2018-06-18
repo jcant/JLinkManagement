@@ -24,7 +24,7 @@ public class JLink {
 	private String target;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user")
 	private JUser user;
 	
 	@Column(nullable = false)
@@ -101,8 +101,8 @@ public class JLink {
 		builder.append(url);
 		builder.append(", target=");
 		builder.append(target);
-		builder.append(", user=");
-		builder.append(user);
+		//builder.append(", user=");
+		//builder.append(user);
 		builder.append(", startDate=");
 		builder.append(startDate);
 		builder.append(", endDate=");

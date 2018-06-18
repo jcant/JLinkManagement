@@ -33,8 +33,12 @@ public class JUserServiceImpl implements JUserService{
     }
     @Override
     @Transactional(readOnly = true)
-    public JUser getUserByLogin(String login) {
-        return userRepository.findByLogin(login);
+    public JUser getUserByLogin(String login) throws JUserException {
+        JUser user = userRepository.findByLogin(login);
+        if (user == null) {
+        	throw new JUserException("user with login="+login+" is not found!");
+        }
+    	return user;
     }
 
     @Override
