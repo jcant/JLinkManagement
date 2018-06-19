@@ -16,7 +16,7 @@ public class JLinkServiceImpl implements JLinkService{
 
     @Override
     @Transactional(readOnly = true)
-    public JLink getLinkByUrl(String url) {
+    public JLink findByUrl(String url) {
         return linkRepository.findByUrl(url);
     }
 
@@ -40,8 +40,8 @@ public class JLinkServiceImpl implements JLinkService{
     
     @Override
     @Transactional
-    public List<JLink> getLinksByUser(JUser user) {
-        return linkRepository.getLinksByUser(user);
+    public List<JLink> findByUser(JUser user) {
+        return linkRepository.findByUser(user);
     }
 
 }

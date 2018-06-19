@@ -94,7 +94,7 @@ public class FrontEndController {
     @RequestMapping(value = "/links")
     public String links(Model model, Principal principal){
 
-    	System.out.println("we are in /links");
+    	//System.out.println("we are in /links");
     	
         if (principal != null) {
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -35,3 +35,11 @@ nav.navbar{
 	background-color: #f5f5f5;
 	padding-bottom: 0px;
 }
+
+.col{
+	display: inline-block;
+	width: 200px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

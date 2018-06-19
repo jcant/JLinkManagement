@@ -29,7 +29,7 @@ public class RedirectController {
     @RequestMapping("/")
     public String index(Model model, HttpServletRequest request) {
 
-        JLink link = linkService.getLinkByUrl(request.getRequestURL().toString());
+        JLink link = linkService.findByUrl(request.getRequestURL().toString());
         if (link != null) {
             stats.SaveLinkClick(link, request);
         	return "redirect:" + link.getTarget();

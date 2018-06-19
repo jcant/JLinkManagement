@@ -11,7 +11,8 @@
 
 <link href="css/main.css" rel="stylesheet">
 
-<script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
+<script type="application/javascript"
+	src="https://code.jquery.com/jquery-3.3.1.js" />
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
@@ -25,7 +26,7 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<script src='js/links.js'></script>
+<script src='js/freelinks.js'></script>
 </head>
 <body>
 
@@ -36,22 +37,11 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col">
-				<div class="container" id="link_list">
-					Problems with connection to REST service?
-				</div>
-			</div>
-			<div class="col-sm-2"></div>
-		</div>
-	</div>
-
-
-	<%@include file="footer.jsp"%>
-
-<div id="link_edit" style="display: none;">
 				<form>
 					<div class="form-group">
-						<label for="inputURL">Name</label>
-						<input type="text" class="form-control" id="inputURL" readonly>
+						<label for="inputName1">Name</label> <input type="text"
+							class="form-control" id="inputName1"
+							placeholder="Enter your name" value="<c:out value='${name}'/>">
 					</div>
 					<div class="form-group">
 						<label for="inputLogin1">Login</label> <input type="text"
@@ -78,11 +68,22 @@
 					</div>
 					<button type="submit" class="btn btn-primary">Save</button>
 				</form>
-</div>
+
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">Cras justo odio</li>
+					<li class="list-group-item">Dapibus ac facilisis in</li>
+					<li class="list-group-item">Morbi leo risus</li>
+					<li class="list-group-item">Porta ac consectetur ac</li>
+					<li class="list-group-item">Vestibulum at eros</li>
+				</ul>
+			</div>
+			<div class="col-sm"></div>
+		</div>
+	</div>
+
+
+	<%@include file="footer.jsp"%>
+
 
 </body>
 </html>
-
-<script type="application/javascript">
-var uname = "<c:out value='${login}' />";
-</script>

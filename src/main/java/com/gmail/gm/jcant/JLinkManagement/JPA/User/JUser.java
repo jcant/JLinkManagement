@@ -2,16 +2,20 @@ package com.gmail.gm.jcant.JLinkManagement.JPA.User;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Proxy(lazy = false)
 public class JUser {
 	@Id
 	@GeneratedValue
 	private long id;
 
 	private String login;
+	
+	@JsonIgnore
 	private String password;
 
 	@Enumerated(EnumType.STRING)
