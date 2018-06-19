@@ -47,38 +47,6 @@
 
 	<%@include file="footer.jsp"%>
 
-<div id="link_edit" style="display: none;">
-				<form>
-					<div class="form-group">
-						<label for="inputURL">Name</label>
-						<input type="text" class="form-control" id="inputURL" readonly>
-					</div>
-					<div class="form-group">
-						<label for="inputLogin1">Login</label> <input type="text"
-							class="form-control" id="inputLogin1" readonly
-							value="<c:out value='${login}'/>">
-					</div>
-					<div class="form-group">
-						<label for="inputEmail1">Email address</label> <input type="email"
-							class="form-control" id="inputEmail1"
-							aria-describedby="emailHelp" placeholder="* none *" readonly
-							value="<c:out value='${email}'/>"> <small id="emailHelp"
-							class="form-text text-muted">We'll never share your email
-							with anyone else.</small>
-					</div>
-					<div class="form-group">
-						<label for="inputPassword1">Password</label> <input
-							type="password" class="form-control" id="inputPassword1"
-							placeholder="Password">
-					</div>
-					<div class="form-group">
-						<label for="inputPassword2">Password confirm</label> <input
-							type="password" class="form-control" id="inputPassword2"
-							placeholder="Password">
-					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
-				</form>
-</div>
 
 </body>
 </html>
