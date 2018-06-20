@@ -4,6 +4,7 @@ import java.util.List;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 public interface JLinkService {
+	JLink findById(long id) throws JLinkException;
 	JLink findByUrl(String url);
     boolean existsByUrl(String url);
     void addLink(JLink link);

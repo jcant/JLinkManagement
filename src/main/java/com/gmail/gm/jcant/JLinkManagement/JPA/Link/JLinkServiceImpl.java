@@ -13,8 +13,18 @@ public class JLinkServiceImpl implements JLinkService{
 	
 	@Autowired
     private JLinkRepository linkRepository;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public JLink findById(long id) throws JLinkException {
+		JLink link = linkRepository.getOne(id);
+		if (link == null) {
+			throw new JLinkException();
+		}
+		return link;
+	}
 
-    @Override
+	@Override
     @Transactional(readOnly = true)
     public JLink findByUrl(String url) {
         return linkRepository.findByUrl(url);

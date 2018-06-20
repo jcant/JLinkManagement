@@ -10,9 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Proxy;
+
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 @Entity
+@Proxy(lazy = false)
 public class JLink {
 	@Id
 	@GeneratedValue
@@ -23,7 +26,7 @@ public class JLink {
 	
 	private String target;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user")
 	private JUser user;
 	

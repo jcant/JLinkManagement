@@ -48,3 +48,7 @@ nav.navbar{
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
+
+.card:hover{
+	background-color: rgba(255, 155, 0, 0.36);
+}

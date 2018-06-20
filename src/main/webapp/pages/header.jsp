@@ -20,7 +20,7 @@
 				<li class="nav-item"><a class="nav-link <c:out value = "${home}"/>" href="/">Home</a></li>
 				<li class="nav-item"><a class="nav-link <c:out value = "${profile}"/>" href="/profile">Profile</a></li>
 				<li class="nav-item"><a class="nav-link <c:out value = "${freelinks}"/>" href="/freelinks">Free Links</a></li>
-				<li class="nav-item"><a class="nav-link <c:out value = "${links}"/>"" href="/links">Payed Links</a></li>
+				<li class="nav-item"><a class="nav-link <c:out value = "${links}"/>" href="/links">Payed Links</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Statistics</a></li>
 			</c:if>
 			<c:if test="${auth eq false}">
