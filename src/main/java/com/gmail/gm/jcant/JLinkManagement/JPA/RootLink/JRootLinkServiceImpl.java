@@ -1,5 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.JPA.RootLink;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,4 +36,9 @@ public class JRootLinkServiceImpl implements JRootLinkService{
         rlinkRepository.save(link);
     }
 
+    @Override
+    @Transactional
+    public List<JRootLink> getAllRootLinks() {
+        return rlinkRepository.findAll();
+    }
 }

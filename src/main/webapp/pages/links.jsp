@@ -37,6 +37,40 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col">
+				<div class="container" id="link_add">
+					<form>
+						<div class="form-row">	
+							<div class="form-group align-self-end col-md-3">
+								<select id="rootLinks" class="form-control">
+        							<option selected>Problems with connection to REST service?</option>
+      							</select>
+      						</div>
+							<div class="form-group col-md-3">
+								<label for="checkURL" >CheckedURL</label>
+								<input type="text" class="form-control" id="checkURL">
+							</div>
+							<div class="form-group align-self-end col-md-2">
+								<button type="button" id="checkButton" class="btn btn-primary">Check</button>
+							</div>
+						</div>
+						<div class="container" id="checkSamples">			
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<input type="text" class="form-control" readonly id="sampleURL1" style="display:none;">
+								</div>
+								<div class="form-group align-self-end col-md-2">
+									<button type="button" id="buyURL1" class="btn btn-primary" style="display:none;">Buy</button>
+								</div>
+								<div class="form-group col-md-3">
+									<input type="text" class="form-control" readonly id="sampleURL2" style="display:none;">
+								</div>
+								<div class="form-group align-self-end col-md-2">
+									<button type="button" id="buyURL2" class="btn btn-primary" style="display:none;">Buy</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
 				<div class="container" id="link_list">
 					Problems with connection to REST service?
 				</div>

@@ -67,6 +67,16 @@ public class LinkRestController {
     	//return "201 Location:/";
     }
     
+    @RequestMapping(value = "/link/check", method = RequestMethod.POST)
+    @JDomain(property = "frontend.domains")
+    public boolean isFree(@RequestParam String url) {
+    	if (linkService.findByUrl(url) != null) {
+    		return false;
+    	}else {
+    		return true;
+    	}
+    }
+    
     private boolean isHasRole(String role, Collection<GrantedAuthority> gaCollection) {
     	boolean result = false;
     	Iterator<GrantedAuthority> grIt = gaCollection.iterator();

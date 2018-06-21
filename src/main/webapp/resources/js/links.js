@@ -1,35 +1,51 @@
 $ = jQuery.noConflict();
 $(function ($) {
+	
+	$('form button').on("click",function(e){
+	    e.preventDefault();
+	});
+	
 	firstTime = true;
 	getLinks('/links/'+uname,'link_list');
+	getRootLinks('/rootlinks', 'rootLinks');
 	
-	//$(".form-row").mouseenter(function(){
-	//		console.log("enter");
-	//		rowHoverIn(this);
-	//});
-	
-	//$(".form-row").mouseleave(function(){
-	//		console.log("out"); 
-	//		rowHoverOut(this);
-	//});
-	
+	$("#checkButton").click(function(){
+		checkURL();
+	})
 });
+
+function getRootLinks(url, id) {
+    var data = {};
+    var getting = $.get(url, data, 'json');
+
+    getting.done(function (data) {
+        var hstring = "";
+        data.forEach(function (rlink) {        
+            hstring += 
+            '<option>'+
+            	rlink.url+
+            '</option>';
+        });
+
+        $('#' + id).html(hstring);
+    	
+    });
+    
+    getting.fail(function (event) {
+    	console.log("GET Links fail!");
+    	console.log(event.responseText);
+    });
+}
 
 function getLinks(url, id) {
     var data = {};
     var getting = $.get(url, data, 'json');
 
     getting.done(function (data) {
-        //var date = new Date();
         var hstring = "";
         data.forEach(function (link) {
-            //date.setTime(link.startDate);
-            //var startString = "" + date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
             var startString = getCorrectDate(link.startDate);
-            //date.setTime(link.endDate);
-            //var endString = "" + date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
             var endString = getCorrectDate(link.endDate);
-
             
             hstring += 
             '<div class="card" id=link'+link.id+'>'+
@@ -66,12 +82,11 @@ function getLinks(url, id) {
         $('#' + id).html(hstring);
         
     	if(firstTime){
-    		$("input").change(function(){
-    			//console.log("input changed");
+    		$("#link_list").find("input").change(function(){
     			showSave(this);
     		});
     		
-    		$("button").click(function(){
+    		$("#link_list").find("button").click(function(){
     			submitRow(this);
     		});
     		
@@ -80,8 +95,72 @@ function getLinks(url, id) {
     });
     
     getting.fail(function (event) {
-        console.log(event.responseText);
+    	console.log("GET Links fail!");
+    	console.log(event.responseText);
     });
+}
+
+function checkURL(){
+	var free1 = false;
+	var free2 = false;
+	
+	var rootSelected = $("#rootLinks").val();
+	console.log("selected root="+rootSelected);
+	
+	var entered = $("#checkURL").val();
+	console.log("entered URL part="+entered);
+	
+	var chURL1 = "http://"+entered+"."+rootSelected+"/";
+	var chURL2 = "http://"+rootSelected+"/"+entered+"/";
+	console.log("checking URL1="+chURL1);
+	console.log("checking URL2="+chURL2);
+	
+	$("#sampleURL1").val(chURL1).show();
+	$("#sampleURL2").val(chURL2).show();
+	
+	var data = {};
+    var getting1 = $.post("/link/check", {url: chURL1}, 'json');
+    var getting2 = $.post("/link/check", {url: chURL2}, 'json');
+
+    getting1.done(function (data) {
+        console.log("URL1 done");
+        console.log(data);
+        if(data){
+        	$("#sampleURL1").removeClass("is-invalid");
+        	$("#sampleURL1").addClass("is-valid");
+        	$("#buyURL1").show();
+        }else{
+        	$("#sampleURL1").removeClass("is-valid");
+        	$("#sampleURL1").addClass("is-invalid");
+        	$("#buyURL1").hide();
+        }
+    });
+    
+    getting1.fail(function (event) {
+    	console.log("URL1 check fail!");
+    	console.log(event.responseText);
+    });
+    
+    
+    getting2.done(function (data) {
+        console.log("URL2 done");
+        console.log(data);
+        if(data){
+        	$("#sampleURL2").removeClass("is-invalid");
+        	$("#sampleURL2").addClass("is-valid");
+        	$("#buyURL2").show();
+        }else{
+        	$("#sampleURL2").removeClass("is-valid");
+        	$("#sampleURL2").addClass("is-invalid");
+        	$("#buyURL2").hide();
+        }
+    });
+    
+    getting2.fail(function (event) {
+    	console.log("URL2 check fail!");
+    	console.log(event.responseText);
+    });
+	
 }
 
 function rowHoverIn(row){
@@ -99,46 +178,20 @@ function showSave(input){
 function submitRow(button){
 	var id = $(button).attr("id");
 	var url = "/link/"+id;
-	
-	//console.log("id="+id);
-	//console.log("url="+url);
-	
 	var data = {target: $("#inputTarget"+id).val()};
-	
-	//console.log("data=");
-	//console.log(data);
-    
+ 
 	$.ajax({
 		  method: "POST",
 		  url: url,
 		  data: data
 		})
 	  .done(function() {
-		  //console.log("POST done!");
 		  $(button).hide();
 	  })
 	  .fail(function(event) {
-		  console.log("POST fail!");
+		  console.log("POST to submit row - fail!");
 		  console.log(event);
 	  });
-//	  .always(function() {
-//		  console.log("POST always...");
-//	  });
-	
-	
-//	var posting = $.post(url, data, 'html');
-//
-//    posting.done(function (data) {
-//    	console.log("POST -done!");
-//    	console.log(data);
-//    	getLinks('/links/'+uname,'link_list');
-//    });
-//    
-//    posting.fail(function (resp, event) {
-//        console.log("POST -error!");
-//        console.log("resp="+resp);
-//        console.log("event="+event);
-//    });
 }
 
 function getCorrectDate(shtamp){
