@@ -1,8 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
-import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticleService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClick;
 import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClickService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
@@ -30,15 +28,11 @@ public class FrontEndController {
 
     @Autowired
     private JUserService userService;
-    @Autowired
-	private JLinkService linkService;
+
     @Autowired
     private JLinkClickService linkClickService;
     @Autowired
     private PasswordEncoder encoder;
-
-    @Autowired
-    private JArticleService articleService;
 
     @RequestMapping(value = "/") //main page
     public String index(Model model, Principal principal){

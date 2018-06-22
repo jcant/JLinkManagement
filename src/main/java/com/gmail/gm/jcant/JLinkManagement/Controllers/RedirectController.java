@@ -27,7 +27,7 @@ public class RedirectController {
 	private JStatistics stats;
 
     @RequestMapping("/")
-    public String index(Model model, HttpServletRequest request) {
+    public String index(/*Model model,*/ HttpServletRequest request) {
 
         JLink link = linkService.findByUrl(request.getRequestURL().toString());
         if (link != null) {
@@ -40,8 +40,15 @@ public class RedirectController {
     }
 
     @RequestMapping("/{shortcut}")
-    public String indexWithURI(Model model, @PathVariable(value = "shortcut") String shortcut){
-        model.addAttribute("target", shortcut);
-        return "fake_redirect";
+    //public String indexWithURI(Model model, @PathVariable(value = "shortcut") String shortcut){
+    public String indexWithURI(/*Model model,*/ HttpServletRequest request){
+    	
+    	JLink link = linkService.findByUrl(request.getRequestURL().toString());
+        if (link != null) {
+            stats.SaveLinkClick(link, request);
+        	return "redirect:" + link.getTarget();
+        } else {
+            return "wrong_url";
+        }
     }
 }

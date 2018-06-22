@@ -38,8 +38,9 @@
 			<div class="col-sm-2"></div>
 			<div class="col">
 				<div class="container" id="link_add">
+					<div id = "message"></div>
 					<form>
-						<div class="form-row">	
+						<div class="form-row">
 							<div class="form-group align-self-end col-md-3">
 								<select id="rootLinks" class="form-control">
         							<option selected>Problems with connection to REST service?</option>
@@ -48,6 +49,10 @@
 							<div class="form-group col-md-3">
 								<label for="checkURL" >CheckedURL</label>
 								<input type="text" class="form-control" id="checkURL">
+							</div>
+							<div class="form-group col-md-3">
+								<label for="target" >Target</label>
+								<input type="text" class="form-control" id="target">
 							</div>
 							<div class="form-group align-self-end col-md-2">
 								<button type="button" id="checkButton" class="btn btn-primary">Check</button>

@@ -11,8 +11,92 @@ $(function ($) {
 	
 	$("#checkButton").click(function(){
 		checkURL();
+	});
+	
+	$("#buyURL1").click(function(){
+		buyURL1();
+	});
+	$("#buyURL2").click(function(){
+		buyURL2();
+	});
+	
+	$("#checkURL").blur(function(){
+		var value = $(this).val().replace(/\s/g, ''); 
+		$(this).val(value);
+	});
+	$("#target").blur(function(){
+		checkTarget();
 	})
 });
+
+
+
+function buyURL1(){
+	buyURL("subdomain");
+}
+function buyURL2(){
+	buyURL("parameter");
+}
+function buyURL(mode){
+	if (!checkTarget()){
+		return;
+	}
+	
+	//console.log("mode="+mode);
+	var url = "/link/add";
+	var data = {rootUrl: $("#rootLinks").val(), userPart: $("#checkURL").val(), mode: mode, target: $("#target").val()};
+ 
+	$.ajax({
+		  method: "POST",
+		  url: url,
+		  data: data
+		})
+	  .done(function() {
+		  getLinks('/links/'+uname,'link_list');
+		  $("#checkURL").val("");
+		  $("#target").val("");
+		  $("#sampleURL1").hide();
+		  $("#sampleURL2").hide();
+		  $("#buyURL1").hide();
+		  $("#buyURL2").hide();
+		  $("#message").html(
+				  '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+				  	'<strong>New link created!</strong>' +
+				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+				  	'<span aria-hidden="true">&times;</span>' +
+				  '</button>' +
+				  '</div>');
+	  })
+	  .fail(function(event) {
+		  $("#sampleURL1").hide();
+		  $("#sampleURL2").hide();
+		  $("#buyURL1").hide();
+		  $("#buyURL2").hide();
+		  $("#message").html(
+				  '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+				  	'<strong>Error!</strong> Some problem with you parameters. Link did\'t create' +
+				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+				  	'<span aria-hidden="true">&times;</span>' +
+				  '</button>' +
+				  '</div>');
+		  console.log("POST add new Link - fail!");
+		  console.log(event);
+	  });
+}
+
+function checkTarget(){
+	var value = $("#target").val();
+	if (value == ""){
+		$("#target").removeClass("is-valid");
+    	$("#target").addClass("is-invalid");
+    	return false;
+	} else {
+		$("#target").removeClass("is-invalid");
+    	$("#target").addClass("is-valid");
+    	return true;
+	}
+}
+
 
 function getRootLinks(url, id) {
     var data = {};
@@ -45,7 +129,10 @@ function getLinks(url, id) {
         var hstring = "";
         data.forEach(function (link) {
             var startString = getCorrectDate(link.startDate);
-            var endString = getCorrectDate(link.endDate);
+            var endString = getCorrectDate(link.finishDate);
+            
+            var checked = "";
+            if (link.enabled) checked = "checked";
             
             hstring += 
             '<div class="card" id=link'+link.id+'>'+
@@ -69,10 +156,14 @@ function getLinks(url, id) {
 								'<label for="inputDateFinish'+link.id+'" >Finish Date</label>'+
 								'<input type="date" class="form-control" id="inputDateFinish'+link.id+'" readonly value="'+endString+'">'+
 							'</div>'+
+							'<div class="tiny form-group align-self-end form-check">' +
+					    		'<input type="checkbox" class="form-check-input" id="enabledCheck'+link.id+'" '+checked+'>' +
+					    		'<label class="form-check-label" for="enabledCheck'+link.id+'">Enabled</label>' +
+					    	'</div>' +
 							'<div class="tiny form-group align-self-end col-md-2">'+
 								'<button type="button" id="'+link.id+'" class="btn btn-primary" style="display:none;">Save</button>'+
 							'</div>'+
-					
+							
 						'</div>'+
 					'</form>'+
 				'</div>'+
@@ -105,62 +196,66 @@ function checkURL(){
 	var free2 = false;
 	
 	var rootSelected = $("#rootLinks").val();
-	console.log("selected root="+rootSelected);
+	//console.log("selected root="+rootSelected);
 	
 	var entered = $("#checkURL").val();
-	console.log("entered URL part="+entered);
+	//remove all spaces:
+	entered = entered.replace(/\s/g, '');
+	//console.log("entered URL part="+entered);
 	
 	var chURL1 = "http://"+entered+"."+rootSelected+"/";
-	var chURL2 = "http://"+rootSelected+"/"+entered+"/";
-	console.log("checking URL1="+chURL1);
-	console.log("checking URL2="+chURL2);
+	var chURL2 = "http://"+rootSelected+"/"+entered;
+	//console.log("checking URL1="+chURL1);
+	//console.log("checking URL2="+chURL2);
 	
 	$("#sampleURL1").val(chURL1).show();
 	$("#sampleURL2").val(chURL2).show();
 	
+	if(entered==""){
+		setBuyAbility("sampleURL1", "buyURL1", false);
+		setBuyAbility("sampleURL2", "buyURL2", false);
+		return;
+	}
+	
 	var data = {};
-    var getting1 = $.post("/link/check", {url: chURL1}, 'json');
-    var getting2 = $.post("/link/check", {url: chURL2}, 'json');
+    var posting1 = $.post("/link/check", {url: chURL1}, 'json');
+    var posting2 = $.post("/link/check", {url: chURL2}, 'json');
 
-    getting1.done(function (data) {
-        console.log("URL1 done");
-        console.log(data);
-        if(data){
-        	$("#sampleURL1").removeClass("is-invalid");
-        	$("#sampleURL1").addClass("is-valid");
-        	$("#buyURL1").show();
-        }else{
-        	$("#sampleURL1").removeClass("is-valid");
-        	$("#sampleURL1").addClass("is-invalid");
-        	$("#buyURL1").hide();
-        }
+    posting1.done(function (data) {
+        //console.log("URL1 done");
+        //console.log(data);
+        setBuyAbility("sampleURL1", "buyURL1", data);
     });
     
-    getting1.fail(function (event) {
+    posting1.fail(function (event) {
     	console.log("URL1 check fail!");
     	console.log(event.responseText);
     });
     
     
-    getting2.done(function (data) {
-        console.log("URL2 done");
-        console.log(data);
-        if(data){
-        	$("#sampleURL2").removeClass("is-invalid");
-        	$("#sampleURL2").addClass("is-valid");
-        	$("#buyURL2").show();
-        }else{
-        	$("#sampleURL2").removeClass("is-valid");
-        	$("#sampleURL2").addClass("is-invalid");
-        	$("#buyURL2").hide();
-        }
+    posting2.done(function (data) {
+        //console.log("URL2 done");
+        //console.log(data);
+        setBuyAbility("sampleURL2", "buyURL2", data);
     });
     
-    getting2.fail(function (event) {
+    posting2.fail(function (event) {
     	console.log("URL2 check fail!");
     	console.log(event.responseText);
     });
 	
+}
+
+function setBuyAbility(idInput, idButton, ability){
+	if (ability) {
+		$("#"+idInput).removeClass("is-invalid");
+    	$("#"+idInput).addClass("is-valid");
+    	$("#"+idButton).show();
+	} else {
+		$("#"+idInput).removeClass("is-valid");
+    	$("#"+idInput).addClass("is-invalid");
+    	$("#"+idButton).hide();
+	}
 }
 
 function rowHoverIn(row){
@@ -178,7 +273,7 @@ function showSave(input){
 function submitRow(button){
 	var id = $(button).attr("id");
 	var url = "/link/"+id;
-	var data = {target: $("#inputTarget"+id).val()};
+	var data = {target: $("#inputTarget"+id).val(), enabled: $('#enabledCheck'+id).is(":checked")};
  
 	$.ajax({
 		  method: "POST",

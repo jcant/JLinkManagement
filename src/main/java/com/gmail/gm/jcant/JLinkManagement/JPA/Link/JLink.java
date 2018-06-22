@@ -34,17 +34,30 @@ public class JLink {
 	private Date startDate;
 	
 	@Column(nullable = false)
-	private Date endDate;
+	private Date finishDate;
+	
+	@Column(nullable = false)
+	private boolean enabled;
 
 	public JLink() {
 	}
 
-	public JLink(String url, String target, JUser user, Date startDate, Date endDate) {
+	public JLink(String url, String target, JUser user, Date startDate, Date finishDate) {
 		this.url = url;
 		this.target = target;
 		this.user = user;
 		this.startDate = startDate;
-		this.endDate = endDate;
+		this.finishDate = finishDate;
+		this.enabled = true;
+	}
+	
+	public JLink(String url, String target, JUser user, Date startDate, Date finishDate, boolean enabled) {
+		this.url = url;
+		this.target = target;
+		this.user = user;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.enabled = enabled;
 	}
 
 	public long getId() {
@@ -87,12 +100,20 @@ public class JLink {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public Date getFinishDate() {
+		return finishDate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setFinishDate(Date finishDate) {
+		this.finishDate = finishDate;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override
@@ -108,9 +129,11 @@ public class JLink {
 		//builder.append(user);
 		builder.append(", startDate=");
 		builder.append(startDate);
-		builder.append(", endDate=");
-		builder.append(endDate);
+		builder.append(", finishDate=");
+		builder.append(finishDate);
 		builder.append("]");
+		builder.append(", enabled=");
+		builder.append(enabled);
 		return builder.toString();
 	}	
 	
