@@ -5,7 +5,7 @@ $(function ($) {
 	    e.preventDefault();
 	});
 	
-	firstTime = true;
+	//firstTime = true;
 	getLinks('/links/'+uname,'link_list');
 	getRootLinks('/rootlinks', 'rootLinks');
 	
@@ -141,27 +141,29 @@ function getLinks(url, id) {
 						'<div class="form-row">'+	
 						
 							'<div class="tiny form-group col-md-3">'+
-								'<label for="inputURL'+link.id+'" >URL</label>'+
-								'<input type="text" class="form-control" id="inputURL'+link.id+'" readonly value="'+link.url+'">'+
+								'<label for="inputURL_'+link.id+'" >URL</label>'+
+								'<input type="text" class="form-control" id="inputURL_'+link.id+'" readonly value="'+link.url+'">'+
 							'</div>'+
 							'<div class="tiny form-group col-md-3">'+
-								'<label for="inputTarget'+link.id+'" >Target</label>'+
-								'<input type="text" class="form-control" id="inputTarget'+link.id+'" name="target" value="'+link.target+'">'+
+								'<label for="inputTarget_'+link.id+'" >Target</label>'+
+								'<input type="text" class="form-control" id="inputTarget_'+link.id+'" name="target" value="'+link.target+'">'+
 							'</div>'+
 							'<div class="tiny form-group col-md-2">'+
-								'<label for="inputDateStart'+link.id+'" >Start Date</label>'+
-								'<input type="date" class="form-control" id="inputDateStart'+link.id+'" readonly value="'+startString+'">'+
+								'<label for="inputDateStart_'+link.id+'" >Start Date</label>'+
+								'<input type="date" class="form-control" id="inputDateStart_'+link.id+'" readonly value="'+startString+'">'+
 							'</div>'+
 							'<div class="tiny form-group col-md-2">'+
-								'<label for="inputDateFinish'+link.id+'" >Finish Date</label>'+
-								'<input type="date" class="form-control" id="inputDateFinish'+link.id+'" readonly value="'+endString+'">'+
+								'<label for="inputDateFinish_'+link.id+'" >Finish Date</label>'+
+								'<input type="date" class="form-control" id="inputDateFinish_'+link.id+'" readonly value="'+endString+'">'+
 							'</div>'+
 							'<div class="tiny form-group align-self-end form-check">' +
-					    		'<input type="checkbox" class="form-check-input" id="enabledCheck'+link.id+'" '+checked+'>' +
-					    		'<label class="form-check-label" for="enabledCheck'+link.id+'">Enabled</label>' +
+					    		'<input type="checkbox" class="form-check-input" id="enabledCheck_'+link.id+'" '+checked+'>' +
+					    		'<label class="form-check-label" for="enabledCheck_'+link.id+'">Enabled</label>' +
 					    	'</div>' +
+				'</div>' +
+                '<div class="form-row float-right">'+
 							'<div class="tiny form-group align-self-end col-md-2">'+
-								'<button type="button" id="'+link.id+'" class="btn btn-primary" style="display:none;">Save</button>'+
+								'<button type="button" id="'+link.id+'" class="btn btn-success" style="display:none;">Save</button>'+
 							'</div>'+
 							
 						'</div>'+
@@ -172,7 +174,7 @@ function getLinks(url, id) {
 
         $('#' + id).html(hstring);
         
-    	if(firstTime){
+    	//if(firstTime){
     		$("#link_list").find("input").change(function(){
     			showSave(this);
     		});
@@ -181,8 +183,8 @@ function getLinks(url, id) {
     			submitRow(this);
     		});
     		
-    		firstTime = false;
-    	}
+    		//firstTime = false;
+    	//}
     });
     
     getting.fail(function (event) {
@@ -258,22 +260,24 @@ function setBuyAbility(idInput, idButton, ability){
 	}
 }
 
-function rowHoverIn(row){
-	$(row).find("label").show();
-}
-
-function rowHoverOut(row){
-	$(row).find("label").hide();
-}
+// function rowHoverIn(row){
+// 	$(row).find("label").show();
+// }
+//
+// function rowHoverOut(row){
+// 	$(row).find("label").hide();
+// }
 
 function showSave(input){
-	$(input).closest(".form-row").find("button").show();
+	var strid = $(input).attr("id");
+	var id = strid.substring(strid.lastIndexOf("_")+1);
+	$("#"+id).show();
 }
 
 function submitRow(button){
 	var id = $(button).attr("id");
 	var url = "/link/"+id;
-	var data = {target: $("#inputTarget"+id).val(), enabled: $('#enabledCheck'+id).is(":checked")};
+	var data = {target: $("#inputTarget_"+id).val(), enabled: $('#enabledCheck_'+id).is(":checked")};
  
 	$.ajax({
 		  method: "POST",
