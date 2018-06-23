@@ -2,6 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>JLink Management</title>
 
 <link rel="stylesheet"
@@ -11,8 +12,7 @@
 
 <link href="css/main.css" rel="stylesheet">
 
-<script type="application/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js" />
+<script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
@@ -37,47 +37,30 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col">
-				<form>
-					<div class="form-group">
-						<label for="inputName1">Name</label> <input type="text"
-							class="form-control" id="inputName1"
-							placeholder="Enter your name" value="<c:out value='${name}'/>">
-					</div>
-					<div class="form-group">
-						<label for="inputLogin1">Login</label> <input type="text"
-							class="form-control" id="inputLogin1" readonly
-							value="<c:out value='${login}'/>">
-					</div>
-					<div class="form-group">
-						<label for="inputEmail1">Email address</label> <input type="email"
-							class="form-control" id="inputEmail1"
-							aria-describedby="emailHelp" placeholder="* none *" readonly
-							value="<c:out value='${email}'/>"> <small id="emailHelp"
-							class="form-text text-muted">We'll never share your email
-							with anyone else.</small>
-					</div>
-					<div class="form-group">
-						<label for="inputPassword1">Password</label> <input
-							type="password" class="form-control" id="inputPassword1"
-							placeholder="Password">
-					</div>
-					<div class="form-group">
-						<label for="inputPassword2">Password confirm</label> <input
-							type="password" class="form-control" id="inputPassword2"
-							placeholder="Password">
-					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
-				</form>
-
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Cras justo odio</li>
-					<li class="list-group-item">Dapibus ac facilisis in</li>
-					<li class="list-group-item">Morbi leo risus</li>
-					<li class="list-group-item">Porta ac consectetur ac</li>
-					<li class="list-group-item">Vestibulum at eros</li>
-				</ul>
+				<div class="container" id="link_add">
+					<div id = "message"></div>
+					<form>
+						<div class="form-row">
+							<div class="form-group align-self-end col-md-3">
+								<select id="rootLinks" class="form-control">
+        							<option selected>Problems with connection to REST service?</option>
+      							</select>
+      						</div>
+							<div class="form-group col-md-3">
+								<label for="target" >Target</label>
+								<input type="text" class="form-control" id="target">
+							</div>
+							<div class="form-group align-self-end col-md-2">
+								<button type="button" id="createButton" class="btn btn-primary">Create</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="container" id="link_list">
+					Problems with connection to REST service?
+				</div>
 			</div>
-			<div class="col-sm"></div>
+			<div class="col-sm-2"></div>
 		</div>
 	</div>
 
@@ -87,3 +70,7 @@
 
 </body>
 </html>
+
+<script type="application/javascript">
+var uname = "<c:out value='${login}' />";
+</script>

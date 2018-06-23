@@ -38,6 +38,9 @@ public class JLink {
 	
 	@Column(nullable = false)
 	private boolean enabled;
+	
+	@Column(nullable = false)
+	private boolean free;
 
 	public JLink() {
 	}
@@ -49,15 +52,17 @@ public class JLink {
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.enabled = true;
+		this.free = true;
 	}
 	
-	public JLink(String url, String target, JUser user, Date startDate, Date finishDate, boolean enabled) {
+	public JLink(String url, String target, JUser user, Date startDate, Date finishDate, boolean enabled, boolean free) {
 		this.url = url;
 		this.target = target;
 		this.user = user;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.enabled = enabled;
+		this.free = free;
 	}
 
 	public long getId() {
@@ -116,6 +121,14 @@ public class JLink {
 		this.enabled = enabled;
 	}
 
+	public boolean isFree() {
+		return free;
+	}
+
+	public void setFree(boolean free) {
+		this.free = free;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -134,6 +147,8 @@ public class JLink {
 		builder.append("]");
 		builder.append(", enabled=");
 		builder.append(enabled);
+		builder.append(", free=");
+		builder.append(free);
 		return builder.toString();
 	}	
 	

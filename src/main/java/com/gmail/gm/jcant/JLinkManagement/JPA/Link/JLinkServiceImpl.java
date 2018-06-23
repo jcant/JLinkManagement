@@ -50,8 +50,20 @@ public class JLinkServiceImpl implements JLinkService{
     
     @Override
     @Transactional
-    public List<JLink> findByUser(JUser user) {
-        return linkRepository.findByUser(user);
+    public List<JLink> findByUserAll(JUser user) {
+        return linkRepository.findByUserAll(user);
+    }
+    
+    @Override
+    @Transactional
+    public List<JLink> findByUserFree(JUser user) {
+        return linkRepository.findByUserFree(user);
+    }
+    
+    @Override
+    @Transactional
+    public List<JLink> findByUserPaid(JUser user) {
+        return linkRepository.findByUserPaid(user);
     }
 
 }

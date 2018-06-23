@@ -11,11 +11,17 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 public interface JLinkRepository  extends JpaRepository<JLink, Long> {
 	@Query("SELECT l FROM JLink l WHERE l.url = :url")
     JLink findByUrl(@Param("url") String url);
+	
+	@Query("SELECT l FROM JLink l WHERE l.user = :user")
+    List<JLink> findByUserAll(@Param("user") JUser user);
+	@Query("SELECT l FROM JLink l WHERE l.user = :user AND l.free = true")
+    List<JLink> findByUserFree(@Param("user") JUser user);
+	@Query("SELECT l FROM JLink l WHERE l.user = :user AND l.free = false")
+    List<JLink> findByUserPaid(@Param("user") JUser user);
 
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM JLink l WHERE l.url = :url")
     boolean existsByUrl(@Param("url") String url);
     
-    @Query("SELECT l FROM JLink l WHERE l.user = :user")
-    List<JLink> findByUser(@Param("user") JUser user);
+    
 
 }
