@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import org.springframework.stereotype.Service;
 
-@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @Service
 public class JUserLogServiceImpl implements JUserLogService{
 
