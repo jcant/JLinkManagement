@@ -1,48 +1,34 @@
 $ = jQuery.noConflict();
+var showArc = false;
 $(function ($) {
 	
 	$('form button').on("click",function(e){
 	    e.preventDefault();
 	});
-	
-	//firstTime = true;
+
 	getLinks('/links/'+uname+'/free','link_list');
 	getRootLinks('/rootlinks', 'rootLinks');
 	
 	$("#createButton").click(function(){
 		createLink();
 	});
-	
-//	$("#buyURL1").click(function(){
-//		buyURL1();
-//	});
-//	$("#buyURL2").click(function(){
-//		buyURL2();
-//	});
-	
-//	$("#checkURL").blur(function(){
-//		var value = $(this).val().replace(/\s/g, ''); 
-//		$(this).val(value);
-//	});
+
 	$("#target").blur(function(){
 		checkTarget();
-	})
+	});
+
+    $("#showArchive").click(function(){
+        showArc = !showArc;
+        getLinks('/links/'+uname+'/free','link_list');
+    });
 });
 
 
-
-//function buyURL1(){
-//	buyURL("subdomain");
-//}
-//function buyURL2(){
-//	buyURL("parameter");
-//}
 function createLink(){
 	if (!checkTarget()){
 		return;
 	}
-	
-	//console.log("mode="+mode);
+
 	var url = "/link/add";
 	var data = {rootUrl: $("#rootLinks").val(), userPart: "", mode: "", target: $("#target").val(), type: "free"};
  
@@ -53,26 +39,16 @@ function createLink(){
 		})
 	  .done(function(data) {
 		  getLinks('/links/'+uname+'/free','link_list');
-		  //$("#checkURL").val("");
 		  $("#target").val("");
-		  //$("#sampleURL1").hide();
-		  //$("#sampleURL2").hide();
-		  //$("#buyURL1").hide();
-		  //$("#buyURL2").hide();
 		  $("#message").html(
 				  '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
 				  	'<div><strong>New link created!</strong></div>' +
-//				  	'<div><strong>' + data.link + '</strong></div>' +
 				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
 				  	'<span aria-hidden="true">&times;</span>' +
 				  '</button>' +
 				  '</div>');
 	  })
 	  .fail(function(event) {
-		  //$("#sampleURL1").hide();
-		  //$("#sampleURL2").hide();
-		  //$("#buyURL1").hide();
-		  //$("#buyURL2").hide();
 		  $("#message").html(
 				  '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
 				  	'<div><strong>Error!</strong> Some problem with you parameters. Link did\'t create</div>' +
@@ -124,54 +100,57 @@ function getRootLinks(url, id) {
 }
 
 function getLinks(url, id) {
-    var data = {};
+    var data = {archive: showArc};
     var getting = $.get(url, data, 'json');
 
     getting.done(function (data) {
         var hstring = "";
         data.forEach(function (link) {
+            var warnClass = "";
+            var errClass = "";
+            var readOnlyAdd = "";
             var startString = getCorrectDate(link.startDate);
-            var endString = getCorrectDate(link.finishDate);
-            
+            var finishString = getCorrectDate(link.finishDate);
+
+            var fDate = new Date();
+            var currDate = new Date();
+            fDate.setTime(link.finishDate);
+            if(currDate > fDate){
+                warnClass = "red_warn";
+                errClass = "red_err";
+                readOnlyAdd = "readonly";
+            }
+
             var checked = "";
             if (link.enabled) checked = "checked";
-            
-            hstring += 
-            '<div class="card" id=link'+link.id+'>'+
-				'<div class="tiny card-body">'+
-					'<form>'+
-						'<div class="form-row">'+	
-						
-							'<div class="tiny form-group col-md-3">'+
-								'<label for="inputURL_'+link.id+'" >URL</label>'+
-								'<input type="text" class="form-control" id="inputURL_'+link.id+'" readonly value="'+link.url+'">'+
-							'</div>'+
-							'<div class="tiny form-group col-md-3">'+
-								'<label for="inputTarget_'+link.id+'" >Target</label>'+
-								'<input type="text" class="form-control" id="inputTarget_'+link.id+'" name="target" value="'+link.target+'">'+
-							'</div>'+
-							'<div class="tiny form-group col-md-2">'+
-								'<label for="inputDateStart_'+link.id+'" >Start Date</label>'+
-								'<input type="date" class="form-control" id="inputDateStart_'+link.id+'" readonly value="'+startString+'">'+
-							'</div>'+
-							'<div class="tiny form-group col-md-2">'+
-								'<label for="inputDateFinish_'+link.id+'" >Finish Date</label>'+
-								'<input type="date" class="form-control" id="inputDateFinish_'+link.id+'" readonly value="'+endString+'">'+
-							'</div>'+
-							'<div class="tiny form-group align-self-end form-check">' +
-					    		'<input type="checkbox" class="form-check-input" id="enabledCheck_'+link.id+'" '+checked+'>' +
-					    		'<label class="form-check-label" for="enabledCheck_'+link.id+'">Enabled</label>' +
-					    	'</div>' +
-				'</div>' +
-                '<div class="form-row float-right">'+
-							'<div class="tiny form-group align-self-end col-md-2">'+
-								'<button type="button" id="'+link.id+'" class="btn btn-success" style="display:none;">Save</button>'+
-							'</div>'+
-							
-						'</div>'+
-					'</form>'+
-				'</div>'+
-			'</div>';
+
+            hstring +=
+
+                '<tr id=link'+link.id+' class = "'+warnClass+'">' +
+                	'<td>' +
+                		'<input type="text" class="form-control" id="inputURL_'+link.id+'" readonly value="'+link.url+'">'+
+                	'</td>' +
+                	'<td>' +
+                		'<input type="text" class="form-control" id="inputTarget_'+link.id+'" name="target" '+readOnlyAdd+' value="'+link.target+'">'+
+                	'</td>' +
+                	'<td>' +
+                		'<input type="date" class="form-control" id="inputDateStart_'+link.id+'" readonly value="'+startString+'">'+
+                	'</td>' +
+                	'<td>' +
+                		'<input type="date" class="form-control '+errClass+'" id="inputDateFinish_'+link.id+'" readonly value="'+finishString+'">'+
+                	'</td>' +
+                	'<td class="align-middle">';
+            if (currDate <= fDate) {
+                hstring +=
+                    	'<input type="checkbox" class="form-check-input" id="enabledCheck_' + link.id + '" ' + checked + '>' +
+                    	'<label class="form-check-label" for="enabledCheck_' + link.id + '">Enabled</label>';
+            }
+            hstring+=
+                	'</td>' +
+                	'<td>' +
+                		'<button type="button" id="'+link.id+'" class="btn btn-success" style="display:none;">Save</button>'+
+                	'</td>' +
+                '</tr>';
         });
 
         $('#' + id).html(hstring);
@@ -191,79 +170,6 @@ function getLinks(url, id) {
     	console.log(event.responseText);
     });
 }
-
-//function createLink(){
-//	
-//	var rootSelected = $("#rootLinks").val();
-//	console.log("selected root="+rootSelected);
-//	
-//	var target = $("#target").val();
-//	//remove all spaces:
-//	entered = entered.replace(/\s/g, '');
-//	console.log("target URL="+entered);
-//	
-//	var chURL1 = "http://"+entered+"."+rootSelected+"/";
-//	var chURL2 = "http://"+rootSelected+"/"+entered;
-//	//console.log("checking URL1="+chURL1);
-//	//console.log("checking URL2="+chURL2);
-//	
-//	$("#sampleURL1").val(chURL1).show();
-//	$("#sampleURL2").val(chURL2).show();
-//	
-//	if(entered==""){
-//		setBuyAbility("sampleURL1", "buyURL1", false);
-//		setBuyAbility("sampleURL2", "buyURL2", false);
-//		return;
-//	}
-//	
-//	var data = {};
-//    var posting1 = $.post("/link/check", {url: chURL1}, 'json');
-//    var posting2 = $.post("/link/check", {url: chURL2}, 'json');
-//
-//    posting1.done(function (data) {
-//        //console.log("URL1 done");
-//        //console.log(data);
-//        setBuyAbility("sampleURL1", "buyURL1", data);
-//    });
-//    
-//    posting1.fail(function (event) {
-//    	console.log("URL1 check fail!");
-//    	console.log(event.responseText);
-//    });
-//    
-//    
-//    posting2.done(function (data) {
-//        //console.log("URL2 done");
-//        //console.log(data);
-//        setBuyAbility("sampleURL2", "buyURL2", data);
-//    });
-//    
-//    posting2.fail(function (event) {
-//    	console.log("URL2 check fail!");
-//    	console.log(event.responseText);
-//    });
-//	
-//}
-
-//function setBuyAbility(idInput, idButton, ability){
-//	if (ability) {
-//		$("#"+idInput).removeClass("is-invalid");
-//    	$("#"+idInput).addClass("is-valid");
-//    	$("#"+idButton).show();
-//	} else {
-//		$("#"+idInput).removeClass("is-valid");
-//    	$("#"+idInput).addClass("is-invalid");
-//    	$("#"+idButton).hide();
-//	}
-//}
-
-// function rowHoverIn(row){
-// 	$(row).find("label").show();
-// }
-//
-// function rowHoverOut(row){
-// 	$(row).find("label").hide();
-// }
 
 function showSave(input){
 	var strid = $(input).attr("id");
@@ -292,7 +198,7 @@ function submitRow(button){
 
 function getCorrectDate(shtamp){
 	var date = new Date();
-	date.setTime(shtamp)
+	date.setTime(shtamp);
 	var result = "";
 	var day = date.getDate();
 	var month = date.getMonth()+1;

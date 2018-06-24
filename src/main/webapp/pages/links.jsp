@@ -35,7 +35,12 @@
 
 	<div>
 		<div class="row">
-			<div class="col-sm-2"></div>
+			<div class="col-sm-2">
+				<div class="card-header bg-warning">
+					<input type="checkbox" id="showArchive">
+					<label class="form-check-label" for="showArchive">Show Archive</label>
+				</div>
+			</div>
 			<div class="col">
 				<div class="container" id="link_add">
 					<div id = "message"></div>
@@ -76,11 +81,31 @@
 						</div>
 					</form>
 				</div>
-				<div class="container" id="link_list">
-					Problems with connection to REST service?
+				<div class="container">
+					<div class="table-responsive-lg">
+					<table class="table table-hover">
+						<thead className="thead-dark">
+						<tr>
+							<th scope="col">URL</th>
+							<th scope="col">Target</th>
+							<th scope="col">Start Date</th>
+							<th scope="col">Finish Date</th>
+							<th scope="col">Enabled</th>
+							<th scope="col">Save</th>
+							</tr>
+						</thead>
+						<tbody id="link_list">
+							<tr>
+								<td><img src="images/loading.gif"></td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-2"></div>
+			<div class="col-sm-2">
+
+			</div>
 		</div>
 	</div>
 

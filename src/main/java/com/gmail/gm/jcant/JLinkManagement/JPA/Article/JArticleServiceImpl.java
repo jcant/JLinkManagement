@@ -28,14 +28,16 @@ public class JArticleServiceImpl implements JArticleService{
 
 	@Override
 	public List<JArticle> getByUser(JUser user) {
-		List<JArticle> result = articleRepository.getByUser(user);
-		return result;
+//		List<JArticle> result = articleRepository.getByUser(user);
+//		return result;
+		return articleRepository.getByUser(user);
 	}
 	
 	@Override
 	public List<JArticle> getInDateArticles(Date date) {
-		List<JArticle> result = articleRepository.getInDateArticles(date);
-		return result;
+//		List<JArticle> result = articleRepository.getInDateArticles(date);
+//		return result;
+		return articleRepository.getInDateArticles(date);
 	}
 	
 }

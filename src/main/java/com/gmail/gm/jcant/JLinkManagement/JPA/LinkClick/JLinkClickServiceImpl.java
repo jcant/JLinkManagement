@@ -32,14 +32,15 @@ public class JLinkClickServiceImpl implements JLinkClickService{
 	@Override
 	public List<JLinkClick> getByUser(JUser user) {
 		//System.out.println("in JLinkClickServiceImpl");
-		List<JLinkClick> result = linkClickRepository.getByUser(user);
+//		List<JLinkClick> result = linkClickRepository.getByUser(user);
 
 		//for (JLinkClick jLinkClick : result) {
 		//	System.out.println("*** - "+jLinkClick);
 		//}
 
-		
-		return result;
+//		return result;
+
+		return linkClickRepository.getByUser(user);
 	}
 	
 }

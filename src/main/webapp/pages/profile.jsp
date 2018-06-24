@@ -11,8 +11,7 @@
 
 <link href="css/main.css" rel="stylesheet">
 
-<script type="application/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js" />
+<script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"

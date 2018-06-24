@@ -1,5 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.JPA.Link;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,26 @@ public class JLinkServiceImpl implements JLinkService{
 		return link;
 	}
 
-	@Override
-    @Transactional(readOnly = true)
-    public JLink findByUrl(String url) {
-        return linkRepository.findByUrl(url);
+	//@Override
+    //@Transactional(readOnly = true)
+    //public JLink findByUrl(String url) {
+    //    return linkRepository.findByUrl(url);
+    //}
+
+    @Override
+    public JLink getByUrlActualEnabled(String url, Date date) {
+        return linkRepository.getByUrlActualEnabled(url, date);
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean existsByUrl(String url) {
         return linkRepository.existsByUrl(url);
+    }
+
+    @Override
+    public boolean isFreeByUrl(String url) {
+        return linkRepository.isFreeByUrlOnDate(url, new Date());
     }
 
     @Override
@@ -50,20 +61,20 @@ public class JLinkServiceImpl implements JLinkService{
     
     @Override
     @Transactional
-    public List<JLink> findByUserAll(JUser user) {
-        return linkRepository.findByUserAll(user);
+    public List<JLink> findByUserAll(JUser user, Date date) {
+        return linkRepository.findByUserAll(user, date);
     }
     
     @Override
     @Transactional
-    public List<JLink> findByUserFree(JUser user) {
-        return linkRepository.findByUserFree(user);
+    public List<JLink> findByUserFree(JUser user, Date date) {
+        return linkRepository.findByUserFree(user, date);
     }
     
     @Override
     @Transactional
-    public List<JLink> findByUserPaid(JUser user) {
-        return linkRepository.findByUserPaid(user);
+    public List<JLink> findByUserPaid(JUser user, Date date) {
+        return linkRepository.findByUserPaid(user, date);
     }
 
 }

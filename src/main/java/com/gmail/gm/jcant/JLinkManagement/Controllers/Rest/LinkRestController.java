@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.naming.LinkException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,11 +43,14 @@ public class LinkRestController {
 	@Autowired
 	private JUserService userService;
 
+	@Value("${urlRandomStringLenght}")
+	int randomStringLenght;
+
 	// get user Links (Free/Paid/All)
 	@RequestMapping(value = "/links/{user}/{type}")
 	@JDomain(property = "frontend.domains")
 	public List<JLink> getLinks(@PathVariable(value = "user") String user, @PathVariable(value = "type") String type,
-			Principal principal) throws JUserException {
+								@RequestParam boolean archive) throws JUserException {
 
 		JUser dbUser = userService.getUserByLogin(user);
 		User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -54,14 +58,21 @@ public class LinkRestController {
 		if ((!isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(user))) {
 			throw new JUserException("Access deny to get links for another user");
 		}
-
+		Date date = null;
+		if (!archive){
+			date = new Date();
+		}
 		List<JLink> result = null;
-		if (type.equals("free")) {
-			result = linkService.findByUserFree(dbUser);
-		} else if (type.equals("paid")) {
-			result = linkService.findByUserPaid(dbUser);
-		} else if (type.equals("all")) {
-			result = linkService.findByUserAll(dbUser);
+		switch (type) {
+			case "free":
+				result = linkService.findByUserFree(dbUser, date);
+				break;
+			case "paid":
+				result = linkService.findByUserPaid(dbUser, date);
+				break;
+			case "all":
+				result = linkService.findByUserAll(dbUser, date);
+				break;
 		}
 
 		return result;
@@ -93,11 +104,14 @@ public class LinkRestController {
 	@RequestMapping(value = "/link/check", method = RequestMethod.POST)
 	@JDomain(property = "frontend.domains")
 	public boolean isFree(@RequestParam String url) {
-		if (linkService.existsByUrl(url)) {
-			return false;
-		} else {
-			return true;
-		}
+//		//if (linkService.existsByUrl(url)) {
+//		if (linkService.isFreeByUrl(url)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+
+		return linkService.isFreeByUrl(url);
 	}
 
 	// add new Link
@@ -133,7 +147,7 @@ public class LinkRestController {
 			throw new LinkException("Can't create new Link: wrong link type: " + type);
 		}
 
-		if (linkService.existsByUrl(link.getUrl())) {
+		if (!linkService.isFreeByUrl(link.getUrl())) {
 			throw new LinkException("Can't create new Link: this URL is busy!");
 		}
 
@@ -144,8 +158,8 @@ public class LinkRestController {
 	private String generateRandLink(String rootUrl) {
 		String result = "";
 		do {
-			result = "http://" + rootUrl + "/" + getRandomString(10);
-		} while (linkService.existsByUrl(result));
+			result = "http://" + rootUrl + "/" + getRandomString(randomStringLenght);
+		} while (!linkService.isFreeByUrl(result));
 
 		return result;
 	}
@@ -175,7 +189,7 @@ public class LinkRestController {
 		}
 
 		for (String item : work) {
-			if (sample.indexOf(item) != -1) {
+			if (sample.contains(item)) {
 				return true;
 			}
 		}
@@ -185,9 +199,7 @@ public class LinkRestController {
 
 	private boolean isHasRole(String role, Collection<GrantedAuthority> gaCollection) {
 		boolean result = false;
-		Iterator<GrantedAuthority> grIt = gaCollection.iterator();
-		while (grIt.hasNext()) {
-			GrantedAuthority ga = grIt.next();
+		for (GrantedAuthority ga : gaCollection) {
 			if (ga.getAuthority().equals(role)) {
 				result = true;
 			}

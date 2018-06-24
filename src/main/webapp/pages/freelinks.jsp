@@ -35,7 +35,12 @@
 
 	<div>
 		<div class="row">
-			<div class="col-sm-2"></div>
+			<div class="col-sm-2">
+				<div class="card-header bg-warning">
+					<input type="checkbox" id="showArchive">
+					<label class="form-check-label" for="showArchive">Show Archive</label>
+				</div>
+			</div>
 			<div class="col">
 				<div class="container" id="link_add">
 					<div id = "message"></div>
@@ -43,24 +48,64 @@
 						<div class="form-row">
 							<div class="form-group align-self-end col-md-3">
 								<select id="rootLinks" class="form-control">
-        							<option selected>Problems with connection to REST service?</option>
-      							</select>
-      						</div>
+									<option selected>Problems with connection to REST service?</option>
+								</select>
+							</div>
+							<div class="form-group col-md-3">
+								<label for="checkURL" >CheckedURL</label>
+								<input type="text" class="form-control" id="checkURL">
+							</div>
 							<div class="form-group col-md-3">
 								<label for="target" >Target</label>
 								<input type="text" class="form-control" id="target">
 							</div>
 							<div class="form-group align-self-end col-md-2">
-								<button type="button" id="createButton" class="btn btn-primary">Create</button>
+								<button type="button" id="checkButton" class="btn btn-primary">Check</button>
+							</div>
+						</div>
+						<div class="container" id="checkSamples">
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<input type="text" class="form-control" readonly id="sampleURL1" style="display:none;">
+								</div>
+								<div class="form-group align-self-end col-md-2">
+									<button type="button" id="buyURL1" class="btn btn-primary" style="display:none;">Buy</button>
+								</div>
+								<div class="form-group col-md-3">
+									<input type="text" class="form-control" readonly id="sampleURL2" style="display:none;">
+								</div>
+								<div class="form-group align-self-end col-md-2">
+									<button type="button" id="buyURL2" class="btn btn-primary" style="display:none;">Buy</button>
+								</div>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div class="container" id="link_list">
-					Problems with connection to REST service?
+				<div class="container">
+					<div class="table-responsive-lg">
+						<table class="table table-hover">
+							<thead className="thead-dark">
+							<tr>
+								<th scope="col">URL</th>
+								<th scope="col">Target</th>
+								<th scope="col">Start Date</th>
+								<th scope="col">Finish Date</th>
+								<th scope="col">Enabled</th>
+								<th scope="col">Save</th>
+							</tr>
+							</thead>
+							<tbody id="link_list">
+							<tr>
+								<td><img src="images/loading.gif"></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-2"></div>
+			<div class="col-sm-2">
+
+			</div>
 		</div>
 	</div>
 

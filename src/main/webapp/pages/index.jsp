@@ -25,7 +25,7 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<script src='js/profile.js'></script>
+<script src='js/index.js'></script>
 </head>
 <body>
 	

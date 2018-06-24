@@ -21,7 +21,7 @@ public class JLink {
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String url;
 	
 	private String target;

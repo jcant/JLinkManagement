@@ -7,13 +7,11 @@ import com.gmail.gm.jcant.JLinkManagement.Statistics.JStatistics;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/")
@@ -29,7 +27,8 @@ public class RedirectController {
     @RequestMapping("/")
     public String index(/*Model model,*/ HttpServletRequest request) {
 
-        JLink link = linkService.findByUrl(request.getRequestURL().toString());
+        //JLink link = linkService.findByUrl(request.getRequestURL().toString());
+        JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
         if (link != null) {
             stats.SaveLinkClick(link, request);
         	return "redirect:" + link.getTarget();
@@ -43,7 +42,8 @@ public class RedirectController {
     //public String indexWithURI(Model model, @PathVariable(value = "shortcut") String shortcut){
     public String indexWithURI(/*Model model,*/ HttpServletRequest request){
     	
-    	JLink link = linkService.findByUrl(request.getRequestURL().toString());
+    	//JLink link = linkService.findByUrl(request.getRequestURL().toString());
+        JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
         if (link != null) {
             stats.SaveLinkClick(link, request);
         	return "redirect:" + link.getTarget();

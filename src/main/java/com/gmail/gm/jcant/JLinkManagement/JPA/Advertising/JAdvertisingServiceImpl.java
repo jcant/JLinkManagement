@@ -24,14 +24,16 @@ public class JAdvertisingServiceImpl implements JAdvertisingService {
 
     @Override
     public List<JAdvertising> getByCompany(String company) {
-        List<JAdvertising> result = advertisingRepository.getByCompany(company);
-        return result;
+//        List<JAdvertising> result = advertisingRepository.getByCompany(company);
+//        return result;
+        return advertisingRepository.getByCompany(company);
     }
 
     @Override
     public List<JAdvertising> getInDateAdvertising(Date date) {
-        List<JAdvertising> result = advertisingRepository.getInDateAdvertising(date);
-        return result;
+//        List<JAdvertising> result = advertisingRepository.getInDateAdvertising(date);
+//        return result;
+        return advertisingRepository.getInDateAdvertising(date);
     }
 
 }

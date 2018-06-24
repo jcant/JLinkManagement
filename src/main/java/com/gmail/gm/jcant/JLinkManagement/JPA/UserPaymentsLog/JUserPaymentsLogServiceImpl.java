@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import org.springframework.stereotype.Service;
 
+@Service
 public class JUserPaymentsLogServiceImpl implements JUserPaymentsLogService{
 
 	@Autowired
