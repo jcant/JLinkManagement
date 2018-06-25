@@ -16,29 +16,7 @@ public class JLinkClickServiceImpl implements JLinkClickService{
 
 	@Autowired
     private JLinkClickRepository lcRep;
-	
-//	@Override
-//	public List<JLinkClick> getByUrl(String url) {
-//		return linkClickRepository.getByUrl(url);
-//	}
-//
-//	@Override
-//	public void addLinkClick(JLinkClick linkClick) {
-//		linkClickRepository.save(linkClick);
-//	}
-//
-//	@Override
-//	public void updateLinkClick(JLinkClick linkClick) {
-//		linkClickRepository.save(linkClick);
-//		
-//	}
-//
-//	@Override
-//	public List<JLinkClick> getByUser(JUser user) {
-//		return linkClickRepository.getByUser(user);
-//	}
-	
-	
+
 	@Override
 	public void SaveLinkClick(JLink link, HttpServletRequest request) {
 		if ((link == null)||(request == null)) {
@@ -50,13 +28,13 @@ public class JLinkClickServiceImpl implements JLinkClickService{
 
 	@Override
 	public JStatistics getStatsForLink(JLink link) {
-		Date day = new Date();
+		Date day = JDate.setTime(new Date(), "00:00:00");
 		int allCnt = lcRep.countLinkToDate(link, null);
 		int dayCnt = lcRep.countLinkToDate(link, day);
 		int weekCnt = lcRep.countLinkToDate(link, JDate.incDay(day, -7));
 		int monthCnt = lcRep.countLinkToDate(link, JDate.incMonth(day, -1));
 		int yearCnt = lcRep.countLinkToDate(link, JDate.incYear(day, -1));
-		JStatistics stats = new JStatistics(allCnt, dayCnt, weekCnt, monthCnt, yearCnt, JDate.getDifferenceDays(day, link.getFinishDate()));
+		JStatistics stats = new JStatistics(allCnt, dayCnt, weekCnt, monthCnt, yearCnt, JDate.getDifferenceDays(new Date(), link.getFinishDate()));
 		return stats;
 	}
 }

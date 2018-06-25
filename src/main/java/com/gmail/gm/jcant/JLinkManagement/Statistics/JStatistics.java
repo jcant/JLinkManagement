@@ -124,7 +124,21 @@ public class JStatistics {
 	public void setDaysLeft(long daysLeft) {
 		this.daysLeft = daysLeft;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "JStatistics{" +
+				"allCnt=" + allCnt +
+				", dayCnt=" + dayCnt +
+				", weekCnt=" + weekCnt +
+				", monthCnt=" + monthCnt +
+				", yearCnt=" + yearCnt +
+				", daysLeft=" + daysLeft +
+				", allPerDay='" + allPerDay + '\'' +
+				", dayPerHour='" + dayPerHour + '\'' +
+				", weekPerDay='" + weekPerDay + '\'' +
+				", monthPerDay='" + monthPerDay + '\'' +
+				", yearPerDay='" + yearPerDay + '\'' +
+				'}';
+	}
 }
