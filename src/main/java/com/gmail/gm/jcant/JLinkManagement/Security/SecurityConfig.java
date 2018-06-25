@@ -33,10 +33,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").hasRole("ADMIN")
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/register").permitAll()
+                
                 .antMatchers("/profile").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/freelinks").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/links").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/links/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/link/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/stats").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/stats/**").hasAnyRole("USER", "ADMIN")
                 .and()
                 .exceptionHandling().accessDeniedPage("/unauthorized")
                 .and()
@@ -58,8 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder getBCryptPasswordEncoder(){
-//        BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
-//        return bcryptEncoder;
         return new BCryptPasswordEncoder();
     }
 }

@@ -103,13 +103,6 @@ public class LinkRestController {
 	@RequestMapping(value = "/link/check", method = RequestMethod.POST)
 	@JDomain(property = "frontend.domains")
 	public boolean isFree(@RequestParam String url) {
-//		//if (linkService.existsByUrl(url)) {
-//		if (linkService.isFreeByUrl(url)) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-
 		return linkService.isFreeByUrl(url);
 	}
 
