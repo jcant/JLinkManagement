@@ -43,21 +43,39 @@
 			</div>
 			<div class="col">
 				<div class="container" id="link_add">
-					<div id = "message"></div>
-					<form>
+					<div id = "message">
+					<c:if test="${success eq true}">
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+				  			New link created! <strong><c:out value="${addLink.url}"/></strong>
+				  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  				<span aria-hidden="true">&times;</span>
+				  			</button>
+					  	</div>
+					</c:if>
+					<c:if test="${success eq false}">
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				  			Link did\'t create <strong><c:out value="${addLink.url}"/></strong>
+				  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  				<span aria-hidden="true">&times;</span>
+				  			</button>
+					  	</div>
+					</c:if>				
+					</div>
+					<form id="link_add_form" method="post">
 						<div class="form-row">
 							<div class="form-group align-self-end col-md-3">
-								<select id="rootLinks" class="form-control">
+								<select id="rootLinks" class="form-control" name="rootLinks">
         							<option selected>Problems with connection to REST service?</option>
       							</select>
+      							<input type="hidden" id="linkMode" name="linkMode">
       						</div>
 							<div class="form-group col-md-3">
 								<label for="checkURL" >CheckedURL</label>
-								<input type="text" class="form-control" id="checkURL">
+								<input type="text" class="form-control" id="checkURL" name="checkURL">
 							</div>
 							<div class="form-group col-md-3">
 								<label for="target" >Target</label>
-								<input type="text" class="form-control" id="target">
+								<input type="text" class="form-control" id="target" name="target">
 							</div>
 							<div class="form-group align-self-end col-md-2">
 								<button type="button" id="checkButton" class="btn btn-primary">Check</button>

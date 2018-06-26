@@ -29,7 +29,7 @@ function createLink(){
 		return;
 	}
 
-	var url = "/link/add";
+	var url = "/link/addfree";
 	var data = {rootUrl: $("#rootLinks").val(), userPart: "", mode: "", target: $("#target").val(), type: "free"};
  
 	$.ajax({

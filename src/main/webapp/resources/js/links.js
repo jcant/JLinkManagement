@@ -41,51 +41,16 @@ function buyURL1(){
 function buyURL2(){
 	buyURL("parameter");
 }
+
+
 function buyURL(mode){
 	if (!checkTarget()){
 		return;
 	}
+	
+	$('#linkMode').val(mode);
+	$('#link_add_form').attr('action', '/payment').submit();
 
-	var url = "/link/add";
-	var data = {rootUrl: $("#rootLinks").val(), userPart: $("#checkURL").val(), mode: mode, target: $("#target").val(), type: "paid"};
- 
-	$.ajax({
-		  method: "POST",
-		  url: url,
-		  data: data
-		})
-	  .done(function() {
-		  getLinks('/links/'+uname+'/paid','link_list');
-		  $("#checkURL").val("");
-		  $("#target").val("");
-		  $("#sampleURL1").hide();
-		  $("#sampleURL2").hide();
-		  $("#buyURL1").hide();
-		  $("#buyURL2").hide();
-		  $("#message").html(
-				  '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-				  	'<strong>New link created!</strong>' +
-				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-				  	'<span aria-hidden="true">&times;</span>' +
-				  '</button>' +
-				  '</div>');
-	  })
-	  .fail(function(event) {
-		  $("#sampleURL1").hide();
-		  $("#sampleURL2").hide();
-		  $("#buyURL1").hide();
-		  $("#buyURL2").hide();
-		  $("#message").html(
-				  '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-				  	'<div><strong>Error!</strong> Some problem with you parameters. Link did\'t create</div>' +
-				  	'<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-				  	'<span aria-hidden="true">&times;</span>' +
-				  '</button>' +
-				  '</div>');
-		  console.log("POST add new Link - fail!");
-		  console.log(event);
-	  });
 }
 
 function checkTarget(){

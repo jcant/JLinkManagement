@@ -52,15 +52,11 @@
 								</select>
 							</div>
 							<div class="form-group col-md-3">
-								<label for="checkURL" >CheckedURL</label>
-								<input type="text" class="form-control" id="checkURL">
-							</div>
-							<div class="form-group col-md-3">
 								<label for="target" >Target</label>
 								<input type="text" class="form-control" id="target">
 							</div>
 							<div class="form-group align-self-end col-md-2">
-								<button type="button" id="checkButton" class="btn btn-primary">Check</button>
+								<button type="button" id="createButton" class="btn btn-primary">Create</button>
 							</div>
 						</div>
 						<div class="container" id="checkSamples">

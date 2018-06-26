@@ -1,7 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
-import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClickService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
@@ -23,9 +22,6 @@ public class FrontEndController {
 
     @Autowired
     private JUserService userService;
-
-    @Autowired
-    private JLinkClickService linkClickService;
     
     //main page
     @RequestMapping(value = "/")
@@ -71,7 +67,7 @@ public class FrontEndController {
     	
         return "stats";
     }
-
+    
     
     private void prepareModel(Model model, Principal principal, String path) {
     	if (principal != null) {

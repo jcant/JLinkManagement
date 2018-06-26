@@ -107,37 +107,23 @@ public class LinkRestController {
 	}
 
 	// add new Link
-	@RequestMapping(value = "/link/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/link/addfree", method = RequestMethod.POST)
 	@JDomain(property = "frontend.domains")
-	public ResponseEntity<Void> addLink(@RequestParam String rootUrl, @RequestParam String userPart,
-			@RequestParam String mode, @RequestParam String target, @RequestParam String type, Principal principal)
+	public ResponseEntity<Void> addLink(@RequestParam String rootUrl, @RequestParam String target, Principal principal)
 			throws LinkException, JUserException {
 		JRootLink rootLink = rootLinkService.getRootLinkByUrl(rootUrl);
 		if (rootLink == null) {
 			throw new LinkException("Can't create new Link: base URL is invalid!");
 		}
-		if ((isContainSpecialSymbols(userPart, true)) || (isContainSpecialSymbols(target, false))) {
+		if (isContainSpecialSymbols(target, false)) {
 			throw new LinkException("Can't create new Link: selected parameters contain special symbols!");
 		}
 
 		JLink link = new JLink(null, target, userService.getUserByLogin(principal.getName()), new Date(), null);
 
-		if (type.equals("paid")) {
-			if (mode.equals("subdomain")) {
-				link.setUrl("http://" + userPart + "." + rootUrl + "/");
-			}
-			if (mode.equals("parameter")) {
-				link.setUrl("http://" + rootUrl + "/" + userPart);
-			}
-			link.setFree(false);
-			link.setFinishDate(JDate.incYear(link.getStartDate(), 1));
-		} else if (type.equals("free")) {
-			link.setUrl(generateRandLink(rootUrl));
-			link.setFree(true);
-			link.setFinishDate(JDate.incMonth(link.getStartDate(), 1));
-		} else {
-			throw new LinkException("Can't create new Link: wrong link type: " + type);
-		}
+		link.setUrl(generateRandLink(rootUrl));
+		link.setFree(true);
+		link.setFinishDate(JDate.incMonth(link.getStartDate(), 1));
 
 		if (!linkService.isFreeByUrl(link.getUrl())) {
 			throw new LinkException("Can't create new Link: this URL is busy!");

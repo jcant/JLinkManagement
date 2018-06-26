@@ -9,6 +9,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -22,37 +23,44 @@ public class RedirectController {
     
     @Autowired
     private JLinkClickService linkClickService;
-    
-//    @Autowired
-//	@Qualifier(value = "SaveLinkClickImpl")
-//	private JStatistics stats;
 
     @RequestMapping("/")
-    public String index(/*Model model,*/ HttpServletRequest request) throws JLinkException {
+    public RedirectView index(HttpServletRequest request) throws JLinkException {
 
         JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
         if (link != null) {
-            //stats.SaveLinkClick(link, request);
             linkClickService.SaveLinkClick(link, request);
-        	return "redirect:" + link.getTarget();
+        	//return "redirect:" + link.getTarget();
+        	RedirectView rv = new RedirectView(wrapTarget(link.getTarget()), true);
+    		rv.setExposeModelAttributes(false);
+    		return rv;
         } else {
-            //return "wrong_url";
         	throw new JLinkException("Wrong link requested! " + request.getRequestURL().toString());
         }
 
     }
 
     @RequestMapping("/{shortcut}")
-    public String indexWithURI(/*Model model,*/ HttpServletRequest request) throws JLinkException {
+    public RedirectView indexWithURI(HttpServletRequest request) throws JLinkException {
     	
         JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
         if (link != null) {
-            //stats.SaveLinkClick(link, request);
             linkClickService.SaveLinkClick(link, request);
-        	return "redirect:" + link.getTarget();
+        	//return "redirect:" + link.getTarget();
+        	RedirectView rv = new RedirectView(wrapTarget(link.getTarget()), true);
+    		rv.setExposeModelAttributes(false);
+    		return rv;
         } else {
-            //return "wrong_url";
             throw new JLinkException("Wrong link requested! " + request.getRequestURL().toString());
         }
+    }
+    
+    private String wrapTarget(String target) {
+    	String result = target.toLowerCase();
+    	if(result.startsWith("http://")||result.startsWith("https://")) {
+    		return result;
+    	}else {
+    		return "http://"+result;
+    	}
     }
 }
