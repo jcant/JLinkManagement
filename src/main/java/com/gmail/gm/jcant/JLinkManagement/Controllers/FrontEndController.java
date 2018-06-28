@@ -39,7 +39,8 @@ public class FrontEndController {
             
         JUser dbUser = userService.getUserByLogin(principal.getName());
         model.addAttribute("name", dbUser.getName());
-        model.addAttribute("email", dbUser.getEmail());  
+        model.addAttribute("email", dbUser.getEmail());
+        model.addAttribute("userId", dbUser.getId());
 
         return "profile";
     }

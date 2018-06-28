@@ -36,29 +36,34 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col">
-				<form>
+				<div id = "message"></div>
+				<form id="user_update_form" method="post">
 					<div class="form-group">
-						<label for="inputName1">Name</label>
-						<input type="text" class="form-control" id="inputName1" placeholder="Enter your name" value="<c:out value='${name}'/>">
+						<label for="userName">Name</label>
+						<input type="text" class="form-control" id="userName" name="userName" placeholder="Enter your name" value="<c:out value='${name}'/>">
 					</div>
 					<div class="form-group">
-						<label for="inputLogin1">Login</label>
-						<input type="text" class="form-control" id="inputLogin1" readonly value="<c:out value='${login}'/>">
+						<label for="userLogin">Login</label>
+						<input type="text" class="form-control" id="userLogin" readonly value="<c:out value='${login}'/>">
 					</div>
 					<div class="form-group">
-						<label for="inputEmail1">Email address</label>
-						<input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="* none *" readonly value="<c:out value='${email}'/>">
+						<label for="userEmail">Email address</label>
+						<input type="email" class="form-control" id="userEmail" name="userEmail" aria-describedby="emailHelp" placeholder="* none *" readonly value="<c:out value='${email}'/>">
 						<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 					</div>
 					<div class="form-group">
-						<label for="inputPassword1">Password</label>
-						<input type="password" class="form-control" id="inputPassword1"	placeholder="Password">
+						<label for="currentPassword">Password</label>
+						<input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Current Password">
 					</div>
 					<div class="form-group">
-						<label for="inputPassword2">Password confirm</label>
-						<input type="password" class="form-control" id="inputPassword2"	placeholder="Password">
+						<label for="newPassword">New Password</label>
+						<input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter New Password">
 					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
+					<div class="form-group">
+						<label for="confirmNewPassword">New Password</label>
+						<input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password">
+					</div>
+					<button type="button" id="saveButton" class="btn btn-primary">Save</button>
 				</form>
 			</div>
 			<div class="col-sm"></div>
@@ -71,3 +76,8 @@
 
 </body>
 </html>
+
+<script type="application/javascript">
+    var uname = "<c:out value='${login}' />";
+    var userId = "<c:out value='${userId}' />";
+</script>

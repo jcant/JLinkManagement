@@ -1,12 +1,10 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +14,7 @@ import java.util.List;
 public class UserRestController {
     @Autowired
     private JUserService userService;
+
     @Autowired
     private PasswordEncoder encoder;
 
@@ -35,6 +34,35 @@ public class UserRestController {
         }
 
         return user;
+    }
+
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
+    public JUserOperationInfo updateUser(@RequestParam(required = false) String userName,
+                                         @RequestParam(required = false) String userEmail,
+                                         @RequestParam String currentPassword,
+                                         @RequestParam(required = false) String newPassword,
+                                         @PathVariable(value="id") long id) throws JUserException {
+
+        JUser dbUser = userService.getUserById(id); //if user does't exist method throws Exeption
+
+        if (!encoder.matches(currentPassword, dbUser.getPassword())){
+            return new JUserOperationInfo("Wrong Password!", false);
+        }
+
+        if (userName != null){
+            dbUser.setName(userName);
+        }
+        if (userEmail != null){
+            dbUser.setEmail(userEmail);
+        }
+
+        if (newPassword != null){
+            dbUser.setPassword(encoder.encode(newPassword));
+        }
+
+        userService.updateUser(dbUser);
+
+        return new JUserOperationInfo("User update success!", true);
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
