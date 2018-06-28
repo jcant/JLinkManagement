@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.naming.LinkException;
 
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JModelHelper;
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JSymbolsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -53,13 +55,13 @@ public class LinkAddController {
     		@RequestParam String linkMode, @RequestParam String target, 
     		@ModelAttribute("jlink") JLink link) throws JUserException, LinkException {
     	
-    	prepareModel(model, principal, "payment");
+    	JModelHelper.prepareModel(model, principal, "payment");
     	
     	JRootLink rootLink = rootLinkService.getRootLinkByUrl(rootLinks);
 		if (rootLink == null) {
 			throw new LinkException("Can't create new Link: base URL is invalid!");
 		}
-		if (isContainSpecialSymbols(target, false)) {
+		if (JSymbolsHelper.isContainSpecialSymbols(target, false)) {
 			throw new LinkException("Can't create new Link: selected parameters contain special symbols!");
 		}
 		
@@ -90,7 +92,7 @@ public class LinkAddController {
     @RequestMapping(value = "/paymentconfirm", method = RequestMethod.POST)
     public RedirectView paymentconfirm(Model model, Principal principal, @RequestParam String confirm, @ModelAttribute("jlink") JLink link, SessionStatus sessionStatus) throws JUserException {
     	
-    	prepareModel(model, principal, "payment");
+    	JModelHelper.prepareModel(model, principal, "payment");
     	
     	model.addAttribute("addLink", link);
     	
@@ -108,40 +110,5 @@ public class LinkAddController {
 		rv.setExposeModelAttributes(false);
 		return rv;
     }
-	
-    
-    private void prepareModel(Model model, Principal principal, String path) {
-    	if (principal != null) {
-            User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("auth", true);
-            model.addAttribute("login", user.getUsername());
-            model.addAttribute("roles", user.getAuthorities());
-            model.addAttribute("path", path);
-        } else {
-            model.addAttribute("auth", false);
-            model.addAttribute("login", "NONAME!");
-        }
-    }
-    
-    private boolean isContainSpecialSymbols(String sample, boolean fullControl) {
-		String[] checkers = new String[] { " ", ".", ",", "!", "?", "_", "+", "-", "*", "~", "`", "@", "#", "$", "%",
-				"^", "&", "\"", "(", ")", "'", "|", "\\", "/" };
-		String[] lightCheckers = new String[] { " ", ",", "`", "'" };
-
-		String[] work;
-		if (fullControl) {
-			work = checkers;
-		} else {
-			work = lightCheckers;
-		}
-
-		for (String item : work) {
-			if (sample.contains(item)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
     
 }

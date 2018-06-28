@@ -1,6 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JModelHelper;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
@@ -27,7 +28,7 @@ public class FrontEndController {
     @RequestMapping(value = "/")
     public String index(Model model, Principal principal){
 
-        prepareModel(model, principal, "");
+        JModelHelper.prepareModel(model, principal, "");
 
         return "index";
     }
@@ -35,7 +36,7 @@ public class FrontEndController {
     @RequestMapping(value = "/profile")
     public String profile(Model model, Principal principal) throws JUserException{
 
-    	prepareModel(model, principal, "profile");
+        JModelHelper.prepareModel(model, principal, "profile");
             
         JUser dbUser = userService.getUserByLogin(principal.getName());
         model.addAttribute("name", dbUser.getName());
@@ -48,7 +49,7 @@ public class FrontEndController {
     @RequestMapping(value = "/freelinks")
     public String freelinks(Model model, Principal principal){
 
-    	prepareModel(model, principal, "freelinks");
+        JModelHelper.prepareModel(model, principal, "freelinks");
     	
         return "freelinks";
     }
@@ -56,31 +57,17 @@ public class FrontEndController {
     @RequestMapping(value = "/links")
     public String links(Model model, Principal principal){
 
-    	prepareModel(model, principal, "links");
+        JModelHelper.prepareModel(model, principal, "links");
     	
         return "links";
     }
 
     @RequestMapping("/stats")
     public String stats(Model model, Principal principal) {
-        
-    	prepareModel(model, principal, "stats");
+
+        JModelHelper.prepareModel(model, principal, "stats");
     	
         return "stats";
-    }
-    
-    
-    private void prepareModel(Model model, Principal principal, String path) {
-    	if (principal != null) {
-            User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("auth", true);
-            model.addAttribute("login", user.getUsername());
-            model.addAttribute("roles", user.getAuthorities());
-            model.addAttribute("path", path);
-        } else {
-            model.addAttribute("auth", false);
-            model.addAttribute("login", "NONAME!");
-        }
     }
     
 }

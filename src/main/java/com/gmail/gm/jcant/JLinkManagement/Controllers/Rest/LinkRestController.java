@@ -8,6 +8,8 @@ import java.util.Random;
 
 import javax.naming.LinkException;
 
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JRoleHelper;
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JSymbolsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,7 @@ public class LinkRestController {
 		JUser dbUser = userService.getUserByLogin(user);
 		User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if ((!isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(user))) {
+		if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(user))) {
 			throw new JUserException("Access deny to get links for another user");
 		}
 		Date date = null;
@@ -87,7 +89,7 @@ public class LinkRestController {
 
 		JLink link = linkService.findById(id);
 
-		if ((!isHasRole("ROLE_ADMIN", authUser.getAuthorities()))
+		if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities()))
 				&& (!authUser.getUsername().equals(link.getUser().getLogin()))) {
 			throw new JUserException("Access deny to change link of another user");
 		}
@@ -115,7 +117,7 @@ public class LinkRestController {
 		if (rootLink == null) {
 			throw new LinkException("Can't create new Link: base URL is invalid!");
 		}
-		if (isContainSpecialSymbols(target, false)) {
+		if (JSymbolsHelper.isContainSpecialSymbols(target, false)) {
 			throw new LinkException("Can't create new Link: selected parameters contain special symbols!");
 		}
 
@@ -154,35 +156,4 @@ public class LinkRestController {
 		return sb.toString();
 	}
 
-	private boolean isContainSpecialSymbols(String sample, boolean fullControl) {
-		String[] checkers = new String[] { " ", ".", ",", "!", "?", "_", "+", "-", "*", "~", "`", "@", "#", "$", "%",
-				"^", "&", "\"", "(", ")", "'", "|", "\\", "/" };
-		String[] lightCheckers = new String[] { " ", ",", "`", "'" };
-
-		String[] work;
-		if (fullControl) {
-			work = checkers;
-		} else {
-			work = lightCheckers;
-		}
-
-		for (String item : work) {
-			if (sample.contains(item)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private boolean isHasRole(String role, Collection<GrantedAuthority> gaCollection) {
-		boolean result = false;
-		for (GrantedAuthority ga : gaCollection) {
-			if (ga.getAuthority().equals(role)) {
-				result = true;
-			}
-		}
-
-		return result;
-	}
 }

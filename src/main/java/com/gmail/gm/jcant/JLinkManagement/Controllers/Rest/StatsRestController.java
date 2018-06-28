@@ -2,6 +2,7 @@ package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
 import java.util.Collection;
 
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JRoleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,22 +34,11 @@ public class StatsRestController {
 		User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JLink link = linkService.findById(id);
 
-		if ((!isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(link.getUser().getLogin()))) {
+		if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(link.getUser().getLogin()))) {
 			throw new JUserException("Access deny to get stats for another user");
 		}
 
 		return linkClickService.getStatsForLink(link);
-	}
-
-	private boolean isHasRole(String role, Collection<GrantedAuthority> gaCollection) {
-		boolean result = false;
-		for (GrantedAuthority ga : gaCollection) {
-			if (ga.getAuthority().equals(role)) {
-				result = true;
-			}
-		}
-
-		return result;
 	}
 
 }
