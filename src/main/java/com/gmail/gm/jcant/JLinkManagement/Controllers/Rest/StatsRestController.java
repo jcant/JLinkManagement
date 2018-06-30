@@ -1,10 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
-import java.util.Collection;
-
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JRoleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 @Entity
@@ -20,7 +21,11 @@ public class JUserPaymentsLog {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private JUser user;
-	
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "link_id")
+	private JLink link;
+
 	private Date date;
 	
 	private double amount;
@@ -30,9 +35,10 @@ public class JUserPaymentsLog {
 	public JUserPaymentsLog() {
 	}
 
-	public JUserPaymentsLog(JUser user, Date date, double amount, String paySystem) {
+	public JUserPaymentsLog(JUser user, JLink link, Date date, double amount, String paySystem) {
 		super();
 		this.user = user;
+		this.link = link;
 		this.date = date;
 		this.amount = amount;
 		this.paySystem = paySystem;

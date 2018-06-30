@@ -23,6 +23,11 @@
 				<li class="nav-item"><a class="nav-link <c:out value = "${freelinks}"/>" href="/freelinks">Free Links</a></li>
 				<li class="nav-item"><a class="nav-link <c:out value = "${links}"/>" href="/links">Payed Links</a></li>
 				<li class="nav-item"><a class="nav-link <c:out value = "${stats}"/>" href="/stats">Statistics</a></li>
+				<c:if test="${admin eq true}">
+					<li class="nav-item"><a class="nav-link <c:out value = "${articles}"/>" href="/articles">Articles</a></li>
+					<li class="nav-item"><a class="nav-link <c:out value = "${rootlinks}"/>" href="/rootlinks">Root Links</a></li>
+					<li class="nav-item"><a class="nav-link <c:out value = "${users}"/>" href="/users">Users</a></li>
+				</c:if>
 			</c:if>
 			<c:if test="${auth eq false}">
 				<li class="nav-item"><a class="nav-link active" href="#">Home</a></li>

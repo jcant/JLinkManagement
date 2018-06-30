@@ -46,9 +46,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/unauthorized")
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/j_spring_security_check")
-                .failureUrl("/login?error")
+                //.loginPage("/login")
+                .loginPage("/")
+                //.loginProcessingUrl("/j_spring_security_check")
+                .loginProcessingUrl("/j_auth")
+                .successForwardUrl("/loginsuccess")
+                //.failureUrl("/login?error")
+                .failureUrl("/")
                 .usernameParameter("j_login")
                 .passwordParameter("j_password")
                 .permitAll()
@@ -56,7 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
+                //.logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true);
     }
 

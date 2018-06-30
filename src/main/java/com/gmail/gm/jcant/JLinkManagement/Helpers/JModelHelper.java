@@ -11,6 +11,7 @@ public class JModelHelper {
         if (principal != null) {
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             model.addAttribute("auth", true);
+            model.addAttribute("admin", JRoleHelper.isHasRole("ROLE_ADMIN", user.getAuthorities()));
             model.addAttribute("login", user.getUsername());
             model.addAttribute("roles", user.getAuthorities());
             model.addAttribute("path", path);

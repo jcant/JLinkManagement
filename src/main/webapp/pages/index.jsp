@@ -61,7 +61,7 @@
 				</div>
 
 				<div class="modal-body">
-					<c:url value="/j_spring_security_check" var="loginUrl" />
+					<c:url value="/j_auth" var="loginUrl" />
 					<form action="${loginUrl}" method="POST">
 						<div class="form-group">
 							<label for="inputLogin1">Login</label> <input type="text"

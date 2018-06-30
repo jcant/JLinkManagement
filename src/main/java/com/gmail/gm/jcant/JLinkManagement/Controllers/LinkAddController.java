@@ -7,6 +7,9 @@ import javax.naming.LinkException;
 
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JModelHelper;
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JSymbolsHelper;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.UserPaymentsLog.JUserPaymentsLog;
+import com.gmail.gm.jcant.JLinkManagement.JPA.UserPaymentsLog.JUserPaymentsLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -42,6 +45,8 @@ public class LinkAddController {
 	private JLinkService linkService;
 	@Autowired
 	private JRootLinkService rootLinkService;
+	@Autowired
+	private JUserPaymentsLogService userPaymentsLogService;
 	
 	@ModelAttribute("jlink")
     public JLink getVisitor () {
@@ -98,6 +103,9 @@ public class LinkAddController {
     	
     	if (confirm.equals("confirm")) {
     		linkService.addLink(link);
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			JUser dbUser = userService.getUserByLogin(user.getUsername());
+    		userPaymentsLogService.SaveUserPayment(dbUser,link, 10, "FakePaySystem");
     		model.addAttribute("success", true);
     	} else {
     		model.addAttribute("success", false);
