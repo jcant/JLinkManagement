@@ -46,7 +46,7 @@ public class LinkRestController {
 	int randomStringLenght;
 
 	// get user Links (Free/Paid/All)
-	@RequestMapping(value = "/links/{user}/{type}")
+	@RequestMapping(value = "/link/{user}/{type}")
 	@JDomain(property = "frontend.domains")
 	public List<JLink> getLinks(@PathVariable(value = "user") String user, @PathVariable(value = "type") String type,
 								@RequestParam boolean archive) throws JUserException {

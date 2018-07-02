@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
-import com.gmail.gm.jcant.JLinkManagement.JPA.UserLog.JUserLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;

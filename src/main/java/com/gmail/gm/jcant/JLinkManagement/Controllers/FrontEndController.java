@@ -68,4 +68,12 @@ public class FrontEndController {
         return "stats";
     }
     
+    @RequestMapping("/articles")
+    public String articles(Model model, Principal principal) {
+
+        JModelHelper.prepareModel(model, principal, "articles");
+    	
+        return "articles";
+    }
+    
 }

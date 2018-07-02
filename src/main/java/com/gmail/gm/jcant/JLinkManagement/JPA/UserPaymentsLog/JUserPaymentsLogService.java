@@ -5,8 +5,6 @@ import java.util.List;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
-import javax.servlet.http.HttpServletRequest;
-
 public interface JUserPaymentsLogService {
 	//List<JLinkClick> getByUrl(String url);
     //boolean existsByUrl(String url);

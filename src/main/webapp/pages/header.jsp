@@ -13,6 +13,10 @@
  <c:if test="${path eq 'freelinks'}"><c:set var = "freelinks" value = "active"/></c:if>
  <c:if test="${path eq 'links'}"><c:set var = "links" value = "active"/></c:if>
  <c:if test="${path eq 'stats'}"><c:set var = "stats" value = "active"/></c:if>
+ <c:if test="${path eq 'articles'}"><c:set var = "articles" value = "active"/></c:if>
+ <c:if test="${path eq 'adv'}"><c:set var = "adv" value = "active"/></c:if>
+ <c:if test="${path eq 'rootlinks'}"><c:set var = "rootlinks" value = "active"/></c:if>
+ <c:if test="${path eq 'users'}"><c:set var = "users" value = "active"/></c:if>
 
 
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,6 +29,7 @@
 				<li class="nav-item"><a class="nav-link <c:out value = "${stats}"/>" href="/stats">Statistics</a></li>
 				<c:if test="${admin eq true}">
 					<li class="nav-item"><a class="nav-link <c:out value = "${articles}"/>" href="/articles">Articles</a></li>
+					<li class="nav-item"><a class="nav-link <c:out value = "${adv}"/>" href="/promo">Advertising</a></li>
 					<li class="nav-item"><a class="nav-link <c:out value = "${rootlinks}"/>" href="/rootlinks">Root Links</a></li>
 					<li class="nav-item"><a class="nav-link <c:out value = "${users}"/>" href="/users">Users</a></li>
 				</c:if>

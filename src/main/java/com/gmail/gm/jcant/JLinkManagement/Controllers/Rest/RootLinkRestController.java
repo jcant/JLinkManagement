@@ -16,7 +16,7 @@ public class RootLinkRestController {
     @Autowired
     private JRootLinkService rootLinkService;
 
-    @RequestMapping(value = "/rootlinks")
+    @RequestMapping(value = "/rootlinks/getActual")
     @JDomain(property = "frontend.domains")
     public List<JRootLink> getRootLinks() {
 

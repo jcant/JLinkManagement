@@ -6,8 +6,8 @@ $(function ($) {
 	    e.preventDefault();
 	});
 
-	getLinks('/links/'+uname+'/free','link_list');
-	getRootLinks('/rootlinks', 'rootLinks');
+	getLinks('/link/'+uname+'/free','link_list');
+	getRootLinks('/rootlinks/getActual', 'rootLinks');
 	
 	$("#createButton").click(function(){
 		createLink();

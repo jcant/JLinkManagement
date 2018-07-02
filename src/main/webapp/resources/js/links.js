@@ -7,8 +7,8 @@ $(function ($) {
 	    e.preventDefault();
 	});
 
-	getLinks('/links/'+uname+'/paid','link_list');
-	getRootLinks('/rootlinks', 'rootLinks');
+	getLinks('/link/'+uname+'/paid','link_list');
+	getRootLinks('/rootlinks/getActual', 'rootLinks');
 	
 	$("#checkButton").click(function(){
 		checkURL();

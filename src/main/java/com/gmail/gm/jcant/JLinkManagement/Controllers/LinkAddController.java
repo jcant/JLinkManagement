@@ -8,7 +8,6 @@ import javax.naming.LinkException;
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JModelHelper;
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JSymbolsHelper;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.UserPaymentsLog.JUserPaymentsLog;
 import com.gmail.gm.jcant.JLinkManagement.JPA.UserPaymentsLog.JUserPaymentsLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,23 +1,23 @@
 $ = jQuery.noConflict();
 $(function ($) {
 
-	getLinks('/link/'+uname+'/paid','paid_link_list');
-	getLinks('/link/'+uname+'/free','free_link_list');
+	getArticles('/articles/getActual','articles_list');
+	getArticles('/promo/getActual','advertising_list');
 
 });
 
-function getLinks(url, id) {
+function getArticles(url, id) {
 
 	var data = {archive: false};
     var getting = $.get(url, data, 'json');
 
     getting.done(function (data) {
         var hstring = "";
-        data.forEach(function (link) {
+        data.forEach(function (article) {
 
        	hstring +=
-       		'<li id=link_'+link.id+' class = "list-group-item list-group-item-action" style="cursor: pointer;">' +
-       			'<small>'+link.url+'</small>' +
+       		'<li id=link_'+article.id+' class = "list-group-item list-group-item-action" style="cursor: pointer;">' +
+       			'<small>'+article.header+'</small>' +
        		'</li>';
         });
 
@@ -26,7 +26,7 @@ function getLinks(url, id) {
         $('li.list-group-item').click(function(){
         	$('li.list-group-item').removeClass('active');
         	$(this).addClass('active');
-        	getLinkStats(this);
+        	//getLinkStats(this);
         });
 
     });

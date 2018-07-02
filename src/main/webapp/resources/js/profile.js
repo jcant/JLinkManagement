@@ -39,15 +39,15 @@ function saveUserInfo(){
         }
     }
 
-    data = {currentPassword: $("#currentPassword").val()};
+    data = {id: userId, currentPassword: $("#currentPassword").val()};
     if ($("#userName").val() != '') data.userName = $("#userName").val();
     if ($("#userEmail").val() != '') data.userEmail = $("#userEmail").val();
     if ($("#newPassword").val() != '') data.newPassword = $("#newPassword").val();
 
-    var posting = $.post('/users/'+userId, data, 'json');
-
-    posting.done(function (data) {
-        hstring = "";
+    var posting = $.post('/users/update', data, 'json');
+    hstring = "";
+    
+    posting.done(function (data) {   
         if (data.success){
             hstring +=
             '<div class="alert alert-success alert-dismissible fade show" role="alert">' +

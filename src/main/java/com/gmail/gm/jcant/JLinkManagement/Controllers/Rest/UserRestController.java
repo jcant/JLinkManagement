@@ -1,9 +1,12 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
+import com.gmail.gm.jcant.JLinkManagement.Helpers.JRoleHelper;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +20,7 @@ public class UserRestController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @RequestMapping(value = "/users")
+    @RequestMapping(value = "/users/all")
     public List<JUser> getUsers(){
         return userService.getAllUsers();
     }
@@ -35,15 +38,21 @@ public class UserRestController {
         return user;
     }
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
-    public JUserOperationInfo updateUser(@RequestParam(required = false) String userName,
+    @RequestMapping(value = "/users/update", method = RequestMethod.POST)
+    public JUserOperationInfo updateUser(@RequestParam String id,
+    									 @RequestParam(required = false) String userName,
                                          @RequestParam(required = false) String userEmail,
                                          @RequestParam String currentPassword,
-                                         @RequestParam(required = false) String newPassword,
-                                         @PathVariable(value="id") long id) throws JUserException {
+                                         @RequestParam(required = false) String newPassword) throws JUserException {
 
-        JUser dbUser = userService.getUserById(id); //if user does't exist method throws Exeption
-
+        long lId = Long.parseLong(id);
+    	JUser dbUser = userService.getUserById(lId); //if user does't exist method throws Exeption
+        User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(dbUser.getLogin()))) {
+			throw new JUserException("Access deny to update another user");
+		}
+        
         if (!encoder.matches(currentPassword, dbUser.getPassword())){
             return new JUserOperationInfo("Wrong Password!", false);
         }
@@ -64,12 +73,12 @@ public class UserRestController {
         return new JUserOperationInfo("User update success!", true);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<Void> addUser(@RequestParam String login,
+    @RequestMapping(value = "/users/add", method = RequestMethod.POST)
+    public JUserOperationInfo addUser(@RequestParam String login,
                                     	@RequestParam String password,
-                                    	@RequestParam(required = false) String email) {
+                                    	@RequestParam String email) throws JUserException {
         if (userService.existsByLogin(login)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new JUserException("User with login='"+login+"' is already exist!");
         }
 
         String passHash = encoder.encode(password);
@@ -77,7 +86,7 @@ public class UserRestController {
         JUser dbUser = new JUser(login, passHash, JUserRole.USER, email);
         userService.addUser(dbUser);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new JUserOperationInfo("User create success!", true);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

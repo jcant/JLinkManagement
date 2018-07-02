@@ -36,7 +36,10 @@
 	<div>
 		<div class="row">
 			<div class="col-sm-2">One of three columns</div>
-			<div class="col" id="articles_container"></div>
+			<div class="col">
+			<div id="message"></div>
+			<div class="container" id="articles_container"></div>
+			</div>
 			<div class="col-sm" id="adv_container"></div>
 		</div>
 	</div>
@@ -90,13 +93,12 @@
 					<h5 class="modal-title" id="registerFormTitle">Register New
 						User</h5>
 					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+						aria-label="Close" id="close_button2">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<c:url value="/newuser" var="regUrl" />
-					<form action="${regUrl}" method="POST">
+					<form>
 						<div class="form-group">
 							<label for="inputLogin2">Login</label> <input type="text"
 								name="login" class="form-control" id="inputLogin2"
@@ -114,7 +116,7 @@
 							<small id="email2Help" class="form-text text-muted">We'll
 								never share your email with anyone else.</small>
 						</div>
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="button" class="btn btn-primary" id="create_new_user">Submit</button>
 						<c:if test="${exists ne null}">
 							<p>User already exists!</p>
 						</c:if>
