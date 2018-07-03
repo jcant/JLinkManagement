@@ -10,4 +10,7 @@ public interface JArticleService {
     void updateArticle(JArticle article);
     List<JArticle> getByUser(JUser user);
     List<JArticle> getInDateArticles(Date date);
+    JArticle getById(long id) throws JArticleException;
+    
+    void save(JArticle article);
 }

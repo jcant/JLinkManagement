@@ -46,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 //REST Controllers:
                 .antMatchers("/promo/getActual").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/articles/getActual").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/articles/getActual").permitAll()// hasAnyRole("USER", "ADMIN")
+                .antMatchers("/articles/**").hasRole("ADMIN")
                 .antMatchers("/rootlinks/getActual").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/link/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/stats/**").hasAnyRole("USER", "ADMIN")

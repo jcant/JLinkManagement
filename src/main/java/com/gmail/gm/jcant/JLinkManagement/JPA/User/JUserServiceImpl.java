@@ -17,7 +17,13 @@ public class JUserServiceImpl implements JUserService{
     public List<JUser> getAllUsers(){
         return userRepository.findAll();
     }
+    
     @Override
+	public List<JUser> getUsersByRole(JUserRole role) {
+		return userRepository.findByRole(role);
+	}
+
+	@Override
     @Transactional(readOnly = true)
     public JUser getUserById(long id) throws JUserException{
     	JUser user = null;

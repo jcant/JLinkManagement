@@ -1,6 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JRoleHelper;
+import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,20 +27,19 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/users/{id}")
-    public JUser getUserById(@PathVariable(value = "id") long id) {
+    public JUser getUserById(@PathVariable(value = "id") long id) throws JUserException {
     	JUser user = null;
-
-        try {
-            user = userService.getUserById(id);
-        } catch (JUserException e) {
-            e.printStackTrace();
-        }
-
+        user = userService.getUserById(id);
         return user;
+    }
+    
+    @RequestMapping(value = "/users/getAdmins")
+    public List<JUser> getAdmins() {	
+        return userService.getUsersByRole(JUserRole.ADMIN);
     }
 
     @RequestMapping(value = "/users/update", method = RequestMethod.POST)
-    public JUserOperationInfo updateUser(@RequestParam String id,
+    public JOperationInfo<JUser> updateUser(@RequestParam String id,
     									 @RequestParam(required = false) String userName,
                                          @RequestParam(required = false) String userEmail,
                                          @RequestParam String currentPassword,
@@ -54,7 +54,7 @@ public class UserRestController {
 		}
         
         if (!encoder.matches(currentPassword, dbUser.getPassword())){
-            return new JUserOperationInfo("Wrong Password!", false);
+            return new JOperationInfo<JUser>("Wrong Password!", false);
         }
 
         if (userName != null){
@@ -70,11 +70,11 @@ public class UserRestController {
 
         userService.updateUser(dbUser);
 
-        return new JUserOperationInfo("User update success!", true);
+        return new JOperationInfo<JUser>("User update success!", true);
     }
 
     @RequestMapping(value = "/users/add", method = RequestMethod.POST)
-    public JUserOperationInfo addUser(@RequestParam String login,
+    public JOperationInfo<JUser> addUser(@RequestParam String login,
                                     	@RequestParam String password,
                                     	@RequestParam String email) throws JUserException {
         if (userService.existsByLogin(login)) {
@@ -86,7 +86,7 @@ public class UserRestController {
         JUser dbUser = new JUser(login, passHash, JUserRole.USER, email);
         userService.addUser(dbUser);
 
-        return new JUserOperationInfo("User create success!", true);
+        return new JOperationInfo<JUser>("User create success!", true);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

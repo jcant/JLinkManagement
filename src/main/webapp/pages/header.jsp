@@ -44,8 +44,7 @@
 				data-toggle="modal" data-target="#loginFormModal">Login</button>
 			<span>&nbsp;</span>
 			<button type="button" class="btn btn-outline-success"
-				data-toggle="modal" data-target="#registerFormModal">Register
-				new</button>
+				data-toggle="modal" data-target="#registerFormModal">Register new</button>
 		</c:if>
 		<c:if test="${auth eq true}">
 			<c:url value="/logout" var="logoutUrl" />

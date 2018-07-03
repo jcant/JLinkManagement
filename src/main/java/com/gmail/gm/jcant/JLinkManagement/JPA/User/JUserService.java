@@ -5,6 +5,7 @@ import java.util.List;
 public interface JUserService {
 	
 	List<JUser> getAllUsers();
+	List<JUser> getUsersByRole(JUserRole role);
     JUser getUserById (long id) throws JUserException;
 	JUser getUserByLogin(String login) throws JUserException;
     

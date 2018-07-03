@@ -28,16 +28,30 @@ public class JArticleServiceImpl implements JArticleService{
 
 	@Override
 	public List<JArticle> getByUser(JUser user) {
-//		List<JArticle> result = articleRepository.getByUser(user);
-//		return result;
+		
 		return articleRepository.getByUser(user);
 	}
 	
 	@Override
 	public List<JArticle> getInDateArticles(Date date) {
-//		List<JArticle> result = articleRepository.getInDateArticles(date);
-//		return result;
+		
 		return articleRepository.getInDateArticles(date);
 	}
+
+	@Override
+	public JArticle getById(long id) throws JArticleException {
+		
+		JArticle article = articleRepository.getOne(id);
+		if (article == null) {
+			throw new JArticleException("NO JArticle found for id="+id);
+		}
+		return articleRepository.getOne(id);
+	}
+
+	@Override
+	public void save(JArticle article) {
+		articleRepository.save(article);
+	}
+	
 	
 }
