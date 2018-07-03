@@ -22,6 +22,14 @@ public class JArticleServiceImpl implements JArticleService{
 	}
 
 	@Override
+	public void deleteById(long id) throws JArticleException {
+		if (!articleRepository.existsById(id)){
+			throw new JArticleException("Can't delete: NO Article with such id="+id);
+		}
+		articleRepository.deleteById(id);
+	}
+
+	@Override
 	public void updateArticle(JArticle article) {
 		articleRepository.save(article);
 	}
@@ -40,10 +48,9 @@ public class JArticleServiceImpl implements JArticleService{
 
 	@Override
 	public JArticle getById(long id) throws JArticleException {
-		
-		JArticle article = articleRepository.getOne(id);
-		if (article == null) {
-			throw new JArticleException("NO JArticle found for id="+id);
+
+		if (!articleRepository.existsById(id)) {
+			throw new JArticleException("NO Article found for id="+id);
 		}
 		return articleRepository.getOne(id);
 	}

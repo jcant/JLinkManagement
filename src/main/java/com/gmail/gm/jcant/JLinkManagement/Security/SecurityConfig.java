@@ -45,10 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/paymentconfirm").hasAnyRole("USER", "ADMIN")
                 
                 //REST Controllers:
-                .antMatchers("/promo/getActual").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/promo/getActual").permitAll()// hasAnyRole("USER", "ADMIN")
+                .antMatchers("/promo/**").hasRole("ADMIN")
                 .antMatchers("/articles/getActual").permitAll()// hasAnyRole("USER", "ADMIN")
                 .antMatchers("/articles/**").hasRole("ADMIN")
                 .antMatchers("/rootlinks/getActual").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/rootlinks/**").hasRole("ADMIN")
                 .antMatchers("/link/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/stats/**").hasAnyRole("USER", "ADMIN")
                 

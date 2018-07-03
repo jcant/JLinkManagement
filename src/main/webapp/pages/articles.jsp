@@ -33,11 +33,9 @@
 			<div class="col-sm-2">
 				<div class="card-header bg-warning">Articles</div>
 				<ul class="list-group list-group-item-action" id="articles_list"></ul>
-				<div class="card-header bg-warning">Advertising</div>
-				<ul class="list-group list-group-item-action" id="advertising_list"></ul>
 			</div>
 			<div class="col">
-				<div class="container"><button type="button" class="btn btn-success" id="create_article">Create new Article</button></div>
+				<button type="button" class="btn btn-success fat" id="create_article">Create new Article</button>
 				<div class="container" id="message"></div>
 				<div class="container" id="article_details">
 					<form>
@@ -100,7 +98,7 @@
 						Are you sure to delete the Article?  
 					</div>
 					<input type="hidden" id="delete_id">
-					<button type="button" class="btn btn-danger" id="submit_delete">YES</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="submit_delete">YES</button>
 					<button type="button" class="btn btn-success" data-dismiss="modal">NO</button>
 				</div>
 			</div>

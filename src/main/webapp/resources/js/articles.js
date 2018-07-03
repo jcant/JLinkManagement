@@ -3,7 +3,7 @@ $(function ($) {
 
 	getAuthors();
 	getArticles('/articles/getActual','articles_list');
-	getArticles('/promo/getActual','advertising_list');
+    clearInputs();
 
 	$('#save_article').click(function(){
 		saveArticle();
@@ -19,26 +19,14 @@ $(function ($) {
 });
 
 function createArticle(){
-	$('#art_id').val(-1);
-	$('#inputHeader').val("");
-	$('#inputCreatedDate').val(getCorrectDate(new Date()));
-	$('#opt_1').attr("selected","selected");
-	$('#inputDateStart').val("");
-	$('#inputDateFinish').val("");
-	$('#inputText').val("");
+    clearInputs();
 }
 
 function deleteArticle(){
 	
 	art_id = $('#delete_id').val(); 	
 	url = "/articles/"+art_id;
-	
-	//data = {header: $("#inputHeader").val(), login: $("#inputAuthor").val()};
-	//if ($("#inputText").val() != '') data.text = $("#inputText").val();
-	//if ($("#inputCreatedDate").val() != '') data.created = $("#inputCreatedDate").val();
-	//if ($("#inputDateStart").val() != '') data.pubStart = $("#inputDateStart").val();
-	//if ($("#inputDateFinish").val() != '') data.pubFinish = $("#inputDateFinish").val();
-	 
+
 	$.ajax({
 		method: "DELETE",
 		url: url,
@@ -54,19 +42,21 @@ function deleteArticle(){
 						'<span aria-hidden="true">&times;</span>' +
 					'</button>' +
 				'</div>');
-		  })
+
+		clearInputs();
+	})
 	.fail(function(event) {
 		$("#message").html(
 				'<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-					'<div><strong>Error!</strong> Some problem with you parameters. Link did\'t create</div>' +
+					'<div><strong>Error!</strong> Some problem with you parameters. Article did\'t delete</div>' +
 					'<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
 					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
 						'<span aria-hidden="true">&times;</span>' +
 					'</button>' +
 				'</div>');
-			console.log("POST add/update article - fail!");
-			console.log(event);
-		  });
+		console.log("DELETE article - fail!");
+		console.log(event);
+	});
 }
 
 function getArticles(url, id) {
@@ -104,7 +94,7 @@ function getArticles(url, id) {
     });
     
     getting.fail(function (event) {
-    	console.log("GET Links fail!");
+    	console.log("GET article fail!");
     	console.log(event.responseText);
     });
 }
@@ -164,7 +154,7 @@ function saveArticle(){
 	.fail(function(event) {
 			  $("#message").html(
 					  '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-					  	'<div><strong>Error!</strong> Some problem with you parameters. Link did\'t create</div>' +
+					  	'<div><strong>Error!</strong> Some problem with you parameters. Article did\'t create</div>' +
 					  	'<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
 					  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
 					  	'<span aria-hidden="true">&times;</span>' +
@@ -209,6 +199,16 @@ function getAuthors(){
     	console.log("GET authors fail!");
     	console.log(event.responseText);
     });
+}
+
+function clearInputs(){
+    $('#art_id').val(-1);
+    $('#inputHeader').val("");
+    $('#inputCreatedDate').val(getCorrectDate(new Date()));
+    $('#opt_1').attr("selected","selected");
+    $('#inputDateStart').val("");
+    $('#inputDateFinish').val("");
+    $('#inputText').val("");
 }
 
 function getCorrectDate(shtamp){

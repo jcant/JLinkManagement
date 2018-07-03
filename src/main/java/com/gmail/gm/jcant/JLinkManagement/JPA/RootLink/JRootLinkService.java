@@ -8,4 +8,8 @@ public interface JRootLinkService {
     void addRootLink(JRootLink link);
     void updateRootLink(JRootLink link);
     List<JRootLink> getAllRootLinks();
+    List<JRootLink> getEnabledRootLinks();
+    JRootLink getById(long id) throws JRootLinkException;
+    void save(JRootLink rootLink);
+    void deleteById(long id) throws JRootLinkException;
 }

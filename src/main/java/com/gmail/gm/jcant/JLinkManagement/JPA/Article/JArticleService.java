@@ -7,6 +7,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 public interface JArticleService {
     void addArticle(JArticle article);
+    void deleteById(long id) throws JArticleException;
     void updateArticle(JArticle article);
     List<JArticle> getByUser(JUser user);
     List<JArticle> getInDateArticles(Date date);

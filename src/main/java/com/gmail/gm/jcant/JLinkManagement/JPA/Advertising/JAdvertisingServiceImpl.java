@@ -12,9 +12,18 @@ public class JAdvertisingServiceImpl implements JAdvertisingService {
     @Autowired
     private JAdvertisingRepository advertisingRepository;
 
+
     @Override
     public void addAdvertising(JAdvertising advertising) {
         advertisingRepository.save(advertising);
+    }
+
+    @Override
+    public void deleteById(long id) throws JAdvertisingException {
+        if (!advertisingRepository.existsById(id)){
+            throw new JAdvertisingException("Can't delete: NO Advertising with such id="+id);
+        }
+        advertisingRepository.deleteById(id);
     }
 
     @Override
@@ -24,16 +33,26 @@ public class JAdvertisingServiceImpl implements JAdvertisingService {
 
     @Override
     public List<JAdvertising> getByCompany(String company) {
-//        List<JAdvertising> result = advertisingRepository.getByCompany(company);
-//        return result;
         return advertisingRepository.getByCompany(company);
     }
 
     @Override
     public List<JAdvertising> getInDateAdvertising(Date date) {
-//        List<JAdvertising> result = advertisingRepository.getInDateAdvertising(date);
-//        return result;
         return advertisingRepository.getInDateAdvertising(date);
+    }
+
+    @Override
+    public JAdvertising getById(long id) throws JAdvertisingException {
+
+        if (!advertisingRepository.existsById(id)) {
+            throw new JAdvertisingException("NO Advertising found for id="+id);
+        }
+        return advertisingRepository.getOne(id);
+    }
+
+    @Override
+    public void save(JAdvertising article) {
+        advertisingRepository.save(article);
     }
 
 }

@@ -2,9 +2,10 @@ package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
 import java.util.List;
 
+import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
+import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLink;
@@ -18,8 +19,46 @@ public class RootLinkRestController {
 
     @RequestMapping(value = "/rootlinks/getActual")
     @JDomain(property = "frontend.domains")
-    public List<JRootLink> getRootLinks() {
+    public List<JRootLink> getActual() {
 
-    	return rootLinkService.getAllRootLinks();
+    	return rootLinkService.getEnabledRootLinks();
+    }
+
+    @RequestMapping(value = "/rootlinks/all")
+    @JDomain(property = "frontend.domains")
+    public List<JRootLink> getAll() {
+
+        return rootLinkService.getAllRootLinks();
+    }
+
+    @RequestMapping(value = "/rootlinks/{id}", method = RequestMethod.POST)
+    @JDomain(property = "frontend.domains")
+    public JOperationInfo<JRootLink> saveArticle(@PathVariable(value = "id") long id,
+                                                 @RequestParam String url,
+                                                 @RequestParam boolean enabled
+                                                ) throws JRootLinkException {
+
+
+        JRootLink rootLink = null;
+
+        if (id != -1) {
+            rootLink = rootLinkService.getById(id);
+        } else {
+            rootLink = new JRootLink();
+        }
+
+        rootLink.setUrl(url);
+        rootLink.setEnabled(enabled);
+
+        rootLinkService.save(rootLink);
+
+        return new JOperationInfo<JRootLink>("RootLink update(create) success!", true);
+    }
+
+    @RequestMapping(value = "/rootlinks/{id}", method = RequestMethod.DELETE)
+    @JDomain(property = "frontend.domains")
+    public JOperationInfo<JRootLink> deleteArticle(@PathVariable(value = "id") long id) throws JRootLinkException {
+        rootLinkService.deleteById(id);
+        return new JOperationInfo<JRootLink>("RootLink delete success!", true);
     }
 }

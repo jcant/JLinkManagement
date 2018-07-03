@@ -59,22 +59,6 @@
 								<button type="button" id="createButton" class="btn btn-primary">Create</button>
 							</div>
 						</div>
-						<div class="container" id="checkSamples">
-							<div class="form-row">
-								<div class="form-group col-md-3">
-									<input type="text" class="form-control" readonly id="sampleURL1" style="display:none;">
-								</div>
-								<div class="form-group align-self-end col-md-2">
-									<button type="button" id="buyURL1" class="btn btn-primary" style="display:none;">Buy</button>
-								</div>
-								<div class="form-group col-md-3">
-									<input type="text" class="form-control" readonly id="sampleURL2" style="display:none;">
-								</div>
-								<div class="form-group align-self-end col-md-2">
-									<button type="button" id="buyURL2" class="btn btn-primary" style="display:none;">Buy</button>
-								</div>
-							</div>
-						</div>
 					</form>
 				</div>
 				<div class="container">

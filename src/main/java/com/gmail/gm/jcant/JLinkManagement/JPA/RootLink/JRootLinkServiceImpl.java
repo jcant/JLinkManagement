@@ -41,4 +41,32 @@ public class JRootLinkServiceImpl implements JRootLinkService{
     public List<JRootLink> getAllRootLinks() {
         return rlinkRepository.findAll();
     }
+
+    @Override
+    @Transactional
+    public List<JRootLink> getEnabledRootLinks() {
+        return rlinkRepository.getByEnabled(true);
+    }
+
+    @Override
+    public JRootLink getById(long id) throws JRootLinkException {
+        if (!rlinkRepository.existsById(id)){
+            throw new JRootLinkException("JRootLink with id="+id+" is not found!");
+        }
+
+        return rlinkRepository.getOne(id);
+    }
+
+    @Override
+    public void save(JRootLink rootLink) {
+        rlinkRepository.save(rootLink);
+    }
+
+    @Override
+    public void deleteById(long id) throws JRootLinkException {
+        if (!rlinkRepository.existsById(id)){
+            throw new JRootLinkException("Can't delete: NO RootLink with such id="+id);
+        }
+        rlinkRepository.deleteById(id);
+    }
 }

@@ -80,6 +80,13 @@ public class ArticleRestController {
     	
     	articleService.save(article);
     	
-        return new JOperationInfo<JArticle>("Article update success!", true);
+        return new JOperationInfo<JArticle>("Article update(create) success!", true);
     }
+
+	@RequestMapping(value = "/articles/{id}", method = RequestMethod.DELETE)
+	@JDomain(property = "frontend.domains")
+	public JOperationInfo<JArticle> deleteArticle(@PathVariable(value = "id") long id) throws JArticleException {
+		articleService.deleteById(id);
+		return new JOperationInfo<JArticle>("Article delete success!", true);
+	}
 }

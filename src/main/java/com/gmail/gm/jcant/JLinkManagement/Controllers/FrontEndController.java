@@ -75,5 +75,21 @@ public class FrontEndController {
     	
         return "articles";
     }
+
+    @RequestMapping("/promo")
+    public String promo(Model model, Principal principal) {
+
+        JModelHelper.prepareModel(model, principal, "adv");
+
+        return "promo";
+    }
+
+    @RequestMapping("/rootlinks")
+    public String rootlinks(Model model, Principal principal) {
+
+        JModelHelper.prepareModel(model, principal, "rootlinks");
+
+        return "rootlinks";
+    }
     
 }

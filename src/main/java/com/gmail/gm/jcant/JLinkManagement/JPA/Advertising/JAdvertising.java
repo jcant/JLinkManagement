@@ -1,9 +1,12 @@
 package com.gmail.gm.jcant.JLinkManagement.JPA.Advertising;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Proxy(lazy = false)
 public class JAdvertising {
     @Id
     @GeneratedValue

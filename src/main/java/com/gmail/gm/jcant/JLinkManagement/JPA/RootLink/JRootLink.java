@@ -1,11 +1,14 @@
 package com.gmail.gm.jcant.JLinkManagement.JPA.RootLink;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@Proxy(lazy = false)
 public class JRootLink {
 	@Id
 	@GeneratedValue
@@ -14,11 +17,20 @@ public class JRootLink {
 	@Column(nullable = false, unique = true)
 	private String url;
 
+	@Column(nullable = false)
+	private boolean enabled;
+
 	public JRootLink() {
 	}
 
 	public JRootLink(String url) {
 		this.url = url;
+		this.enabled = true;
+	}
+
+	public JRootLink(String url, boolean enabled) {
+		this.url = url;
+		this.enabled = enabled;
 	}
 
 	public long getId() {
@@ -37,15 +49,20 @@ public class JRootLink {
 		this.url = url;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("JRootLink [id=");
-		builder.append(id);
-		builder.append(", url=");
-		builder.append(url);
-		builder.append("]");
-		return builder.toString();
+		return "JRootLink{" +
+				"id=" + id +
+				", url='" + url + '\'' +
+				", enabled=" + enabled +
+				'}';
 	}
-	
 }

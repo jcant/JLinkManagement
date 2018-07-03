@@ -19,7 +19,7 @@ $(function ($) {
 
     $("#showArchive").click(function(){
         showArc = !showArc;
-        getLinks('/links/'+uname+'/free','link_list');
+        getLinks('/link/'+uname+'/free','link_list');
     });
 });
 
@@ -38,7 +38,7 @@ function createLink(){
 		  data: data
 		})
 	  .done(function(data) {
-		  getLinks('/links/'+uname+'/free','link_list');
+		  getLinks('/link/'+uname+'/free','link_list');
 		  $("#target").val("");
 		  $("#message").html(
 				  '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
