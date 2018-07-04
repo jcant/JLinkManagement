@@ -6,6 +6,7 @@ $(function ($) {
 	    e.preventDefault();
 	});
 
+	$('#header_username').html(uname);
 	getLinks('/link/'+uname+'/free','link_list');
 	getRootLinks('/rootlinks/getActual', 'rootLinks');
 	
@@ -21,45 +22,28 @@ $(function ($) {
         showArc = !showArc;
         getLinks('/link/'+uname+'/free','link_list');
     });
+    
+    $('#submit_delete').click(function(){
+        deleteFreeLink();
+    });
 });
 
 
-function createLink(){
-	if (!checkTarget()){
-		return;
-	}
+function deleteFreeLink(){
+	
+	jcaUtils.ajaxJOperationAnswered("/link/"+$('#delete_id').val(), "DELETE", {}, "message", true, ajaxDone, null);
+}
 
-	var url = "/link/addfree";
-	var data = {rootUrl: $("#rootLinks").val(), userPart: "", mode: "", target: $("#target").val(), type: "free"};
- 
-	$.ajax({
-		  method: "POST",
-		  url: url,
-		  data: data
-		})
-	  .done(function(data) {
-		  getLinks('/link/'+uname+'/free','link_list');
-		  $("#target").val("");
-		  $("#message").html(
-				  '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-				  	'<div><strong>New link created!</strong></div>' +
-				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-				  	'<span aria-hidden="true">&times;</span>' +
-				  '</button>' +
-				  '</div>');
-	  })
-	  .fail(function(event) {
-		  $("#message").html(
-				  '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-				  	'<div><strong>Error!</strong> Some problem with you parameters. Link did\'t create</div>' +
-				  	'<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-				  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-				  	'<span aria-hidden="true">&times;</span>' +
-				  '</button>' +
-				  '</div>');
-		  console.log("POST add new Link - fail!");
-		  console.log(event);
-	  });
+function createLink(){
+	if (!checkTarget()) return;
+
+	jcaUtils.ajaxJOperationAnswered("/link/addfree", "POST", {rootUrl: $("#rootLinks").val(), userPart: "", mode: "", target: $("#target").val(), type: "free"}, "message", true, ajaxDone, null);
+}
+
+function ajaxDone(){
+	getLinks('/link/'+uname+'/free','link_list');
+	getRootLinks('/rootlinks/getActual', 'rootLinks');
+	clearInputs();
 }
 
 function checkTarget(){
@@ -109,8 +93,8 @@ function getLinks(url, id) {
             var warnClass = "";
             var errClass = "";
             var readOnlyAdd = "";
-            var startString = getCorrectDate(link.startDate);
-            var finishString = getCorrectDate(link.finishDate);
+            var startString = jcaUtils.getCorrectDate(link.startDate);
+            var finishString = jcaUtils.getCorrectDate(link.finishDate);
 
             var fDate = new Date();
             var currDate = new Date();
@@ -150,6 +134,11 @@ function getLinks(url, id) {
                 	'<td>' +
                 		'<button type="button" id="'+link.id+'" class="btn btn-success" style="display:none;">Save</button>'+
                 	'</td>' +
+                	'<td>' +
+                		'<button type="button" class="close" data-toggle="modal" data-target="#confirmModal" aria-label="Close" id="del_'+link.id+'">' +
+                			'<span aria-hidden="true">&times;</span>' +
+                		'</button>' +
+            		'</td>' +
                 '</tr>';
         });
 
@@ -159,9 +148,15 @@ function getLinks(url, id) {
     		showSave(this);
     	});
     		
-    	$("#link_list").find("button").click(function(){
+    	$("#link_list").find("button.btn-success").click(function(){
     		submitRow(this);
     	});
+    	
+    	$('td button.close').click(function(){
+            strid = $(this).attr("id");
+            id = strid.substring(strid.lastIndexOf("_")+1);
+            $('#delete_id').val(id);
+        });
 
     });
     
@@ -196,26 +191,6 @@ function submitRow(button){
 	  });
 }
 
-function getCorrectDate(shtamp){
-	var date = new Date();
-	date.setTime(shtamp);
-	var result = "";
-	var day = date.getDate();
-	var month = date.getMonth()+1;
-	
-	result+=date.getFullYear();
-	
-	result+="-";
-	
-	if (month<10) result+="0"+month;
-	else result+=month;
-	
-	result+="-";
-	
-	if (day<10) result+="0"+day;
-	else result+=day;
-	
-	return result;
+function clearInputs(){
+    $('#target').val("");
 }
-
-

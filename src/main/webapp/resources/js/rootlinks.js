@@ -1,10 +1,5 @@
 $ = jQuery.noConflict();
-var showArc = false;
 $(function ($) {
-
-    //$('form button').on("click",function(e){
-    //    e.preventDefault();
-    //});
 
     getRootLinks('/rootlinks/all', 'link_list');
 
@@ -18,78 +13,21 @@ $(function ($) {
 });
 
 function deleteRootLink(){
+	
+	jcaUtils.ajaxJOperationAnswered("/rootlinks/"+$('#delete_id').val(), "DELETE", {}, "message", true, ajaxDone, null);
 
-    rl_id = $('#delete_id').val();
-    url = "/rootlinks/"+rl_id;
-
-    $.ajax({
-        method: "DELETE",
-        url: url,
-        data: {}
-    })
-        .done(function(data) {
-            getRootLinks('/rootlinks/all','link_list');
-
-            $("#message").html(
-                '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                '<div><strong>' + data.message + '</strong></div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-
-            clearInputs();
-        })
-        .fail(function(event) {
-            $("#message").html(
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<div><strong>Error!</strong> Some problem with you parameters. RootLink did\'t delete</div>' +
-                '<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-            console.log("DELETE RootLink - fail!");
-            console.log(event);
-        });
 }
 
 function createRootLink(){
-    if (!checkRootLink()){
-        return;
-    }
+    
+	if (!checkRootLink()) return;
 
-    var url = "/rootlinks/-1";
-    var data = {url: $("#rootlinkURL").val(), enabled: true};
+    jcaUtils.ajaxJOperationAnswered("/rootlinks/-1", "POST", {url: $("#rootlinkURL").val(), enabled: true}, "message", true, ajaxDone, null);
+}
 
-    $.ajax({
-        method: "POST",
-        url: url,
-        data: data
-    })
-        .done(function(data) {
-            getRootLinks('/rootlinks/all','link_list');
-            $("#rootlinkURL").val("");
-            $("#message").html(
-                '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                '<div><strong>' + data.message + '</strong></div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-        })
-        .fail(function(event) {
-            $("#message").html(
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<div><strong>Error!</strong> Some problem with you parameters. RootLink did\'t create</div>' +
-                '<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-            console.log("POST add new RootLink - fail!");
-            console.log(event);
-        });
+function ajaxDone(){
+	getRootLinks('/rootlinks/all','link_list');
+	clearInputs();
 }
 
 function checkRootLink(){

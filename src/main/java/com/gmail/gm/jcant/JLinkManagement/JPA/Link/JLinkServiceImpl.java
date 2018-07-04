@@ -25,12 +25,6 @@ public class JLinkServiceImpl implements JLinkService{
 		return link;
 	}
 
-	//@Override
-    //@Transactional(readOnly = true)
-    //public JLink findByUrl(String url) {
-    //    return linkRepository.findByUrl(url);
-    //}
-
     @Override
     public JLink getByUrlActualEnabled(String url, Date date) {
         return linkRepository.getByUrlActualEnabled(url, date);
@@ -75,6 +69,14 @@ public class JLinkServiceImpl implements JLinkService{
     @Transactional
     public List<JLink> findByUserPaid(JUser user, Date date) {
         return linkRepository.findByUserPaid(user, date);
+    }
+    
+    @Override
+    public void deleteById(long id) throws JLinkException {
+        if (!linkRepository.existsById(id)){
+            throw new JLinkException("Can't delete: NO Link with such id="+id);
+        }
+        linkRepository.deleteById(id);
     }
 
 }

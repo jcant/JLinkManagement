@@ -10,8 +10,6 @@
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
 
-<link href="css/main.css" rel="stylesheet">
-
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
 
 <script
@@ -27,11 +25,13 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <script src='js/links.js'></script>
+<script src='js/utils.js'></script>
+<link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 
 
-	<%@include file="header.jsp"%>
+	<%@include file="_header.jsp"%>
 
 	<div>
 		<div class="row">
@@ -42,6 +42,9 @@
 				</div>
 			</div>
 			<div class="col">
+				<div class="container">
+					<h5>Links statistics of <strong><span id="header_username">#none</span></strong></h5>
+				</div>
 				<div class="container" id="link_add">
 					<div id = "message">
 					<c:if test="${success eq true}">
@@ -70,7 +73,7 @@
       							<input type="hidden" id="linkMode" name="linkMode">
       						</div>
 							<div class="form-group col-md-3">
-								<label for="checkURL" >CheckedURL</label>
+								<label for="checkURL" >Check URL</label>
 								<input type="text" class="form-control" id="checkURL" name="checkURL">
 							</div>
 							<div class="form-group col-md-3">
@@ -110,6 +113,7 @@
 							<th scope="col">Finish Date</th>
 							<th scope="col">Enabled</th>
 							<th scope="col">Save</th>
+							<th scope="col">Delete</th>
 							</tr>
 						</thead>
 						<tbody id="link_list">
@@ -122,18 +126,31 @@
 				</div>
 			</div>
 			<div class="col-sm-2">
-
+			
+				<%@include file="_userSelection.jsp" %>
+				
 			</div>
 		</div>
 	</div>
 
 
-	<%@include file="footer.jsp"%>
-
-
-</body>
-</html>
+	<%@include file="_footer.jsp"%>
+	
+	<%@include file="_modalConfirmForm.jsp"%>
 
 <script type="application/javascript">
 var uname = "<c:out value='${login}' />";
+
+function changeSelectedUserImpl(item){
+	uname = $(item).val();
+	$('#header_username').html(uname);
+	
+	getLinks('/link/'+uname+'/paid','link_list');
+	getRootLinks('/rootlinks/getActual', 'rootLinks');
+			
+	jcaUtils.clearValues(['checkURL', 'target', 'sampleURL1', 'sampleURL2'], 'val');
+}
 </script>
+</body>
+</html>
+

@@ -24,40 +24,27 @@ function createArticle(){
 
 function deleteArticle(){
 	
-	art_id = $('#delete_id').val(); 	
-	url = "/articles/"+art_id;
-
-	$.ajax({
-		method: "DELETE",
-		url: url,
-		data: {}
-	})
-	.done(function(data) {
-		getArticles('/articles/getActual','articles_list');
-			  
-		$("#message").html(
-				'<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-					'<div><strong>' + data.message + '</strong></div>' +
-					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-						'<span aria-hidden="true">&times;</span>' +
-					'</button>' +
-				'</div>');
-
-		clearInputs();
-	})
-	.fail(function(event) {
-		$("#message").html(
-				'<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-					'<div><strong>Error!</strong> Some problem with you parameters. Article did\'t delete</div>' +
-					'<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-					'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-						'<span aria-hidden="true">&times;</span>' +
-					'</button>' +
-				'</div>');
-		console.log("DELETE article - fail!");
-		console.log(event);
-	});
+	jcaUtils.ajaxJOperationAnswered("/articles/"+$('#delete_id').val(), "DELETE", {}, "message", true, ajaxDone, null);
 }
+
+function saveArticle(){
+	
+	if (!checkHeader()) return;
+	
+	data = {header: $("#inputHeader").val(), login: $("#inputAuthor").val()};
+	if ($("#inputText").val() != '') data.text = $("#inputText").val();
+	if ($("#inputCreatedDate").val() != '') data.created = $("#inputCreatedDate").val();
+	if ($("#inputDateStart").val() != '') data.pubStart = $("#inputDateStart").val();
+	if ($("#inputDateFinish").val() != '') data.pubFinish = $("#inputDateFinish").val();
+	
+	jcaUtils.ajaxJOperationAnswered("/articles/"+$('#art_id').val(), "POST", data, "message", true, ajaxDone, null);
+}
+
+function ajaxDone(){
+	getArticles('/articles/getActual','articles_list');
+	clearInputs();
+}
+
 
 function getArticles(url, id) {
 
@@ -109,10 +96,10 @@ function getArticle(li) {
 		//st = JSON.parse(data);
 		$('#art_id').val(id);
 		$('#inputHeader').val(article.header);
-		$('#inputCreatedDate').val(getCorrectDate(article.created));
+		$('#inputCreatedDate').val(jcaUtils.getCorrectDate(article.created));
 		$('#opt_'+article.author.id).attr("selected","selected");
-		$('#inputDateStart').val(getCorrectDate(article.pubStart));
-		$('#inputDateFinish').val(getCorrectDate(article.pubFinish));
+		$('#inputDateStart').val(jcaUtils.getCorrectDate(article.pubStart));
+		$('#inputDateFinish').val(jcaUtils.getCorrectDate(article.pubFinish));
 		$('#inputText').val(article.text);
     });
     
@@ -120,50 +107,6 @@ function getArticle(li) {
     	console.log("GET Article info fail!");
     	console.log(event.responseText);
     });
-}
-
-function saveArticle(){
-
-	if (!checkHeader()) return;
-	
-	art_id = $('#art_id').val(); 	
-	url = "/articles/"+art_id;
-	
-	data = {header: $("#inputHeader").val(), login: $("#inputAuthor").val()};
-	if ($("#inputText").val() != '') data.text = $("#inputText").val();
-	if ($("#inputCreatedDate").val() != '') data.created = $("#inputCreatedDate").val();
-	if ($("#inputDateStart").val() != '') data.pubStart = $("#inputDateStart").val();
-	if ($("#inputDateFinish").val() != '') data.pubFinish = $("#inputDateFinish").val();
-	 
-	$.ajax({
-		method: "POST",
-		url: url,
-		data: data
-	})
-	.done(function(data) {
-			  getArticles('/articles/getActual','articles_list');
-			  
-			  $("#message").html(
-					  '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-					  	'<div><strong>' + data.message + '</strong></div>' +
-					  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-					  	'<span aria-hidden="true">&times;</span>' +
-					  '</button>' +
-					  '</div>');
-		  })
-	.fail(function(event) {
-			  $("#message").html(
-					  '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-					  	'<div><strong>Error!</strong> Some problem with you parameters. Article did\'t create</div>' +
-					  	'<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-					  	'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-					  	'<span aria-hidden="true">&times;</span>' +
-					  '</button>' +
-					  '</div>');
-			  console.log("POST add/update article - fail!");
-			  console.log(event);
-		  });
-	
 }
 
 function checkHeader(){
@@ -204,32 +147,9 @@ function getAuthors(){
 function clearInputs(){
     $('#art_id').val(-1);
     $('#inputHeader').val("");
-    $('#inputCreatedDate').val(getCorrectDate(new Date()));
+    $('#inputCreatedDate').val(jcaUtils.getCorrectDate(new Date()));
     $('#opt_1').attr("selected","selected");
     $('#inputDateStart').val("");
     $('#inputDateFinish').val("");
     $('#inputText').val("");
-}
-
-function getCorrectDate(shtamp){
-	if (shtamp == null) return "";
-	var date = new Date();
-	date.setTime(shtamp);
-	var result = "";
-	var day = date.getDate();
-	var month = date.getMonth()+1;
-	
-	result+=date.getFullYear();
-	
-	result+="-";
-	
-	if (month<10) result+="0"+month;
-	else result+=month;
-	
-	result+="-";
-	
-	if (day<10) result+="0"+day;
-	else result+=day;
-	
-	return result;
 }

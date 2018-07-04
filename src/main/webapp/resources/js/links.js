@@ -2,7 +2,6 @@ $ = jQuery.noConflict();
 var showArc = false;
 $(function ($) {
 
-
 	$('form button').on("click",function(e){
 	    e.preventDefault();
 	});
@@ -31,13 +30,29 @@ $(function ($) {
 
 	$("#showArchive").click(function(){
 		showArc = !showArc;
-        getLinks('/links/'+uname+'/paid','link_list');
+        getLinks('/link/'+uname+'/paid','link_list');
 	});
+	
+	$('#submit_delete').click(function(){
+        deleteLink();
+    });
 });
+
+function deleteLink(){
+	
+	jcaUtils.ajaxJOperationAnswered("/link/"+$('#delete_id').val(), "DELETE", {}, "message", true, ajaxDone, null);
+}
+
+function ajaxDone(){
+	getLinks('/link/'+uname+'/paid','link_list');
+	getRootLinks('/rootlinks/getActual', 'rootLinks');
+}
+
 
 function buyURL1(){
 	buyURL("subdomain");
 }
+
 function buyURL2(){
 	buyURL("parameter");
 }
@@ -100,8 +115,8 @@ function getLinks(url, id) {
             var warnClass = "";
             var errClass = "";
             var readOnlyAdd = "";
-        	var startString = getCorrectDate(link.startDate);
-            var finishString = getCorrectDate(link.finishDate);
+        	var startString = jcaUtils.getCorrectDate(link.startDate);
+            var finishString = jcaUtils.getCorrectDate(link.finishDate);
 
             var fDate = new Date();
             var currDate = new Date();
@@ -141,6 +156,11 @@ function getLinks(url, id) {
             		'<td>' +
             			'<button type="button" id="'+link.id+'" class="btn btn-success" style="display:none;">Save</button>'+
             		'</td>' +
+            		'<td>' +
+            			'<button type="button" class="close" data-toggle="modal" data-target="#confirmModal" aria-label="Close" id="del_'+link.id+'">' +
+            				'<span aria-hidden="true">&times;</span>' +
+            			'</button>' +
+            		'</td>' +
                 '</tr>';
         });
 
@@ -150,8 +170,14 @@ function getLinks(url, id) {
         	showSave(this);
         });
     		
-        $("#link_list").find("button").click(function(){
+        $("#link_list").find("button.btn-success").click(function(){
         	submitRow(this);
+        });
+        
+        $('td button.close').click(function(){
+            strid = $(this).attr("id");
+            id = strid.substring(strid.lastIndexOf("_")+1);
+            $('#delete_id').val(id);
         });
     });
     
@@ -161,7 +187,7 @@ function getLinks(url, id) {
     });
 }
 
-function checkURL(){
+function checkURL() {
 	var free1 = false;
 	var free2 = false;
 	
@@ -244,27 +270,3 @@ function submitRow(button){
 		  console.log(event);
 	  });
 }
-
-function getCorrectDate(shtamp){
-	var date = new Date();
-	date.setTime(shtamp);
-	var result = "";
-	var day = date.getDate();
-	var month = date.getMonth()+1;
-	
-	result+=date.getFullYear();
-	
-	result+="-";
-	
-	if (month<10) result+="0"+month;
-	else result+=month;
-	
-	result+="-";
-	
-	if (day<10) result+="0"+day;
-	else result+=day;
-	
-	return result;
-}
-
-

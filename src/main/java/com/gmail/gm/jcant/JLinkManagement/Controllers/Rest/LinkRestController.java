@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gmail.gm.jcant.JDate;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
+import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
@@ -109,7 +110,7 @@ public class LinkRestController {
 	// add new Link
 	@RequestMapping(value = "/link/addfree", method = RequestMethod.POST)
 	@JDomain(property = "frontend.domains")
-	public ResponseEntity<Void> addLink(@RequestParam String rootUrl, @RequestParam String target, Principal principal)
+	public JOperationInfo<JLink> addLink(@RequestParam String rootUrl, @RequestParam String target, Principal principal)
 			throws LinkException, JUserException {
 		JRootLink rootLink = rootLinkService.getRootLinkByUrl(rootUrl);
 		if (rootLink == null) {
@@ -130,8 +131,15 @@ public class LinkRestController {
 		}
 
 		linkService.addLink(link);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new JOperationInfo<JLink>("FreeLink add success!", true);
 	}
+	
+	@RequestMapping(value = "/link/{id}", method = RequestMethod.DELETE)
+    @JDomain(property = "frontend.domains")
+    public JOperationInfo<JLink> deleteLink(@PathVariable(value = "id") long id) throws JLinkException {
+		linkService.deleteById(id);
+        return new JOperationInfo<JLink>("Link delete success!", true);
+    }
 
 	private String generateRandLink(String rootUrl) {
 		String result = "";

@@ -9,8 +9,6 @@
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
 
-<link href="css/main.css" rel="stylesheet">
-
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
 
 <script
@@ -26,11 +24,13 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <script src='js/index.js'></script>
+<script src='js/utils.js'></script>
+<link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 	
 
-<%@include file="header.jsp" %>
+<%@include file="_header.jsp" %>
 
 
 	<div>
@@ -46,7 +46,7 @@
 
 
 
-<%@include file="footer.jsp" %>
+<%@include file="_footer.jsp" %>
 
 
 

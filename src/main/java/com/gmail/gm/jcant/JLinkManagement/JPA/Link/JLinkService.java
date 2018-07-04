@@ -19,5 +19,6 @@ public interface JLinkService {
     
     void addLink(JLink link);
     void updateLink(JLink link);
+	void deleteById(long id) throws JLinkException;
     
 }

@@ -9,8 +9,6 @@
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
 
-<link href="css/main.css" rel="stylesheet">
-
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
 
 <script
@@ -26,11 +24,13 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <script src='js/profile.js'></script>
+<script src='js/utils.js'></script>
+<link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 
 
-<%@include file="header.jsp" %>
+<%@include file="_header.jsp" %>
 
 	<div>
 		<div class="row">
@@ -71,13 +71,11 @@
 	</div>
 
 
-<%@include file="footer.jsp" %>
-
-
-</body>
-</html>
+<%@include file="_footer.jsp" %>
 
 <script type="application/javascript">
     var uname = "<c:out value='${login}' />";
     var userId = "<c:out value='${userId}' />";
 </script>
+</body>
+</html>

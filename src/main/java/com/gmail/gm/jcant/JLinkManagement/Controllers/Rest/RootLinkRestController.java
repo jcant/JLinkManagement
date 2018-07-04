@@ -33,7 +33,7 @@ public class RootLinkRestController {
 
     @RequestMapping(value = "/rootlinks/{id}", method = RequestMethod.POST)
     @JDomain(property = "frontend.domains")
-    public JOperationInfo<JRootLink> saveArticle(@PathVariable(value = "id") long id,
+    public JOperationInfo<JRootLink> saveRootLink(@PathVariable(value = "id") long id,
                                                  @RequestParam String url,
                                                  @RequestParam boolean enabled
                                                 ) throws JRootLinkException {
@@ -57,7 +57,7 @@ public class RootLinkRestController {
 
     @RequestMapping(value = "/rootlinks/{id}", method = RequestMethod.DELETE)
     @JDomain(property = "frontend.domains")
-    public JOperationInfo<JRootLink> deleteArticle(@PathVariable(value = "id") long id) throws JRootLinkException {
+    public JOperationInfo<JRootLink> deleteRootLink(@PathVariable(value = "id") long id) throws JRootLinkException {
         rootLinkService.deleteById(id);
         return new JOperationInfo<JRootLink>("RootLink delete success!", true);
     }

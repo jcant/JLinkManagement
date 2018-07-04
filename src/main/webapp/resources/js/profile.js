@@ -44,54 +44,15 @@ function saveUserInfo(){
     if ($("#userEmail").val() != '') data.userEmail = $("#userEmail").val();
     if ($("#newPassword").val() != '') data.newPassword = $("#newPassword").val();
 
-    var posting = $.post('/users/update', data, 'json');
-    hstring = "";
+    jcaUtils.ajaxJOperationAnswered("/users/update", "POST", data, "message", true, null, null);
     
-    posting.done(function (data) {   
-        if (data.success){
-            hstring +=
-            '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                '<strong>' + data.message + '</strong>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-            '</div>';
-        } else {
-            hstring +=
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<strong>' + data.message + '</strong>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-            '</div>';
-        }
-
-        $('#message').html(hstring);
-
-        setClear(currPswd,true);
-        setClear(newPswd,true);
-        setClear(confPswd,true);
-
-    });
-
-    posting.fail(function (event) {
-        hstring +=
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<strong>Update request failed!</strong>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-            '</div>';
-        $('#message').html(hstring);
-
-        setClear(currPswd,true);
-        setClear(newPswd,true);
-        setClear(confPswd,true);
-
-        console.log("Update user failed!");
-        console.log(event.responseText);
-    });
+    setClear(currPswd,true);
+    setClear(newPswd,true);
+    setClear(confPswd,true);
+    
 }
+
+
 
 function isEmpty(element){
     if (element.val()=="") {

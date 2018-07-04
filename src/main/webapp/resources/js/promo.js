@@ -23,39 +23,25 @@ function createArticle(){
 
 function deleteArticle(){
 
-    art_id = $('#delete_id').val();
-    url = "/promo/"+art_id;
+	jcaUtils.ajaxJOperationAnswered("/promo/"+$('#delete_id').val(), "DELETE", {}, "message", true, ajaxDone, null);
+}
 
-    $.ajax({
-        method: "DELETE",
-        url: url,
-        data: {}
-    })
-        .done(function(data) {
-            getArticles('/promo/getActual','articles_list');
+function saveArticle(){
 
-            $("#message").html(
-                '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                '<div><strong>' + data.message + '</strong></div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
+    if (!checkHeader()) return;
+    
+    data = {header: $("#inputHeader").val()};
+    if ($("#inputText").val() != '') data.text = $("#inputText").val();
+    if ($("#inputCompany").val() != '') data.company = $("#inputCompany").val();
+    if ($("#inputDateStart").val() != '') data.pubStart = $("#inputDateStart").val();
+    if ($("#inputDateFinish").val() != '') data.pubFinish = $("#inputDateFinish").val();
+    
+    jcaUtils.ajaxJOperationAnswered("/promo/"+$('#art_id').val(), "POST", data, "message", true, ajaxDone, null);
+}
 
-            clearInputs();
-        })
-        .fail(function(event) {
-            $("#message").html(
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<div><strong>Error!</strong> Some problem with you parameters. Advertising did\'t delete</div>' +
-                '<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-            console.log("DELETE advertising - fail!");
-            console.log(event);
-        });
+function ajaxDone(){
+	getArticles('/promo/getActual','articles_list');
+	clearInputs();
 }
 
 function getArticles(url, id) {
@@ -110,8 +96,8 @@ function getArticle(li) {
         $('#art_id').val(id);
         $('#inputHeader').val(adv.header);
         $('#inputCompany').val(adv.company);
-        $('#inputDateStart').val(getCorrectDate(adv.pubStart));
-        $('#inputDateFinish').val(getCorrectDate(adv.pubFinish));
+        $('#inputDateStart').val(jcaUtils.getCorrectDate(adv.pubStart));
+        $('#inputDateFinish').val(jcaUtils.getCorrectDate(adv.pubFinish));
         $('#inputText').val(adv.text);
     });
 
@@ -119,50 +105,6 @@ function getArticle(li) {
         console.log("GET Advertising info fail!");
         console.log(event.responseText);
     });
-}
-
-function saveArticle(){
-
-    if (!checkHeader()) return;
-
-    art_id = $('#art_id').val();
-    url = "/promo/"+art_id;
-
-    data = {header: $("#inputHeader").val()};
-    if ($("#inputText").val() != '') data.text = $("#inputText").val();
-    if ($("#inputCompany").val() != '') data.company = $("#inputCompany").val();
-    if ($("#inputDateStart").val() != '') data.pubStart = $("#inputDateStart").val();
-    if ($("#inputDateFinish").val() != '') data.pubFinish = $("#inputDateFinish").val();
-
-    $.ajax({
-        method: "POST",
-        url: url,
-        data: data
-    })
-        .done(function(data) {
-            getArticles('/promo/getActual','articles_list');
-
-            $("#message").html(
-                '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                '<div><strong>' + data.message + '</strong></div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-        })
-        .fail(function(event) {
-            $("#message").html(
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<div><strong>Error!</strong> Some problem with you parameters. Advertising did\'t create</div>' +
-                '<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>');
-            console.log("POST add/update advertising - fail!");
-            console.log(event);
-        });
-
 }
 
 function checkHeader(){
@@ -178,36 +120,12 @@ function checkHeader(){
     }
 }
 
-
 function clearInputs(){
     $('#art_id').val(-1);
     $('#inputHeader').val("");
-    $('#inputCreatedDate').val(getCorrectDate(new Date()));
+    $('#inputCreatedDate').val(jcaUtils.getCorrectDate(new Date()));
     $('#opt_1').attr("selected","selected");
     $('#inputDateStart').val("");
     $('#inputDateFinish').val("");
     $('#inputText').val("");
-}
-
-function getCorrectDate(shtamp){
-    if (shtamp == null) return "";
-    var date = new Date();
-    date.setTime(shtamp);
-    var result = "";
-    var day = date.getDate();
-    var month = date.getMonth()+1;
-
-    result+=date.getFullYear();
-
-    result+="-";
-
-    if (month<10) result+="0"+month;
-    else result+=month;
-
-    result+="-";
-
-    if (day<10) result+="0"+day;
-    else result+=day;
-
-    return result;
 }

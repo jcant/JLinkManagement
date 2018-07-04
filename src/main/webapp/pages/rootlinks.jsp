@@ -10,8 +10,6 @@
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
           crossorigin="anonymous">
 
-    <link href="css/main.css" rel="stylesheet">
-
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.js" />
 
     <script
@@ -27,11 +25,13 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <script src='js/rootlinks.js'></script>
+    <script src='js/utils.js'></script>
+    <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 
 
-<%@include file="header.jsp"%>
+<%@include file="_header.jsp"%>
 
 <div>
     <div class="row">
@@ -79,29 +79,9 @@
 </div>
 
 
-<%@include file="footer.jsp"%>
+<%@include file="_footer.jsp"%>
 
-<!-- Modal Login Form -->
-<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmTitle">Confirmation of delete RootLink</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    Are you sure to delete the RootLink?
-                </div>
-                <input type="hidden" id="delete_id">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" id="submit_delete">YES</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">NO</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="_modalConfirmForm.jsp"%>
 
 
 </body>
