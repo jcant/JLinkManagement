@@ -124,7 +124,7 @@ function checkHeader(){
 
 function getAuthors(){	
 	
-	var getting = $.get('/users/getAdmins', {}, 'json');	
+	var getting = $.get('/user/getAdmins', {}, 'json');	
 	getting.done(function (data) {
 		hstring = "";
 		

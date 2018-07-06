@@ -92,4 +92,12 @@ public class FrontEndController {
         return "rootlinks";
     }
     
+    @RequestMapping("/users")
+    public String users(Model model, Principal principal) {
+
+        JModelHelper.prepareModel(model, principal, "users");
+
+        return "users";
+    }
+    
 }

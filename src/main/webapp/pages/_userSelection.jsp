@@ -22,7 +22,7 @@
 				
 		function getUsers(id) {
 				    
-			getting = $.get('/users/all', {}, 'json');
+			getting = $.get('/user/all', {}, 'json');
 
 		    getting.done(function (data) {
 		        var hstring = "";

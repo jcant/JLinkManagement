@@ -55,9 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/stats/**").hasAnyRole("USER", "ADMIN")
                 
                 //UserRestController
-                .antMatchers("/users/add").permitAll()//.hasAnyRole("USER", "ADMIN") //?? is this necessary?
-                .antMatchers("/users/update").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/users/**").hasRole("ADMIN") // /users/all (GET), /users/{id} (GET), /users/{id} (DELETE)
+                .antMatchers("/user/add").permitAll()
+                .antMatchers("/user/update").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/**").hasRole("ADMIN") // /user/all (GET), /user/{id} (GET), /user/{id} (DELETE)
                 
                 //LoginController
                 .antMatchers("/loginsuccess").hasAnyRole("USER", "ADMIN")

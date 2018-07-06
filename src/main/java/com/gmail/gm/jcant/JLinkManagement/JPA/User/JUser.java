@@ -23,6 +23,9 @@ public class JUser {
 
 	private String email;
 	private String name;
+	
+	private boolean blocked;
+	private boolean resetPassword;
 
 	public JUser() {
 	}
@@ -38,14 +41,18 @@ public class JUser {
 		this.password = password;
 		this.role = role;
 		this.email = email;
+		this.blocked = false;
+		this.resetPassword = false;
 	}
 
-	public JUser(String login, String password, JUserRole role, String email, String name) {
+	public JUser(String login, String password, JUserRole role, String email, String name, boolean blocked, boolean resetPassword) {
 		this.login = login;
 		this.password = password;
 		this.role = role;
 		this.email = email;
 		this.name = name;
+		this.blocked = blocked;
+		this.resetPassword = resetPassword;
 	}
 
 	public long getId() {
@@ -96,6 +103,22 @@ public class JUser {
 		this.name = name;
 	}
 
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public boolean isResetPassword() {
+		return resetPassword;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+
+	public void setResetPassword(boolean resetPassword) {
+		this.resetPassword = resetPassword;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -109,6 +132,10 @@ public class JUser {
 		builder.append(email);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", blocked=");
+		builder.append(blocked);
+		builder.append(", resetPassword=");
+		builder.append(resetPassword);
 		builder.append("]");
 		return builder.toString();
 	}

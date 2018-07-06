@@ -1,6 +1,16 @@
 var jcaUtils = {
 
-	
+
+setValid: function (id) {
+    $("#"+id).removeClass("is-invalid");
+    $("#"+id).addClass("is-valid");
+},
+		
+setInvalid: function (id) {
+    $("#"+id).removeClass("is-valid");
+    $("#"+id).addClass("is-invalid");
+},		
+		
 clearValues: function (id_array, type) {
 	id_array.forEach(function (input) {
 		if(type=="val") $('#'+input).val("");
@@ -36,7 +46,7 @@ ajaxJOperationAnswered: function (url, method, data, messageElementId, isLog, do
         .fail(function(event) {
             $("#"+messageElementId).html(
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                '<div><strong>Error!</strong> Some problem with you parameters. RootLink did\'t delete</div>' +
+                '<div><strong>Error!</strong> Some problem with you parameters.</div>' +
                 '<div>response: "'+ JSON.parse(event.responseText)["message"] + '"</div>' +
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span>' +

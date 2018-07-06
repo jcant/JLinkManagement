@@ -44,7 +44,7 @@ function saveUserInfo(){
     if ($("#userEmail").val() != '') data.userEmail = $("#userEmail").val();
     if ($("#newPassword").val() != '') data.newPassword = $("#newPassword").val();
 
-    jcaUtils.ajaxJOperationAnswered("/users/update", "POST", data, "message", true, null, null);
+    jcaUtils.ajaxJOperationAnswered("/user/update", "POST", data, "message", true, null, null);
     
     setClear(currPswd,true);
     setClear(newPswd,true);

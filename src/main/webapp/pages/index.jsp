@@ -40,7 +40,7 @@
 			<div id="message"></div>
 			<div class="container" id="articles_container"></div>
 			</div>
-			<div class="col-sm" id="adv_container"></div>
+			<div class="col-sm-2" id="adv_container"></div>
 		</div>
 	</div>
 

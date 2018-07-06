@@ -51,7 +51,7 @@ function getAdv(url, id) {
 
 function register(){
 	data = {login: $('#inputLogin2').val(), password: $('#inputPassword2').val(), email: $('#inputEmail2').val()};
-	jcaUtils.ajaxJOperationAnswered("/users/add", "POST", data, "message", true, ajaxDone, ajaxFail);
+	jcaUtils.ajaxJOperationAnswered("/user/add", "POST", data, "message", true, ajaxDone, ajaxFail);
 	$('#close_button2').click();
 }
 

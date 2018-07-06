@@ -69,3 +69,7 @@ nav.navbar{
     background-color: #5fae62;
     border-color: #2e9830;
 }
+
+.blocked{
+	background-colod: #fedfe2;
+}

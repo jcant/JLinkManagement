@@ -21,39 +21,48 @@ public class UserRestController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @RequestMapping(value = "/users/all")
-    public List<JUser> getUsers(){
+    @RequestMapping(value = "/user/all")
+    public List<JUser> getAllUsers(){
         return userService.getAllUsers();
     }
 
-    @RequestMapping(value = "/users/{id}")
+    @RequestMapping(value = "/user/{id}")
     public JUser getUserById(@PathVariable(value = "id") long id) throws JUserException {
     	JUser user = null;
         user = userService.getUserById(id);
         return user;
     }
     
-    @RequestMapping(value = "/users/getAdmins")
+    @RequestMapping(value = "/user/getAdmins")
     public List<JUser> getAdmins() {	
         return userService.getUsersByRole(JUserRole.ADMIN);
     }
+    @RequestMapping(value = "/user/getUsers")
+    public List<JUser> getUsers() {	
+        return userService.getUsersByRole(JUserRole.USER);
+    }
 
-    @RequestMapping(value = "/users/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/update", method = RequestMethod.POST)
     public JOperationInfo<JUser> updateUser(@RequestParam String id,
     									 @RequestParam(required = false) String userName,
                                          @RequestParam(required = false) String userEmail,
                                          @RequestParam String currentPassword,
-                                         @RequestParam(required = false) String newPassword) throws JUserException {
+                                         @RequestParam(required = false) String newPassword
+                                         @RequestParam(required = false) String newPassword
+                                         
+    		) throws JUserException {
 
         long lId = Long.parseLong(id);
-    	JUser dbUser = userService.getUserById(lId); //if user does't exist method throws Exeption
+    	JUser dbUser = userService.getUserById(lId); //if user does't exist method throws Exception
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
+        //here we filter operations on user by another user if they not admin
         if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(dbUser.getLogin()))) {
 			throw new JUserException("Access deny to update another user");
 		}
         
-        if (!encoder.matches(currentPassword, dbUser.getPassword())){
+        //if dbUser and authUser is different, the authUser can be only admin (at this step)
+        if ((!encoder.matches(currentPassword, dbUser.getPassword())) && (!encoder.matches(currentPassword, authUser.getPassword()))) {
             return new JOperationInfo<JUser>("Wrong Password!", false);
         }
 
@@ -73,7 +82,7 @@ public class UserRestController {
         return new JOperationInfo<JUser>("User update success!", true);
     }
 
-    @RequestMapping(value = "/users/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public JOperationInfo<JUser> addUser(@RequestParam String login,
                                     	@RequestParam String password,
                                     	@RequestParam String email) throws JUserException {
@@ -89,7 +98,7 @@ public class UserRestController {
         return new JOperationInfo<JUser>("User create success!", true);
     }
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@RequestParam long id){
         if (!userService.existsById(id)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
