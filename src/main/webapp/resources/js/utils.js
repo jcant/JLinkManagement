@@ -9,7 +9,11 @@ setValid: function (id) {
 setInvalid: function (id) {
     $("#"+id).removeClass("is-valid");
     $("#"+id).addClass("is-invalid");
-},		
+},
+setNeutral: function (id) {
+	$("#"+id).removeClass("is-valid");
+	$("#"+id).removeClass("is-invalid");
+},
 		
 clearValues: function (id_array, type) {
 	id_array.forEach(function (input) {

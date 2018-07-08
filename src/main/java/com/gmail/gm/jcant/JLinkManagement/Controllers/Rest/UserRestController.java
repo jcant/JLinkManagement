@@ -37,6 +37,7 @@ public class UserRestController {
     public List<JUser> getAdmins() {	
         return userService.getUsersByRole(JUserRole.ADMIN);
     }
+
     @RequestMapping(value = "/user/getUsers")
     public List<JUser> getUsers() {	
         return userService.getUsersByRole(JUserRole.USER);
@@ -47,11 +48,11 @@ public class UserRestController {
     									 @RequestParam(required = false) String userName,
                                          @RequestParam(required = false) String userEmail,
                                          @RequestParam String currentPassword,
-                                         @RequestParam(required = false) String newPassword
-                                         @RequestParam(required = false) String newPassword
-                                         
-    		) throws JUserException {
-
+                                         @RequestParam(required = false) String newPassword,
+                                         @RequestParam(required = false) String resetPassword,
+                                         @RequestParam(required = false) String blockUser,
+                                         @RequestParam(required = false) Integer userRole
+    		                            ) throws JUserException {
         long lId = Long.parseLong(id);
     	JUser dbUser = userService.getUserById(lId); //if user does't exist method throws Exception
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -60,25 +61,32 @@ public class UserRestController {
         if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(dbUser.getLogin()))) {
 			throw new JUserException("Access deny to update another user");
 		}
-        
         //if dbUser and authUser is different, the authUser can be only admin (at this step)
         if ((!encoder.matches(currentPassword, dbUser.getPassword())) && (!encoder.matches(currentPassword, authUser.getPassword()))) {
             return new JOperationInfo<JUser>("Wrong Password!", false);
         }
-
         if (userName != null){
             dbUser.setName(userName);
         }
         if (userEmail != null){
             dbUser.setEmail(userEmail);
         }
-
         if (newPassword != null){
+            dbUser.setResetPassword(false);
             dbUser.setPassword(encoder.encode(newPassword));
+        }
+        if (resetPassword != null){
+            dbUser.setResetPassword(resetPassword.equals("true"));
+        }
+        if (blockUser != null){
+            dbUser.setBlocked(blockUser.equals("true"));
+        }
+        if (userRole != null){
+            if (userRole.intValue() == 0) dbUser.setRole(JUserRole.ADMIN);
+            if (userRole.intValue() == 1) dbUser.setRole(JUserRole.USER);
         }
 
         userService.updateUser(dbUser);
-
         return new JOperationInfo<JUser>("User update success!", true);
     }
 
@@ -106,4 +114,5 @@ public class UserRestController {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

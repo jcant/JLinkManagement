@@ -48,7 +48,7 @@ public class LinkAddController {
 	private JUserPaymentsLogService userPaymentsLogService;
 	
 	@ModelAttribute("jlink")
-    public JLink getVisitor () {
+    public JLink getJLink () {
         JLink link = new JLink();
 		return link;
     }

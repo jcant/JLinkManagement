@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,23 +19,32 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
     @Autowired
     private JUserLogService userLogService;
-
     @Autowired
     private JUserService userService;
 
     @RequestMapping
-    public String loginPage(HttpServletRequest request) throws JUserException {
+    public String loginPage(Model model, HttpServletRequest request) throws JUserException {
 
-        //System.out.println("We are in Login Controller!");
-
-        //if (principal != null) {
-        //System.out.println("principal != null");
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         JUser dbUser = userService.getUserByLogin(user.getUsername());
 
+        if (dbUser.isBlocked()){
+            SecurityContextHolder.clearContext();
+            throw new JUserException("Your User (login = "+dbUser.getLogin()+") is BLOCKED!");
+        }
+
+        if (dbUser.isResetPassword()){
+            //model.addAttribute("resetPassword", true);
+            return "redirect:/profile";
+            //RedirectView rv = new RedirectView("/profile", true);
+            //rv.setExposeModelAttributes(true);
+            //return rv;
+        }
+
         userLogService.SaveUserComeIn(dbUser, request);
-        //}
         return "redirect:/";
-        //return "index";
+        //RedirectView rv = new RedirectView("/", true);
+        //rv.setExposeModelAttributes(false);
+        //return rv;
     }
 }

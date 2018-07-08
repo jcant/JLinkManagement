@@ -41,18 +41,21 @@
             <ul class="list-group list-group-item-action" id="users_list"></ul>
         </div>
         <div class="col">
-            <label for="adminPass">Admin password</label>
-			<input type="password" class="form-control" id="adminPass" name="adminPass" placeholder="confirm your rights..." />
             <div class="container" id="message"></div>
             <div class="container" id="user_details">
 				<form>
+					<input type="hidden" id="userId" name="userId" />
+					<div class="form-group">
+						<label for="adminPass">Admin password</label>
+						<input type="password" class="form-control" id="adminPass" name="adminPass" placeholder="confirm your rights..." />
+					</div>
 					<div class="form-group">
 						<label for="userName">Name</label>
 						<input type="text" class="form-control" id="userName" name="userName" placeholder="* name *" />
 					</div>
 					<div class="form-group">
 						<label for="userLogin">Login</label>
-						<input type="text" class="form-control" id="userLogin" placeholder="* login *" />
+						<input type="text" class="form-control" id="userLogin" readonly placeholder="* login *" />
 					</div>
 					<div class="form-group">
 						<label for="userEmail">Email address</label>
@@ -65,6 +68,12 @@
 					<div class="form-group">
 						<input type="checkbox" id="blockUser">
 						<label class="form-check-label" for="blockUser">Blocked</label>
+					</div>
+					<div class="form-group">
+						<select id="userRole" class="form-control" name="userRole">
+							<option value="0">Admin</option>
+							<option value="1">User</option>
+						</select>
 					</div>
 					<button type="button" id="save_user" class="btn btn-primary">Save</button>
 				</form>

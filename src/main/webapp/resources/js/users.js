@@ -25,18 +25,19 @@ function saveUser(){
 
     if (!checkRequirements()) return;
     
-    data = {header: $("#inputHeader").val()};
-    if ($("#inputText").val() != '') data.text = $("#inputText").val();
-    if ($("#inputCompany").val() != '') data.company = $("#inputCompany").val();
-    if ($("#inputDateStart").val() != '') data.pubStart = $("#inputDateStart").val();
-    if ($("#inputDateFinish").val() != '') data.pubFinish = $("#inputDateFinish").val();
+    data = {currentPassword: $("#adminPass").val(), id: $("#userId").val()};
+    if ($("#userName").val() != '') data.userName = $("#userName").val();
+    if ($("#userEmail").val() != '') data.userEmail = $("#userEmail").val();
+    data.resetPassword = $("#resetPassword").is(":checked");
+    data.blockUser = $("#blockUser").is(":checked");
+    data.userRole = $("#userRole").val();
     
-    jcaUtils.ajaxJOperationAnswered("/promo/"+$('#art_id').val(), "POST", data, "message", true, ajaxDone, null);
+    jcaUtils.ajaxJOperationAnswered("/user/update", "POST", data, "message", true, ajaxDone, null);
 }
 
 function ajaxDone(){
-	getArticles('/promo/getActual','articles_list');
-	clearInputs();
+    $('#adminPass').val("");
+    jcaUtils.setNeutral('adminPass');
 }
 
 function getUsers(url, id) {
@@ -47,7 +48,6 @@ function getUsers(url, id) {
         var hstring = "";
         data.forEach(function (user) {
         	hstring +=
-                //'<li id=usr_'+user.id+' class = "list-group-item list-group-item-action '+(user.blocked)?("blocked"):("")+'" style="cursor: pointer;">' +
         		'<li id=usr_'+user.id+' class = "list-group-item list-group-item-action " style="cursor: pointer;">' +
                     '<div><small>'+user.login+'</small></div>' +
                     '<div><small>'+user.email+'</small></div>' +
@@ -71,17 +71,26 @@ function getUsers(url, id) {
 }
 
 function getUser(li) {
+    clearInputs();
     var strid = $(li).attr("id");
     var id = strid.substring(strid.lastIndexOf("_")+1);
 
     var getting = $.get('/user/'+id, {}, 'json');
 
     getting.done(function (user) {
+        $('#userId').val(user.id);
         $('#userName').val(user.name);
         $('#userLogin').val(user.login);
         $('#userEmail').val(user.email);
-        if (user.blocked) $('#blockUser').attr("checked", "checked");
-        if (user.resetPassword) $('#resetPassword').attr("checked", "checked");
+
+        if (user.blocked) $('#blockUser').prop("checked", true);
+        else $('#blockUser').prop("checked", false);
+
+        if (user.resetPassword) $('#resetPassword').prop("checked", true);
+        else $('#resetPassword').prop("checked", false);
+
+        if (user.role == "ADMIN") $('#userRole').val(0);
+        if (user.role == "USER") $('#userRole').val(1);
     });
 
     getting.fail(function (event) {
@@ -102,7 +111,7 @@ function checkRequirements(){
 }
 
 function clearInputs(){
-	jcaUtils.clearValues(['userName', 'userLogin', 'userEmail'], 'val');
-	$('#blockUser').removeAttr("checked");
-	$('#resetPassword').removeAttr("checked");
+	jcaUtils.clearValues(['adminPass', 'userName', 'userLogin', 'userEmail'], 'val');
+    $('#blockUser').prop("checked", false);
+    $('#resetPassword').prop("checked", false);
 }

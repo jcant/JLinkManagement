@@ -36,6 +36,16 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col">
+				<c:if test="${resetPassword eq true}">
+					<div id = "resetPassMessage">
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>You need to change Password! </strong>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</c:if>
 				<div id = "message"></div>
 				<form id="user_update_form" method="post">
 					<div class="form-group">

@@ -37,6 +37,11 @@ public class FrontEndController {
         JModelHelper.prepareModel(model, principal, "profile");
             
         JUser dbUser = userService.getUserByLogin(principal.getName());
+
+        if (dbUser.isResetPassword()){
+            model.addAttribute("resetPassword", true);
+        }
+
         model.addAttribute("name", dbUser.getName());
         model.addAttribute("email", dbUser.getEmail());
         model.addAttribute("userId", dbUser.getId());
