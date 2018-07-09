@@ -1,5 +1,5 @@
 	<div align="center" class="footer">
 		<div class="created_by">
-			<a href="mailto:jcant.gm@gmail.com" class="badge badge-info">jCant</a> Graduate Project
+			<a href="mailto:jcant.gm@gmail.com" class="badge badge-info">jCant</a> © 2018
 		</div>
 	</div>

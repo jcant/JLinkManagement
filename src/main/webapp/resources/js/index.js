@@ -15,11 +15,13 @@ function getArticles(url, id) {
     getting.done(function (data) {
         var hstring = "";
         data.forEach(function (article) {
-            hstring += '<div class="container">\n' +
-                '<h3>' + article.header + '</h3>\n' +
-                '<div class="container">' + article.text + '</div>\n' +
+     hstring += '<div class="card fat fittext">\n' +
+                	'<h5 class="card-header">' + article.header + '</h5>\n' +
+                	'<div class="card-body">' + 
+                		'<p class="card-text">' + article.text + '</p>' +
+                	'</div>\n' +
                 '</div>';
-        });
+        });        
         $('#' + id).html(hstring);
     });
     getting.fail(function (event) {
@@ -35,12 +37,17 @@ function getAdv(url, id) {
         var hstring = "";
         data.forEach(function (adv) {
 
-            hstring += '<div class="container">\n' +
-                '<h3>' + adv.company + '</h3>\n' +
-                '<h4>' + adv.header + '</h4>\n' +
-                '<div class="container">' + adv.text + '</div>\n' +
-                '</div>';
+     hstring += '<div class="card text-white bg-warning mb-3 fat fittext" style="max-width: 18rem; min-width: 18rem;">' +
+     				'<div class="card-header">' + adv.company + '</div>' +
+     				'<div class="card-body">' +
+     					'<h5 class="card-title">' + adv.header + '</h5>' +
+     					'<p class="card-text">' + adv.text + '</p>' +
+     				'</div>' +
+     			'</div>';
         });
+        
+        
+        
         $('#' + id).html(hstring);
     });
     advGetting.fail(function (event) {

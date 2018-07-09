@@ -2,11 +2,13 @@ package com.gmail.gm.jcant.JLinkManagement.JPA.Article;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
@@ -28,6 +30,8 @@ public class JArticle {
 	
 	private String header;
 	
+	@Column(length=10000)
+	@Lob
 	private String text;
 	
 	@OneToOne(fetch = FetchType.EAGER)

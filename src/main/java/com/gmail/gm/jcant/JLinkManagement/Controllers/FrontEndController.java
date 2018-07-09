@@ -105,4 +105,12 @@ public class FrontEndController {
         return "users";
     }
     
+//    @RequestMapping("/error")
+//    public String error(/*Model model, Principal principal*/) {
+//
+//        //JModelHelper.prepareModel(model, principal, "users");
+//
+//        return "error";
+//    }
+    
 }

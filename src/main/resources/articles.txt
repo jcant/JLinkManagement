@@ -1,0 +1,36 @@
+Weclome!
+It's good to see you here!<br>
+This is a test project of the redirect platform. You can try the user and admin functionality, as well as the basic <strong>redirect functionality.</strong><br>
+In view of hosting restrictions, the redirect works only on references of the type http://sitename.com/your_link</br>
+</br>
+You can register a new user or log in as an administrator or ordinaly user:
+
+
+Admin
+to Auth as an ADMIN, please input:<br>
+<br>
+login: <strong>admin</strong><br>
+password: <strong>password</strong>
+
+
+User
+to Auth as an USER, please input:<br>
+<br>
+login: <strong>user</strong><br>
+password: <strong>password</strong>
+
+
+
+
+
+****************************
+Link Management
+jCant Graduate Project
+Project sources:
+<a target="_blank" href="https://github.com/jcant/JLinkManagement">open</a>
+
+
+Java Courses
+prog.kiev.ua
+excellent Java Academy
+<a target="_blank" href="https://prog.kiev.ua/">https://prog.kiev.ua</a>

@@ -73,3 +73,6 @@ nav.navbar{
 .blocked{
 	background-colod: #fedfe2;
 }
+.fittext{
+	white-space: initial;
+}

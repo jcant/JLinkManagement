@@ -68,6 +68,7 @@ ajaxJOperationAnswered: function (url, method, data, messageElementId, isLog, do
 
 
 getCorrectDate: function (shtamp) {
+	if (shtamp == null) return "";
 	var date = new Date();
 	date.setTime(shtamp);
 	var result = "";

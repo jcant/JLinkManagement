@@ -35,12 +35,11 @@
 
 	<div>
 		<div class="row">
-			<div class="col-sm-2">One of three columns</div>
 			<div class="col">
 			<div id="message"></div>
 			<div class="container" id="articles_container"></div>
 			</div>
-			<div class="col-sm-2" id="adv_container"></div>
+			<div class="col-sm-4" id="adv_container"></div>
 		</div>
 	</div>
 
