@@ -1,6 +1,6 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers.Rest;
 
-import com.gmail.gm.jcant.JDate;
+import com.gmail.develop.jcant.JDate;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertising;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingException;

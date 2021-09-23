@@ -22,20 +22,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <!--
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        -->
     </properties>
 
 
     <dependencies>
-		<dependency>
-			<groupId>com.gmail.gm.jcant</groupId>
-			<artifactId>JDate</artifactId>
-			<version>1.5</version>
-		</dependency>
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -43,12 +33,12 @@
 
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId> 
+            <artifactId>jstl</artifactId>
         </dependency>
 <!--
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>  
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
 -->
 
@@ -63,27 +53,33 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
- 
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.34</version>
+            <scope>runtime</scope>
         </dependency>
+<!--
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+-->
 
- 
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
- <!-- 
+ <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
- -->
 
+ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -107,6 +103,26 @@
         </dependency>
         -->
 
+		<dependency>
+			<groupId>com.gmail.develop.jcant</groupId>
+			<artifactId>JDate</artifactId>
+			<version>1.9</version>
+		</dependency>
+		
+		<!-- API, java.xml.bind module -->
+<dependency>
+    <groupId>jakarta.xml.bind</groupId>
+    <artifactId>jakarta.xml.bind-api</artifactId>
+    <version>2.3.2</version>
+</dependency>
+
+<!-- Runtime, com.sun.xml.bind module -->
+<dependency>
+    <groupId>org.glassfish.jaxb</groupId>
+    <artifactId>jaxb-runtime</artifactId>
+    <version>2.3.2</version>
+</dependency>
+
     </dependencies>
 
     <build>
@@ -115,10 +131,28 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+              	<groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-dependency-plugin</artifactId>
+      	        <executions>
+              	    <execution>
+                  	        <phase>package</phase>
+                      	<goals><goal>copy</goal></goals>
+                              <configuration>
+      	                    <artifactItems>
+          	                        <artifactItem>
+              	                    <groupId>com.github.jsimone</groupId>
+                  	                    <artifactId>webapp-runner</artifactId>
+                      	            <version>8.5.30.0</version>
+                          	            <destFileName>webapp-runner.jar</destFileName>
+                              	</artifactItem>
+                              </artifactItems>
+                          </configuration>
+                      </execution>
+                  </executions>
+              </plugin>
         </plugins>
     </build>
 
 
 </project>
-
-

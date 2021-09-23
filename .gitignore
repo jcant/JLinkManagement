@@ -3,7 +3,6 @@
 /RemoteSystemsTempFiles/
 /Servers/
 
-target/
 .idea/
 .settings/
 .classpath
@@ -11,3 +10,4 @@ target/
 *.iml
 out/
 lib/
+/target/

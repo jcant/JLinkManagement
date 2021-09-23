@@ -57,6 +57,16 @@ function getAdv(url, id) {
 
 
 function register(){
+	pass = $('#inputPassword2').val();
+	passConf = $('#inputPasswordConf2').val();
+	if (pass != passConf) {
+		jcaUtils.setInvalid('inputPassword2');
+		jcaUtils.setInvalid('inputPasswordConf2');
+		return;
+	} else {
+		jcaUtils.setValid('inputPassword2');
+		jcaUtils.setValid('inputPasswordConf2');
+	}
 	data = {login: $('#inputLogin2').val(), password: $('#inputPassword2').val(), email: $('#inputEmail2').val()};
 	jcaUtils.ajaxJOperationAnswered("/user/add", "POST", data, "message", true, ajaxDone, ajaxFail);
 	$('#close_button2').click();

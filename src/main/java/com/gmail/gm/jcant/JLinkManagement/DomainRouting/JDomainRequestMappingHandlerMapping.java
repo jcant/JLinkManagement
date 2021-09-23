@@ -1,6 +1,7 @@
 package com.gmail.gm.jcant.JLinkManagement.DomainRouting;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,7 +40,9 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 				String[] values = environment.getProperty(accessMapping.property()).split(",");
 				cond = new JDomainRequestCondition(values);
 			}else if(accessMapping.fromMethod()) {
-				cond = new JDomainRequestCondition(domainList.getDomainList());
+				List<String> list = domainList.getDomainList();
+				System.out.println("*************** Create condition list from DB: "+list);
+				cond = new JDomainRequestCondition(list);
 			}else{
 				cond = new JDomainRequestCondition(accessMapping.value());
 			}

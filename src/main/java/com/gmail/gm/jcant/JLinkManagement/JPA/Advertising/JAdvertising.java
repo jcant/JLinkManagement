@@ -21,7 +21,6 @@ public class JAdvertising {
     private String header;
 
     @Column(length=10000)
-	@Lob
     private String text;
 
     public JAdvertising() {

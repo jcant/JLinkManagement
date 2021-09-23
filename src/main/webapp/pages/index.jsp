@@ -109,7 +109,12 @@
 								id="inputPassword2" placeholder="Password">
 						</div>
 						<div class="form-group">
-							<label for="inputEmail2">Password</label> <input type="email"
+							<label for="inputPasswordConf2">Confirm Password</label> <input
+								type="password" name="passwordConf" class="form-control"
+								id="inputPasswordConf2" placeholder="Password">
+						</div>
+						<div class="form-group">
+							<label for="inputEmail2">Email</label> <input type="email"
 								name="email" class="form-control" id="inputEmail2"
 								aria-describedby="email2Help" placeholder="Enter email">
 							<small id="email2Help" class="form-text text-muted">We'll
@@ -119,8 +124,6 @@
 						<c:if test="${exists ne null}">
 							<p>User already exists!</p>
 						</c:if>
-						<div class="g-recaptcha"
-							data-sitekey="6LcYQ18UAAAAACBiieV9IG2i21FpbhVLk5PXAxow"></div>
 					</form>
 
 				</div>

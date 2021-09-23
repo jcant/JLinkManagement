@@ -27,13 +27,13 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
         String requestDomain = getRequestDomain(request);
 
         for (String domain : jDomainValue) {
-            //System.out.print("getMatchingCondition: request="+requestDomain+" condition="+domain);
+            System.out.print("on getMatchingCondition(): request="+requestDomain+" condition="+domain);
         	if (requestDomain.toLowerCase().endsWith(domain.toLowerCase())) {
-                //System.out.println("   - true");
+                System.out.println("   - true");
         		condition = this;
                 break;
             }
-        	//System.out.println("   - false");
+        	System.out.println("   - false");
         }
 
         return condition;
@@ -58,11 +58,13 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
 
         String scheme = request.getScheme();
         String name = request.getServerName();
-        String port = "" + request.getServerPort();
+        //String port = "" + request.getServerPort();
         String url = scheme + "://" + name;
-        if (!port.equals("")) {
-            url += ":" + port;
-        }
+        
+        //for now, we exclude server port info:
+        //if (!port.equals("")) {
+        //    url += ":" + port;
+        //}
 
         return url;
     }

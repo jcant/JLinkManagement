@@ -27,7 +27,7 @@ public class JLink {
 	private String target;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "user_id")
 	private JUser user;
 	
 	@Column(nullable = false)

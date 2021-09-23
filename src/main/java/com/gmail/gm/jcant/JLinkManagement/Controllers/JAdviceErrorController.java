@@ -1,19 +1,17 @@
 package com.gmail.gm.jcant.JLinkManagement.Controllers;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import com.gmail.gm.jcant.JDate;
+import com.gmail.develop.jcant.JDate;
 import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
 
 //@ControllerAdvice
-@RestController
+//@RestController
 public class JAdviceErrorController {
 
 	@ExceptionHandler(Exception.class)

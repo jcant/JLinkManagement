@@ -27,15 +27,17 @@ public class RedirectController {
     @RequestMapping("/")
     public RedirectView index(HttpServletRequest request) throws JLinkException {
 
-        JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
+        //JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
+        JLink link = linkService.getByUrlActualEnabled(getRequestDomain(request), new Date());
         if (link != null) {
+        	System.out.println("**** 1)Redirect to link: "+link);
             linkClickService.SaveLinkClick(link, request);
         	//return "redirect:" + link.getTarget();
         	RedirectView rv = new RedirectView(wrapTarget(link.getTarget()), true);
     		rv.setExposeModelAttributes(false);
     		return rv;
         } else {
-        	throw new JLinkException("Wrong link requested! " + request.getRequestURL().toString());
+        	throw new JLinkException("Wrong link requested! " + getRequestDomain(request));
         }
 
     }
@@ -43,15 +45,17 @@ public class RedirectController {
     @RequestMapping("/{shortcut}")
     public RedirectView indexWithURI(HttpServletRequest request) throws JLinkException {
     	
-        JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
+        //JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
+        JLink link = linkService.getByUrlActualEnabled(getRequestDomain(request), new Date());
         if (link != null) {
-            linkClickService.SaveLinkClick(link, request);
+            System.out.println("**** 2)Redirect to link: "+link);
+        	linkClickService.SaveLinkClick(link, request);
         	//return "redirect:" + link.getTarget();
         	RedirectView rv = new RedirectView(wrapTarget(link.getTarget()), true);
     		rv.setExposeModelAttributes(false);
     		return rv;
         } else {
-            throw new JLinkException("Wrong link requested! " + request.getRequestURL().toString());
+            throw new JLinkException("Wrong link requested! " + getRequestDomain(request));
         }
     }
     
@@ -62,5 +66,26 @@ public class RedirectController {
     	}else {
     		return "http://"+result;
     	}
+    }
+    
+    
+    private String getRequestDomain(HttpServletRequest request) {
+
+        String scheme = request.getScheme();
+        String name = request.getServerName();
+        String uri = request.getRequestURI();
+        //String port = "" + request.getServerPort();
+        String url = scheme + "://" + name;
+        
+        //for now, we exclude server port info:
+        //if (!port.equals("")) {
+        //    url += ":" + port;
+        //}
+        
+        if (!uri.equals("")) {
+        	url += uri;
+        }
+
+        return url;
     }
 }

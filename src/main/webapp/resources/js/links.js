@@ -197,8 +197,8 @@ function checkURL() {
 	//remove all spaces:
 	entered = entered.replace(/\s/g, '');
 	
-	var chURL1 = "http://"+entered+"."+rootSelected+"/";
-	var chURL2 = "http://"+rootSelected+"/"+entered;
+	var chURL1 = "https://"+entered+"."+rootSelected+"/";
+	var chURL2 = "https://"+rootSelected+"/"+entered;
 	
 	$("#sampleURL1").val(chURL1).show();
 	$("#sampleURL2").val(chURL2).show();

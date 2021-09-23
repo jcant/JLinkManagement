@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.gmail.gm.jcant.JDate;
+import com.gmail.develop.jcant.JDate;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
@@ -75,10 +75,10 @@ public class LinkAddController {
     	link.setStartDate(new Date());
     	
     	if (linkMode.equals("subdomain")) {
-			link.setUrl("http://" + checkURL + "." + rootLinks + "/");
+			link.setUrl("https://" + checkURL + "." + rootLinks + "/");
 		}
 		if (linkMode.equals("parameter")) {
-			link.setUrl("http://" + rootLinks + "/" + checkURL);
+			link.setUrl("https://" + rootLinks + "/" + checkURL);
 		}
 		
 		if (!linkService.isFreeByUrl(link.getUrl())) {

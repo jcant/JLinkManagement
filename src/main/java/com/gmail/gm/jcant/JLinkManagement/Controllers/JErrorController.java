@@ -5,13 +5,13 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.stereotype.Controller;
+//import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gmail.gm.jcant.JDate;
+import com.gmail.develop.jcant.JDate;
 
-@Controller
+//@Controller
 public class JErrorController implements ErrorController{
 
 	
