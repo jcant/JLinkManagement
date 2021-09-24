@@ -17,6 +17,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserDetailServiceImpl;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 
@@ -31,10 +32,17 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.Marker;
+
 
 @SpringBootApplication
 public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 
+	@Autowired
+    private Logger logger;
+	
 //    @Value("${hibernate.dialect}")
 //    private String sqlDialect;
 //
@@ -65,6 +73,8 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 			@Override
 			public void run(String... strings) throws Exception {
 				initDB(userService, linkService, rlinkService, articleService, advService);
+				logger.info("WE ARE ON INIT()!!!");
+				System.out.println("asdfasfasfasfsafasd");
 			}
 		};
 	}
@@ -134,25 +144,27 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 		advService.addAdvertising(adv1);
 		advService.addAdvertising(adv2);
 
-		JRootLink rl1 = new JRootLink("short3-domain-name.herokuapp.com", false);
-		JRootLink rl2 = new JRootLink("short2-domain-name.herokuapp.com", false);
-		JRootLink rl3 = new JRootLink("short-domain-name.herokuapp.com", true);
+		JRootLink rl1 = new JRootLink("short.jcant.com.ua", true);
+		JRootLink rl2 = new JRootLink("short2.jcant.com.ua", false);
 
 		rlinkService.addRootLink(rl1);
 		rlinkService.addRootLink(rl2);
-		rlinkService.addRootLink(rl3);
 
 		Date dstart = JDate.incDay(JDate.setTime(new Date(), "0:0:1"), -1);
 		Date dfinish = JDate.incMonth(JDate.setTime(new Date(), "0:0:1"), 2);
-		JLink l1 = new JLink("https://short-domain-name.herokuapp.com/qqwwee", "google.com", admin, dstart, dfinish, true, true);
-		JLink l2 = new JLink("https://short-domain-name.herokuapp.com/superadminlink", "gmail.com", admin, dstart, dfinish, true, false);
-		JLink l3 = new JLink("https://short-domain-name.herokuapp.com/aassdd", "yahoo.com", ouser, dstart, dfinish, true, true);
-		JLink l4 = new JLink("https://short-domain-name.herokuapp.com/superuserlink", "github.com", ouser, dstart, dfinish, true, false);
+		JLink l1 = new JLink("short.jcant.com.ua/qqwwee", "google.com", admin, dstart, dfinish, true, true);
+		JLink l2 = new JLink("short.jcant.com.ua/adminlink", "gmail.com", admin, dstart, dfinish, true, false);
+		JLink l3 = new JLink("owesome.short.jcant.com.ua", "gmail.com", admin, dstart, dfinish, true, false);
+		JLink l4 = new JLink("short.jcant.com.ua/aassdd", "yahoo.com", ouser, dstart, dfinish, true, true);
+		JLink l5 = new JLink("short.jcant.com.ua/userlink", "github.com", ouser, dstart, dfinish, true, false);
+		JLink l6 = new JLink("super.short.jcant.com.ua", "github.com", ouser, dstart, dfinish, true, false);
 
 		linkService.addLink(l1);
 		linkService.addLink(l2);
 		linkService.addLink(l3);
 		linkService.addLink(l4);
+		linkService.addLink(l5);
+		linkService.addLink(l6);
 	}
 	
 
@@ -236,6 +248,11 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 		handlerMapping.setInterceptors(getInterceptors(null, null));
 		return handlerMapping;
 	}
+    
+    @Bean
+    public Logger loggerService(){
+        return LogManager.getLogger();
+    }
 
 //    @Bean
 //	public DataSource dataSource()  {

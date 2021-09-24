@@ -4,20 +4,34 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
+//import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
+
+//import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.Marker;
+
 public class JDomainRequestCondition implements RequestCondition<JDomainRequestCondition> {
+
+	@Autowired
+    private Logger logger;
 
     private String[] jDomainValue = null;
 
     public JDomainRequestCondition(String[] value) {
         jDomainValue = value;
+        logger.info("*************** CREATE!!! INFOOO");
+        System.out.println("*************** CREATE!!!");
     }
 
     public JDomainRequestCondition(Collection<String> collection) {
         if (collection != null) {
             jDomainValue = collection.toArray(new String[]{});
         }
+        System.out.println("*************** CREATE2!!!");
+
     }
 
     @Override
@@ -59,7 +73,10 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
         String scheme = request.getScheme();
         String name = request.getServerName();
         //String port = "" + request.getServerPort();
-        String url = scheme + "://" + name;
+        //String url = scheme + "://" + name;
+        String url = name;
+        
+        logger.info("###############" + url);
         
         //for now, we exclude server port info:
         //if (!port.equals("")) {
