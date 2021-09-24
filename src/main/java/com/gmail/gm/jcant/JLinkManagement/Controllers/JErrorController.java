@@ -35,9 +35,4 @@ public class JErrorController implements ErrorController{
 	    return "jerror";
     }
 	
-	@Override
-	public String getErrorPath() {
-		return null;
-	}
-
 }

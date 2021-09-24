@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/someredirect")
 @JDomain(fromMethod = true)
 public class RedirectController {
     @Autowired
