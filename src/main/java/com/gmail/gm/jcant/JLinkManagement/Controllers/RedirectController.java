@@ -28,7 +28,6 @@ public class RedirectController {
     @Autowired
     private JLinkClickService linkClickService;
 
-    @JDomain(fromMethod = true)
     @RequestMapping("/")
     public RedirectView index(HttpServletRequest request) throws JLinkException {
 
@@ -91,7 +90,7 @@ public class RedirectController {
         //    url += ":" + port;
         //}
         
-        if (!uri.equals("")) {
+        if (!uri.equals("") && !uri.equals("/")) {
         	url += uri;
         }
 

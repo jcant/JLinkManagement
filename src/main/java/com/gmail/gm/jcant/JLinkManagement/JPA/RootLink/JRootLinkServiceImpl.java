@@ -54,7 +54,7 @@ public class JRootLinkServiceImpl implements JRootLinkService{
             throw new JRootLinkException("JRootLink with id="+id+" is not found!");
         }
 
-        return rlinkRepository.getOne(id);
+        return rlinkRepository.getById(id);
     }
 
     @Override

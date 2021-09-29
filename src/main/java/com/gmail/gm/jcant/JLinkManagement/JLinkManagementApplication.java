@@ -23,22 +23,22 @@ import org.springframework.boot.SpringApplication;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
 import org.springframework.security.core.userdetails.UserDetailsService;
-
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-//import org.apache.logging.log4j.Marker;
 
 
 @SpringBootApplication
-public class JLinkManagementApplication extends WebMvcConfigurationSupport{
+@EnableWebMvc
+public class JLinkManagementApplication implements WebMvcConfigurer{
 
 	@Autowired
     private Logger logger;
@@ -72,9 +72,8 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... strings) throws Exception {
-				initDB(userService, linkService, rlinkService, articleService, advService);
+				//initDB(userService, linkService, rlinkService, articleService, advService);
 				logger.info("WE ARE ON INIT()!!!");
-				System.out.println("asdfasfasfasfsafasd");
 			}
 		};
 	}
@@ -144,20 +143,20 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 		advService.addAdvertising(adv1);
 		advService.addAdvertising(adv2);
 
-		JRootLink rl1 = new JRootLink("short.jcant.com.ua", true);
-		JRootLink rl2 = new JRootLink("short2.jcant.com.ua", false);
+		JRootLink rl1 = new JRootLink("short1.jca", true);
+		JRootLink rl2 = new JRootLink("short2.jca", false);
 
 		rlinkService.addRootLink(rl1);
 		rlinkService.addRootLink(rl2);
 
 		Date dstart = JDate.incDay(JDate.setTime(new Date(), "0:0:1"), -1);
 		Date dfinish = JDate.incMonth(JDate.setTime(new Date(), "0:0:1"), 2);
-		JLink l1 = new JLink("short.jcant.com.ua/qqwwee", "google.com", admin, dstart, dfinish, true, true);
-		JLink l2 = new JLink("short.jcant.com.ua/adminlink", "gmail.com", admin, dstart, dfinish, true, false);
-		JLink l3 = new JLink("owesome.short.jcant.com.ua", "gmail.com", admin, dstart, dfinish, true, false);
-		JLink l4 = new JLink("short.jcant.com.ua/aassdd", "yahoo.com", ouser, dstart, dfinish, true, true);
-		JLink l5 = new JLink("short.jcant.com.ua/userlink", "github.com", ouser, dstart, dfinish, true, false);
-		JLink l6 = new JLink("super.short.jcant.com.ua", "github.com", ouser, dstart, dfinish, true, false);
+		JLink l1 = new JLink("short1.jca/qqwwee", "google.com", admin, dstart, dfinish, true, true);
+		JLink l2 = new JLink("short1.jca/adminlink", "gmail.com", admin, dstart, dfinish, true, false);
+		JLink l3 = new JLink("owesome.short1.jca", "gmail.com", admin, dstart, dfinish, true, false);
+		JLink l4 = new JLink("short2.jca/aassdd", "yahoo.com", ouser, dstart, dfinish, true, true);
+		JLink l5 = new JLink("short2.jca/userlink", "github.com", ouser, dstart, dfinish, true, false);
+		JLink l6 = new JLink("super.short2.jca", "github.com", ouser, dstart, dfinish, true, false);
 
 		linkService.addLink(l1);
 		linkService.addLink(l2);
@@ -208,6 +207,7 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
+    	logger.info("we are in setupViewResolver() *********** ");
     	UrlBasedViewResolver resolver = new UrlBasedViewResolver();
         resolver.setPrefix("/pages/");
         resolver.setSuffix(".jsp");
@@ -218,6 +218,7 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	System.out.println("we are in addResourceHandlers() *********** ");
     	registry
         .addResourceHandler("/css/**")
         .addResourceLocations("/resources/css/");
@@ -243,9 +244,10 @@ public class JLinkManagementApplication extends WebMvcConfigurationSupport{
 
     @Bean
 	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-		RequestMappingHandlerMapping handlerMapping = new JDomainRequestMappingHandlerMapping();
+		logger.info("we are in requestMappingHandlerMapping() *********** ");
+    	RequestMappingHandlerMapping handlerMapping = new JDomainRequestMappingHandlerMapping();
 		handlerMapping.setOrder(0);
-		handlerMapping.setInterceptors(getInterceptors(null, null));
+		handlerMapping.setInterceptors();
 		return handlerMapping;
 	}
     

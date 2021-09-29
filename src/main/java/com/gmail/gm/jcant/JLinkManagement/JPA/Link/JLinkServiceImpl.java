@@ -21,7 +21,7 @@ public class JLinkServiceImpl implements JLinkService{
 	@Override
 	@Transactional(readOnly = true)
 	public JLink findById(long id) throws JLinkException {
-		JLink link = linkRepository.getOne(id);
+		JLink link = linkRepository.getById(id);
 		if (link == null) {
 			throw new JLinkException();
 		}

@@ -15,14 +15,14 @@ import org.apache.logging.log4j.Logger;
 
 public class JDomainRequestCondition implements RequestCondition<JDomainRequestCondition> {
 
-	@Autowired
-    private Logger logger;
+//	@Autowired
+//    private Logger logger;
 
     private String[] jDomainValue = null;
 
     public JDomainRequestCondition(String[] value) {
         jDomainValue = value;
-        logger.info("*************** CREATE!!! INFOOO");
+//        logger.info("*************** CREATE!!! INFOOO");
         System.out.println("*************** CREATE!!!");
     }
 
@@ -76,7 +76,8 @@ public class JDomainRequestCondition implements RequestCondition<JDomainRequestC
         //String url = scheme + "://" + name;
         String url = name;
         
-        logger.info("###############" + url);
+        //logger.info("###############" + url);
+        System.out.println("###############" + url);
         
         //for now, we exclude server port info:
         //if (!port.equals("")) {
