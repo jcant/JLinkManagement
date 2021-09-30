@@ -51,12 +51,12 @@ CREATE TABLE `jlink` (
 LOCK TABLES `jlink` WRITE;
 /*!40000 ALTER TABLE `jlink` DISABLE KEYS */;
 INSERT INTO `jlink` VALUES 
-(11,_binary '','2021-11-30 00:00:01.707000',_binary '','2021-09-29 00:00:01.698000','google.com/search?q=java+spring','short1.jca/qqwwee',1),
-(12,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','www.linkedin.com/in/anton-isaev','short1.jca/adminlink',1),
-(13,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','github.com/jcant','owesome.short1.jca',1),
-(14,_binary '','2021-11-30 00:00:01.707000',_binary '','2021-09-29 00:00:01.698000','google.com/search?q=oop+principles','short2.jca/aassdd',2),
-(15,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','github.com/jcant','short2.jca/userlink',2),
-(16,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','www.linkedin.com/in/anton-isaev','super.short2.jca',2);
+(11,_binary '','2021-11-30 00:00:01.707000',_binary '','2021-09-29 00:00:01.698000','google.com/search?q=java+spring','short1.jcant.com.ua/qqwwee',1),
+(12,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','www.linkedin.com/in/anton-isaev','short1.jcant.com.ua/adminlink',1),
+(13,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','github.com/jcant','awesome.short1.jcant.com.ua',1),
+(14,_binary '','2021-11-30 00:00:01.707000',_binary '','2021-09-29 00:00:01.698000','google.com/search?q=oop+principles','short2.jcant.com.ua/aassdd',2),
+(15,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','github.com/jcant','short2.jcant.com.ua/userlink',2),
+(16,_binary '','2021-11-30 00:00:01.707000',_binary '\0','2021-09-29 00:00:01.698000','www.linkedin.com/in/anton-isaev','super.short2.jcant.com.ua',2);
 /*!40000 ALTER TABLE `jlink` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,8 +102,8 @@ CREATE TABLE `jroot_link` (
 LOCK TABLES `jroot_link` WRITE;
 /*!40000 ALTER TABLE `jroot_link` DISABLE KEYS */;
 INSERT INTO `jroot_link` VALUES 
-(9,_binary '','short1.jca'),
-(10,_binary '\0','short2.jca');
+(9,_binary '','short1.jcant.com.ua'),
+(10,_binary '^A','short2.jcant.com.ua');
 /*!40000 ALTER TABLE `jroot_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,13 @@ INSERT INTO `jarticle` VALUES
   (3,'2021-09-30 10:33:30.447000','Weclome!',NULL,NULL,'It\'s good to see you here!<br>This is a test project of the redirect platform. You can try the user and admin functionality, as well as the basic <strong>redirect functionality.</strong><br></br>Registration of a new user is disabled<br>Creation of a new links is disabled<br>You can log in either as administrator or as ordinaly user',1),
   (4,'2021-09-30 10:33:30.447000','Admin',NULL,NULL,'to Auth as an ADMIN, please input:<br><br>login: <strong>admin</strong><br>password: <strong>password</strong>',1),
   (5,'2021-09-30 10:33:30.447000','User',NULL,NULL,'to Auth as an USER, please input:<br><br>login: <strong>user</strong><br>password: <strong>password</strong>',1),
-  (6,'2021-09-30 10:33:30.447000','Redirecting',NULL,NULL,'FreeLink (owner admin) <a target=\"_blank\" href=\"short1.jca:10000/qqwwee\"><strong>https://short1.jca/qqwwee</strong></a> => google.com/search?q=java+spring<br>PaidLink (owner admin) <a target=\"_blank\" href=\"short1.jca:10000/adminlink\"><strong>https://short1.jca/adminlink</strong></a> => www.linkedin.com/in/anton-isaev<br>PaidLink (owner admin) <a target=\"_blank\" href=\"owesome.short1.jca:10000\"><strong>https://owesome.short1.jca</strong></a> => github.com/jcant<br>FreeLink (owner user) <a target=\"_blank\" href=\"short2.jca:10000/aassdd\"><strong>https://short2.jca/aassdd</strong></a> => google.com/search?q=oop+principles<br>PaidLink (owner user) <a target=\"_blank\" href=\"short2.jca:10000/userlink\"><strong>https://short2.jca/userlink</strong></a> => github.com/jcant<br>PaidLink (owner user) <a target=\"_blank\" href=\"super.short2.jca:10000\"><strong>https://super.short2.jca</strong></a> => www.linkedin.com/in/anton-isaev<br>',1);
+  (6,'2021-09-30 10:33:30.447000','Redirecting',NULL,NULL,
+	'FreeLink (owner admin) <a target=\"_blank\" href=\"https://short1.jcant.com.ua/qqwwee\"><strong>https://short1.jcant.com.ua/qqwwee</strong></a> => google.com/search?q=java+spring<br>
+	PaidLink (owner admin) <a target=\"_blank\" href=\"https://short1.jcant.com.ua/adminlink\"><strong>https://short1.jcant.com.ua/adminlink</strong></a> => www.linkedin.com/in/anton-isaev<br>
+	PaidLink (owner admin) <a target=\"_blank\" href=\"https://awesome.short1.jcant.com.ua\"><strong>https://awesome.short1.jcant.com.ua</strong></a> => github.com/jcant<br>
+	FreeLink (owner user) <a target=\"_blank\" href=\"https://short2.jcant.com.ua/aassdd\"><strong>https://short2.jcant.com.ua/aassdd</strong></a> => google.com/search?q=oop+principles<br>
+	PaidLink (owner user) <a target=\"_blank\" href=\"https://short2.jcant.com.ua/userlink\"><strong>https://short2.jcant.com.ua/userlink</strong></a> => github.com/jcant<br>
+	PaidLink (owner user) <a target=\"_blank\" href=\"https://super.short2.jcant.com.ua\"><strong>https://super.short2.jcant.com.ua</strong></a> => www.linkedin.com/in/anton-isaev<br>',1);
 /*!40000 ALTER TABLE `jarticle` ENABLE KEYS */;
 UNLOCK TABLES;
 
