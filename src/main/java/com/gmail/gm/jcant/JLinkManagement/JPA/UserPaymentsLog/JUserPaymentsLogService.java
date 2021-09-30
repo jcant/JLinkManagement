@@ -6,11 +6,8 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 public interface JUserPaymentsLogService {
-	//List<JLinkClick> getByUrl(String url);
-    //boolean existsByUrl(String url);
-    //void addUserPaymentsLog(JUserPaymentsLog userPaymentsLog);
-    //void updateUserPaymentsLog(JUserPaymentsLog serPaymentsLog);
-    List<JUserPaymentsLog> getByUser(JUser user);
 
-    void SaveUserPayment(JUser user, JLink link, double amount, String paySystem);
+	List<JUserPaymentsLog> getByUser(JUser user);
+
+	void SaveUserPayment(JUser user, JLink link, double amount, String paySystem) throws JUserPaymentsLogException;
 }

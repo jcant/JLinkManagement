@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target({TYPE, METHOD})
-//@Documented
 public @interface JDomain {
 	String[] value() default "";		//direct values (in-line)
 	String property() default "";		//values from app.property file
@@ -27,5 +26,10 @@ public @interface JDomain {
  *
  *	@RequestMapping("/")
  *	@JDomain(property = "frontend.domains")
+ *
+ *	OR
+ *
+ *	@RequestMapping("/")
+ *	@JDomain(fromMethod = true)
  */
 

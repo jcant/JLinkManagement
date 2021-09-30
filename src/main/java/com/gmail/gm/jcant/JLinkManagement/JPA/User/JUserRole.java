@@ -1,10 +1,10 @@
 package com.gmail.gm.jcant.JLinkManagement.JPA.User;
 
 public enum JUserRole {
-    ADMIN, USER;
+	ADMIN, USER;
 
-    @Override
-    public String toString() {
-        return "ROLE_" + name();
-    }
+	@Override
+	public String toString() {
+		return "ROLE_" + name();
+	}
 }

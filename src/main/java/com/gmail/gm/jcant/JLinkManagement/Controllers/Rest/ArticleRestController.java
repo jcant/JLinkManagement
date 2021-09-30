@@ -28,7 +28,7 @@ public class ArticleRestController {
     @Autowired
     private JUserService userService;
 
-    @RequestMapping(value = "/articles/getActual")//, method = RequestMethod.POST)
+    @RequestMapping(value = "/articles/getActual")
     @JDomain(property = "frontend.domains")
     public List<JArticle> getArticles(){
         return articleService.getInDateArticles(new Date());

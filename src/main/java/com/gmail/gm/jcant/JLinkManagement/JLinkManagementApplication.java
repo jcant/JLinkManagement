@@ -1,14 +1,5 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
-import com.gmail.develop.jcant.JDate;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
-import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
-import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLink;
-import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
-import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticle;
-import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertising;
-import java.util.Date;
-
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomainRequestMappingHandlerMapping;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticleService;
@@ -17,7 +8,6 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserDetailServiceImpl;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 
@@ -26,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.JstlView;
@@ -39,24 +28,7 @@ import org.apache.logging.log4j.Logger;
 @SpringBootApplication
 @EnableWebMvc
 public class JLinkManagementApplication implements WebMvcConfigurer{
-
-	@Autowired
-    private Logger logger;
 	
-//    @Value("${hibernate.dialect}")
-//    private String sqlDialect;
-//
-////    @Value("${hbm2ddl.auto}")
-////    private String hbm2dllAuto;
-//
-//    @Value("${spring.datasource.url}")
-//	private String dbUrl;
-//    
-//    @Value("${spring.datasource.username}")
-//	private String userName;
-//    @Value("${spring.datasource.password}")
-//	private String passWord;
-//
 	public static void main(String[] args) {
 		SpringApplication.run(JLinkManagementApplication.class, args);
 	}
@@ -73,12 +45,11 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 			@Override
 			public void run(String... strings) throws Exception {
 				//initDB(userService, linkService, rlinkService, articleService, advService);
-				logger.info("WE ARE ON INIT()!!!");
 			}
 		};
 	}
 
-
+/*
 	private void initDB(final JUserService userService,
 			final JLinkService linkService,
 			final JRootLinkService rlinkService,
@@ -166,48 +137,10 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 		linkService.addLink(l6);
 	}
 	
-
-
-//    @Bean
-//    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-//        return new JpaTransactionManager(emf);
-//    }
-//
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory
-//            (DataSource dataSource, JpaVendorAdapter jpaVendorAdapter)
-//    {
-//        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-//        entityManagerFactory.setDataSource(dataSource);
-//        entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
-//        entityManagerFactory.setJpaProperties(additionalProperties());
-//        entityManagerFactory.setPackagesToScan("com.gmail.gm.jcant.JLinkManagement");
-//        return entityManagerFactory;
-//    }
-//
-//    @Bean
-//    public JpaVendorAdapter jpaVendorAdapter() {
-//        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-//        //adapter.setShowSql(true);
-//        //adapter.setDatabasePlatform(sqlDialect);
-//        //adapter.setDatabase(Database.POSTGRESQL);
-//    	//adapter.setGenerateDdl(true);
-//        
-//        adapter.setShowSql(true);
-//        adapter.setDatabasePlatform(sqlDialect);
-//
-//        return adapter;
-//    }
-//    
-//    private Properties additionalProperties() {
-//        Properties properties = new Properties();
-//        //properties.setProperty("hibernate.hbm2ddl.auto", hbm2dllAuto);
-//        return properties;
-//    }
+*/
 
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
-    	logger.info("we are in setupViewResolver() *********** ");
     	UrlBasedViewResolver resolver = new UrlBasedViewResolver();
         resolver.setPrefix("/pages/");
         resolver.setSuffix(".jsp");
@@ -218,7 +151,6 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    	System.out.println("we are in addResourceHandlers() *********** ");
     	registry
         .addResourceHandler("/css/**")
         .addResourceLocations("/resources/css/");
@@ -244,7 +176,6 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 
     @Bean
 	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-		logger.info("we are in requestMappingHandlerMapping() *********** ");
     	RequestMappingHandlerMapping handlerMapping = new JDomainRequestMappingHandlerMapping();
 		handlerMapping.setOrder(0);
 		handlerMapping.setInterceptors();
@@ -256,13 +187,4 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
         return LogManager.getLogger();
     }
 
-//    @Bean
-//	public DataSource dataSource()  {
-//      HikariConfig config = new HikariConfig();
-//      config.setJdbcUrl(dbUrl);
-//      config.setUsername(userName);
-//      config.setPassword(passWord);
-//   
-//      return new HikariDataSource(config);
-//	}
 }

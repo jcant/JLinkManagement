@@ -1,7 +1,5 @@
 package com.gmail.gm.jcant.JLinkManagement.Statistics;
 
-
-
 public class JStatistics {
 
 	private int allCnt;
@@ -9,15 +7,15 @@ public class JStatistics {
 	private int weekCnt;
 	private int monthCnt;
 	private int yearCnt;
-	
+
 	private long daysLeft;
-	
+
 	private String allPerDay;
 	private String dayPerHour;
 	private String weekPerDay;
 	private String monthPerDay;
 	private String yearPerDay;
-	
+
 	public JStatistics() {
 	}
 
@@ -54,7 +52,7 @@ public class JStatistics {
 	public int getYearCnt() {
 		return yearCnt;
 	}
-	
+
 	public void setAllCnt(int allCnt) {
 		this.allCnt = allCnt;
 	}
@@ -95,26 +93,24 @@ public class JStatistics {
 		return yearPerDay;
 	}
 
-	
-
 	public void setAllPerDay(int allCnt) {
-		this.allPerDay = String.format("%.2f", ((double)allCnt/365));
+		this.allPerDay = String.format("%.2f", ((double) allCnt / 365));
 	}
 
 	public void setDayPerHour(int dayCnt) {
-		this.dayPerHour = String.format("%.2f", ((double)dayCnt/24));
+		this.dayPerHour = String.format("%.2f", ((double) dayCnt / 24));
 	}
 
 	public void setWeekPerDay(int weekCnt) {
-		this.weekPerDay = String.format("%.2f", ((double)weekCnt/7));
+		this.weekPerDay = String.format("%.2f", ((double) weekCnt / 7));
 	}
 
 	public void setMonthPerDay(int monthCnt) {
-		this.monthPerDay = String.format("%.2f", ((double)monthCnt/30));
+		this.monthPerDay = String.format("%.2f", ((double) monthCnt / 30));
 	}
 
 	public void setYearPerDay(int yearCnt) {
-		this.yearPerDay = String.format("%.2f", ((double)yearCnt/365));
+		this.yearPerDay = String.format("%.2f", ((double) yearCnt / 365));
 	}
 
 	public long getDaysLeft() {
@@ -127,18 +123,9 @@ public class JStatistics {
 
 	@Override
 	public String toString() {
-		return "JStatistics{" +
-				"allCnt=" + allCnt +
-				", dayCnt=" + dayCnt +
-				", weekCnt=" + weekCnt +
-				", monthCnt=" + monthCnt +
-				", yearCnt=" + yearCnt +
-				", daysLeft=" + daysLeft +
-				", allPerDay='" + allPerDay + '\'' +
-				", dayPerHour='" + dayPerHour + '\'' +
-				", weekPerDay='" + weekPerDay + '\'' +
-				", monthPerDay='" + monthPerDay + '\'' +
-				", yearPerDay='" + yearPerDay + '\'' +
-				'}';
+		return "JStatistics{" + "allCnt=" + allCnt + ", dayCnt=" + dayCnt + ", weekCnt=" + weekCnt + ", monthCnt="
+				+ monthCnt + ", yearCnt=" + yearCnt + ", daysLeft=" + daysLeft + ", allPerDay='" + allPerDay + '\''
+				+ ", dayPerHour='" + dayPerHour + '\'' + ", weekPerDay='" + weekPerDay + '\'' + ", monthPerDay='"
+				+ monthPerDay + '\'' + ", yearPerDay='" + yearPerDay + '\'' + '}';
 	}
 }

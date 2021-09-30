@@ -16,13 +16,13 @@ public class JUserLog {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private JUser user;
-	
+
 	private Date date;
-	
+
 	private String ip;
 
 	public JUserLog() {
@@ -81,8 +81,5 @@ public class JUserLog {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
-	
-	
+
 }

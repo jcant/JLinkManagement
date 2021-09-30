@@ -14,25 +14,25 @@ import java.util.Set;
 
 @Service
 public class JUserDetailServiceImpl implements UserDetailsService {
-    @Autowired
-    private JUserService userService;
+	@Autowired
+	private JUserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        JUser user = null;
+	@Override
+	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+		JUser user = null;
 		try {
 			user = userService.getUserByLogin(login);
 		} catch (JUserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        if (user == null)
-            throw new UsernameNotFoundException(login + " not found");
+		if (user == null)
+			throw new UsernameNotFoundException(login + " not found");
 
-        Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(user.getRole().toString()));
+		Set<GrantedAuthority> roles = new HashSet<>();
+		roles.add(new SimpleGrantedAuthority(user.getRole().toString()));
 
-        return new User(user.getLogin(), user.getPassword(), roles);
-    }
+		return new User(user.getLogin(), user.getPassword(), roles);
+	}
 
 }

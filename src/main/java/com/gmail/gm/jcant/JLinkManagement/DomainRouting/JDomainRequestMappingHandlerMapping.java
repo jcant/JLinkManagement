@@ -41,7 +41,6 @@ public class JDomainRequestMappingHandlerMapping extends RequestMappingHandlerMa
 				cond = new JDomainRequestCondition(values);
 			}else if(accessMapping.fromMethod()) {
 				List<String> list = domainList.getDomainList();
-				System.out.println("*************** Create condition list from DB: "+list);
 				cond = new JDomainRequestCondition(list);
 			}else{
 				cond = new JDomainRequestCondition(accessMapping.value());

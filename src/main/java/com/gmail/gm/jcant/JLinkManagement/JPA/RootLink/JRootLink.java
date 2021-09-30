@@ -13,7 +13,7 @@ public class JRootLink {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@Column(nullable = false, unique = true)
 	private String url;
 
@@ -59,10 +59,6 @@ public class JRootLink {
 
 	@Override
 	public String toString() {
-		return "JRootLink{" +
-				"id=" + id +
-				", url='" + url + '\'' +
-				", enabled=" + enabled +
-				'}';
+		return "JRootLink{" + "id=" + id + ", url='" + url + '\'' + ", enabled=" + enabled + '}';
 	}
 }

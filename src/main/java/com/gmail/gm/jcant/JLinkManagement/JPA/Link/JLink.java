@@ -20,25 +20,25 @@ public class JLink {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@Column(nullable = false)
 	private String url;
-	
+
 	private String target;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private JUser user;
-	
+
 	@Column(nullable = false)
 	private Date startDate;
-	
+
 	@Column(nullable = false)
 	private Date finishDate;
-	
+
 	@Column(nullable = false)
 	private boolean enabled;
-	
+
 	@Column(nullable = false)
 	private boolean free;
 
@@ -54,8 +54,9 @@ public class JLink {
 		this.enabled = true;
 		this.free = true;
 	}
-	
-	public JLink(String url, String target, JUser user, Date startDate, Date finishDate, boolean enabled, boolean free) {
+
+	public JLink(String url, String target, JUser user, Date startDate, Date finishDate, boolean enabled,
+			boolean free) {
 		this.url = url;
 		this.target = target;
 		this.user = user;
@@ -138,8 +139,6 @@ public class JLink {
 		builder.append(url);
 		builder.append(", target=");
 		builder.append(target);
-		//builder.append(", user=");
-		//builder.append(user);
 		builder.append(", startDate=");
 		builder.append(startDate);
 		builder.append(", finishDate=");
@@ -150,11 +149,6 @@ public class JLink {
 		builder.append(", free=");
 		builder.append(free);
 		return builder.toString();
-	}	
-	
-	
-	
+	}
+
 }
-
-
-

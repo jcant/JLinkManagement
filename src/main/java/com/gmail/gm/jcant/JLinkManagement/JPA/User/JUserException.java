@@ -2,21 +2,21 @@ package com.gmail.gm.jcant.JLinkManagement.JPA.User;
 
 public class JUserException extends Exception {
 
- 	private static final long serialVersionUID = 1L;
- 	
- 	private String message;
+	private static final long serialVersionUID = 1L;
 
-	public JUserException(){
-        super();
-    }
+	private String message;
 
-    public JUserException(String message){
-        super(message);
-        this.message = message;
-    }
+	public JUserException() {
+		super();
+	}
 
-    @Override
-    public String getMessage() {
-        return "JUserException: " + message;
-    }
+	public JUserException(String message) {
+		super(message);
+		this.message = message;
+	}
+
+	@Override
+	public String getMessage() {
+		return "JUserException: " + message;
+	}
 }

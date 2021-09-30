@@ -9,12 +9,10 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JArticleServiceImpl implements JArticleService{
+public class JArticleServiceImpl implements JArticleService {
 
 	@Autowired
-    private JArticleRepositiory articleRepository;
-	
-
+	private JArticleRepositiory articleRepository;
 
 	@Override
 	public void addArticle(JArticle article) {
@@ -23,8 +21,8 @@ public class JArticleServiceImpl implements JArticleService{
 
 	@Override
 	public void deleteById(long id) throws JArticleException {
-		if (!articleRepository.existsById(id)){
-			throw new JArticleException("Can't delete: NO Article with such id="+id);
+		if (!articleRepository.existsById(id)) {
+			throw new JArticleException("Can't delete: NO Article with such id=" + id);
 		}
 		articleRepository.deleteById(id);
 	}
@@ -36,13 +34,13 @@ public class JArticleServiceImpl implements JArticleService{
 
 	@Override
 	public List<JArticle> getByUser(JUser user) {
-		
+
 		return articleRepository.getByUser(user);
 	}
-	
+
 	@Override
 	public List<JArticle> getInDateArticles(Date date) {
-		
+
 		return articleRepository.getInDateArticles(date);
 	}
 
@@ -50,15 +48,14 @@ public class JArticleServiceImpl implements JArticleService{
 	public JArticle getById(long id) throws JArticleException {
 
 		if (!articleRepository.existsById(id)) {
-			throw new JArticleException("NO Article found for id="+id);
+			throw new JArticleException("NO Article found for id=" + id);
 		}
-		return articleRepository.getOne(id);
+		return articleRepository.getById(id);
 	}
 
 	@Override
 	public void save(JArticle article) {
 		articleRepository.save(article);
 	}
-	
-	
+
 }

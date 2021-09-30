@@ -38,7 +38,8 @@ public class JLinkClickServiceImpl implements JLinkClickService{
 		int weekCnt = lcRep.countLinkToDate(link, JDate.incDay(day, -7));
 		int monthCnt = lcRep.countLinkToDate(link, JDate.incMonth(day, -1));
 		int yearCnt = lcRep.countLinkToDate(link, JDate.incYear(day, -1));
-		JStatistics stats = new JStatistics(allCnt, dayCnt, weekCnt, monthCnt, yearCnt, JDate.getDifferenceDays(new Date(), link.getFinishDate()));
+		JStatistics stats = new JStatistics(allCnt, dayCnt, weekCnt, monthCnt, yearCnt,
+				JDate.getDifferenceDays(new Date(), link.getFinishDate()));
 		return stats;
 	}
 }

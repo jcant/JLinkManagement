@@ -8,7 +8,10 @@ import javax.naming.LinkException;
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JModelHelper;
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JSymbolsHelper;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
+import com.gmail.gm.jcant.JLinkManagement.JPA.UserPaymentsLog.JUserPaymentsLogException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.UserPaymentsLog.JUserPaymentsLogService;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -46,6 +49,8 @@ public class LinkAddController {
 	private JRootLinkService rootLinkService;
 	@Autowired
 	private JUserPaymentsLogService userPaymentsLogService;
+	@Autowired
+	private Logger logger;
 	
 	@ModelAttribute("jlink")
     public JLink getJLink () {
@@ -104,7 +109,11 @@ public class LinkAddController {
     		linkService.addLink(link);
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			JUser dbUser = userService.getUserByLogin(user.getUsername());
-    		userPaymentsLogService.SaveUserPayment(dbUser,link, 10, "FakePaySystem");
+    		try {
+				userPaymentsLogService.SaveUserPayment(dbUser,link, 10, "FakePaySystem");
+			} catch (JUserPaymentsLogException e) {
+				logger.error("Error when save user payments log: " + e.getMessage());
+			}
     		model.addAttribute("success", true);
     	} else {
     		model.addAttribute("success", false);
@@ -112,7 +121,6 @@ public class LinkAddController {
     		
     	sessionStatus.setComplete();
         
-    	//return "links";
     	RedirectView rv = new RedirectView("/links", true);
 		rv.setExposeModelAttributes(false);
 		return rv;

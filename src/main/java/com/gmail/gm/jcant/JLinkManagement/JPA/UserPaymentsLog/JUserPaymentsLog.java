@@ -17,7 +17,7 @@ public class JUserPaymentsLog {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private JUser user;
@@ -27,9 +27,9 @@ public class JUserPaymentsLog {
 	private JLink link;
 
 	private Date date;
-	
+
 	private double amount;
-	
+
 	private String paySystem;
 
 	public JUserPaymentsLog() {
@@ -100,5 +100,5 @@ public class JUserPaymentsLog {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

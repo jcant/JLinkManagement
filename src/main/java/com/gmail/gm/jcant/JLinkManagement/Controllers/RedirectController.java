@@ -8,6 +8,7 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.LinkClick.JLinkClickService;
 
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
@@ -20,80 +21,73 @@ import java.util.Date;
 @JDomain(fromMethod = true)
 public class RedirectController {
 	@Autowired
-    private Logger logger;
-	
+	private Logger logger;
+
+	@Value("${frontend.domains[0]}")
+	private String frontEnd;
+
 	@Autowired
-    private JLinkService linkService;
-    
-    @Autowired
-    private JLinkClickService linkClickService;
+	private JLinkService linkService;
 
-    @RequestMapping("/")
-    public RedirectView index(HttpServletRequest request) throws JLinkException {
+	@Autowired
+	private JLinkClickService linkClickService;
 
-        //JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
-        JLink link = linkService.getByUrlActualEnabled(getRequestDomain(request), new Date());
-        if (link != null) {
-        	System.out.println("**** 1)Redirect to link: "+link);
-            linkClickService.SaveLinkClick(link, request);
-        	//return "redirect:" + link.getTarget();
-        	RedirectView rv = new RedirectView(wrapTarget(link.getTarget()), true);
-    		rv.setExposeModelAttributes(false);
-    		return rv;
-        } else {
-        	throw new JLinkException("Wrong link requestedwwww! " + getRequestDomain(request));
-        }
+	@RequestMapping("/")
+	public RedirectView index(HttpServletRequest request) throws JLinkException {
+		String url;
+		JLink link = linkService.getByUrlActualEnabled(getRequestDomain(request), new Date());
+		if (link != null) {
+			linkClickService.SaveLinkClick(link, request);
+			url = wrapTarget(link.getTarget());
+			logger.info("Sub-domain redirection: " + link);
+		} else {
+			logger.warn("Wrong link requested! " + getRequestDomain(request));
+			url = frontEnd;
+		}
 
-    }
+		RedirectView rv = new RedirectView(url, true);
+		rv.setExposeModelAttributes(false);
+		return rv;
+	}
 
-    @RequestMapping("/{shortcut}")
-    public RedirectView indexWithURI(HttpServletRequest request) throws JLinkException {
-    	
-        //JLink link = linkService.getByUrlActualEnabled(request.getRequestURL().toString(), new Date());
-        JLink link = linkService.getByUrlActualEnabled(getRequestDomain(request), new Date());
-        if (link != null) {
-            System.out.println("**** 2)Redirect to link: "+link);
-        	linkClickService.SaveLinkClick(link, request);
-        	//return "redirect:" + link.getTarget();
-        	RedirectView rv = new RedirectView(wrapTarget(link.getTarget()), true);
-    		rv.setExposeModelAttributes(false);
-    		return rv;
-        } else {
-            throw new JLinkException("Wrong link requested@@@! " + getRequestDomain(request));
-        }
-    }
-    
-    private String wrapTarget(String target) {
-    	String result = target.toLowerCase();
-    	if(result.startsWith("http://")||result.startsWith("https://")) {
-    		return result;
-    	}else {
-    		return "http://"+result;
-    	}
-    }
-    
-    
-    private String getRequestDomain(HttpServletRequest request) {
+	@RequestMapping("/{shortcut}")
+	public RedirectView indexWithURI(HttpServletRequest request) throws JLinkException {
+		String url;
+		JLink link = linkService.getByUrlActualEnabled(getRequestDomain(request), new Date());
+		if (link != null) {
+			linkClickService.SaveLinkClick(link, request);
+			url = wrapTarget(link.getTarget());
+			logger.info("Uri-link redirection: " + link);
+		} else {
+			logger.warn("Wrong link requested! " + getRequestDomain(request));
+			url = frontEnd;
+		}
 
-    	String scheme = request.getScheme();
-        String name = request.getServerName();
-        String uri = request.getRequestURI();
-        //String port = "" + request.getServerPort();
-        //String url = scheme + "://" + name;
-        String url = name;
-        
-        
-        logger.info("********************" + url);
-        
-        //for now, we exclude server port info:
-        //if (!port.equals("")) {
-        //    url += ":" + port;
-        //}
-        
-        if (!uri.equals("") && !uri.equals("/")) {
-        	url += uri;
-        }
+		RedirectView rv = new RedirectView(url, true);
+		rv.setExposeModelAttributes(false);
+		return rv;
+	}
 
-        return url;
-    }
+	private String wrapTarget(String target) {
+		String result = target.toLowerCase();
+		if (result.startsWith("http://") || result.startsWith("https://")) {
+			return result;
+		} else {
+			return "http://" + result;
+		}
+	}
+
+	private String getRequestDomain(HttpServletRequest request) {
+
+		String name = request.getServerName();
+		String uri = request.getRequestURI();
+
+		String url = name;
+
+		if (!uri.equals("") && !uri.equals("/")) {
+			url += uri;
+		}
+
+		return url;
+	}
 }

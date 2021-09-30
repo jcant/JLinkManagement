@@ -10,8 +10,6 @@ import org.springframework.data.repository.query.Param;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 
 public interface JLinkRepository extends JpaRepository<JLink, Long> {
-	// @Query("SELECT l FROM JLink l WHERE l.url = :url")
-	// JLink findByUrl(@Param("url") String url);
 
 	@Query("SELECT l FROM JLink l WHERE (l.url = :url AND l.enabled = true AND l.finishDate >= :date)")
 	JLink getByUrlActualEnabled(@Param("url") String url, @Param("date") Date date);
@@ -21,13 +19,13 @@ public interface JLinkRepository extends JpaRepository<JLink, Long> {
 
 	@Query("SELECT l FROM JLink l WHERE (l.user = :user AND l.free = true AND l.finishDate>=:date) ORDER BY l.finishDate DESC")
 	List<JLink> findByUserFreeDate(@Param("user") JUser user, @Param("date") Date date);
-	
+
 	@Query("SELECT l FROM JLink l WHERE (l.user = :user AND l.free = true) ORDER BY l.finishDate DESC")
 	List<JLink> findByUserFree(@Param("user") JUser user);
 
 	@Query("SELECT l FROM JLink l WHERE (l.user = :user AND l.free = false AND l.finishDate>=:date) ORDER BY l.finishDate DESC")
 	List<JLink> findByUserPaidDate(@Param("user") JUser user, @Param("date") Date date);
-	
+
 	@Query("SELECT l FROM JLink l WHERE (l.user = :user AND l.free = false) ORDER BY l.finishDate DESC")
 	List<JLink> findByUserPaid(@Param("user") JUser user);
 

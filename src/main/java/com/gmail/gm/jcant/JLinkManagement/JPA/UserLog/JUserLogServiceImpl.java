@@ -11,26 +11,10 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
-public class JUserLogServiceImpl implements JUserLogService{
+public class JUserLogServiceImpl implements JUserLogService {
 
 	@Autowired
-    private JUserLogRepository userLogRepository;
-	
-//	@Override
-//	public List<JLinkClick> getByUrl(String url) {
-//		return linkClickRepository.getByUrl(url);
-//	}
-
-//	@Override
-//	public void addUserLog(JUserLog userLog) {
-//		userLogRepository.save(userLog);
-//	}
-//
-//	@Override
-//	public void updateUserLog(JUserLog userLog) {
-//		userLogRepository.save(userLog);
-//
-//	}
+	private JUserLogRepository userLogRepository;
 
 	@Override
 	public List<JUserLog> getByUser(JUser user) {
@@ -38,9 +22,9 @@ public class JUserLogServiceImpl implements JUserLogService{
 	}
 
 	@Override
-	public void SaveUserComeIn(JUser user, HttpServletRequest request) {
-		if ((user == null)||(request == null)) {
-			//throw new exception...
+	public void SaveUserComeIn(JUser user, HttpServletRequest request) throws JUserLogException {
+		if ((user == null) || (request == null)) {
+			throw new JUserLogException("SaveUserComeIn(): user or request is null!");
 		}
 		JUserLog userLog = new JUserLog(user, new Date(), request.getRemoteAddr());
 		userLogRepository.save(userLog);

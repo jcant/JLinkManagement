@@ -14,7 +14,7 @@ public class JUser {
 	private long id;
 
 	private String login;
-	
+
 	@JsonIgnore
 	private String password;
 
@@ -23,7 +23,7 @@ public class JUser {
 
 	private String email;
 	private String name;
-	
+
 	private boolean blocked;
 	private boolean resetPassword;
 
@@ -45,7 +45,8 @@ public class JUser {
 		this.resetPassword = false;
 	}
 
-	public JUser(String login, String password, JUserRole role, String email, String name, boolean blocked, boolean resetPassword) {
+	public JUser(String login, String password, JUserRole role, String email, String name, boolean blocked,
+			boolean resetPassword) {
 		this.login = login;
 		this.password = password;
 		this.role = role;

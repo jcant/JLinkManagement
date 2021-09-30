@@ -54,14 +54,14 @@ public class UserRestController {
                                          @RequestParam(required = false) Integer userRole
     		                            ) throws JUserException {
         long lId = Long.parseLong(id);
-    	JUser dbUser = userService.getUserById(lId); //if user does't exist method throws Exception
+    	JUser dbUser = userService.getUserById(lId); //if user does't exist method will throw Exception
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        //here we filter operations on user by another user if they not admin
+        //here is filtering operations on user by another user if they not admin
         if ((!JRoleHelper.isHasRole("ROLE_ADMIN", authUser.getAuthorities())) && (!authUser.getUsername().equals(dbUser.getLogin()))) {
 			throw new JUserException("Access deny to update another user");
 		}
-        //if dbUser and authUser is different, the authUser can be only admin (at this step)
+        //if dbUser and authUser differs, the authUser can be only admin (at this step)
         if ((!encoder.matches(currentPassword, dbUser.getPassword())) && (!encoder.matches(currentPassword, authUser.getPassword()))) {
             return new JOperationInfo<JUser>("Wrong Password!", false);
         }

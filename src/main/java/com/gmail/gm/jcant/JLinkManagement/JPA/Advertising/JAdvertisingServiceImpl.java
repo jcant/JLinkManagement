@@ -47,7 +47,7 @@ public class JAdvertisingServiceImpl implements JAdvertisingService {
         if (!advertisingRepository.existsById(id)) {
             throw new JAdvertisingException("NO Advertising found for id="+id);
         }
-        return advertisingRepository.getOne(id);
+        return advertisingRepository.getById(id);
     }
 
     @Override

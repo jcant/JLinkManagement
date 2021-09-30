@@ -121,8 +121,6 @@ public class JArticle {
 		builder.append(header);
 		builder.append(", text=");
 		builder.append(text);
-		//builder.append(", author=");
-		//builder.append(author);
 		builder.append("]");
 		return builder.toString();
 	}
