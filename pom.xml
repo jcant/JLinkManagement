@@ -12,7 +12,7 @@
     <groupId>com.gmail.gm.jcant</groupId>
     <artifactId>JLinkManagement</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>JLinkManagement</name>
     <description>Graduate project</description>
     <url>https://github.com/jcant/JLinkManagement</url>
@@ -89,19 +89,21 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-              	<groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-dependency-plugin</artifactId>
+        	<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-dependency-plugin</artifactId>
       	        <executions>
-              	    <execution>
-                  	        <phase>package</phase>
-                      	<goals><goal>copy</goal></goals>
-                              <configuration>
-      	                    <artifactItems>
-          	                        <artifactItem>
+		    <execution>
+        		<phase>package</phase>
+                        <goals>
+			    <goal>copy</goal>
+			</goals>
+                	<configuration>
+      	            	    <artifactItems>
+          	        	<artifactItem>
               	                    <groupId>com.github.jsimone</groupId>
-                  	                    <artifactId>webapp-runner</artifactId>
+                  	            <artifactId>webapp-runner</artifactId>
                       	            <version>8.5.30.0</version>
-                          	            <destFileName>webapp-runner.jar</destFileName>
+                          	    <destFileName>webapp-runner.jar</destFileName>
                               	</artifactItem>
                               </artifactItems>
                           </configuration>
