@@ -38,27 +38,31 @@ public class RootLinkRestController {
                                                  @RequestParam boolean enabled
                                                 ) throws JRootLinkException {
 
-
-        JRootLink rootLink = null;
-
-        if (id != -1) {
-            rootLink = rootLinkService.getById(id);
-        } else {
-            rootLink = new JRootLink();
-        }
-
-        rootLink.setUrl(url);
-        rootLink.setEnabled(enabled);
-
-        rootLinkService.save(rootLink);
-
-        return new JOperationInfo<JRootLink>("RootLink update(create) success!", true);
+    	throw new JRootLinkException("Sorry! It's a test server, Root link operations are disabled!");
+    	
+//        JRootLink rootLink = null;
+//
+//        if (id != -1) {
+//            rootLink = rootLinkService.getById(id);
+//        } else {
+//            rootLink = new JRootLink();
+//        }
+//
+//        rootLink.setUrl(url);
+//        rootLink.setEnabled(enabled);
+//
+//        rootLinkService.save(rootLink);
+//
+//        return new JOperationInfo<JRootLink>("RootLink update(create) success!", true);
     }
 
     @RequestMapping(value = "/rootlinks/{id}", method = RequestMethod.DELETE)
     @JDomain(property = "frontend.domains")
     public JOperationInfo<JRootLink> deleteRootLink(@PathVariable(value = "id") long id) throws JRootLinkException {
-        rootLinkService.deleteById(id);
-        return new JOperationInfo<JRootLink>("RootLink delete success!", true);
+    	
+    	throw new JRootLinkException("Sorry! It's a test server, Root link operations are disabled!");
+    	
+//        rootLinkService.deleteById(id);
+//        return new JOperationInfo<JRootLink>("RootLink delete success!", true);
     }
 }

@@ -1,11 +1,18 @@
 package com.gmail.gm.jcant.JLinkManagement;
 
+import com.gmail.develop.jcant.JDate;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomainRequestMappingHandlerMapping;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertising;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticle;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticleService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserDetailServiceImpl;
+import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserRole;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +27,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,7 +58,7 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 		};
 	}
 
-/*
+
 	private void initDB(final JUserService userService,
 			final JLinkService linkService,
 			final JRootLinkService rlinkService,
@@ -64,9 +73,10 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 		JArticle art1 = new JArticle(new Date(), null, null, "Weclome!",
 			"It's good to see you here!<br>"+
 			"This is a test project of the redirect platform. You can try the user and admin functionality, as well as the basic <strong>redirect functionality.</strong><br>"+
-			"In view of hosting restrictions, the redirect works only on references of the type http://sitename.com/your_link</br>"+
 			"</br>"+
-			"You can register a new user or log in as an administrator or ordinaly user:",
+			"Registration of a new user is disabled<br>" +
+			"Creation of a new links is disabled<br>" +
+			"You can log in either as administrator or as ordinaly user",
 			admin);
 
 		JArticle art2 = new JArticle(new Date(), null, null, "Admin",
@@ -83,24 +93,27 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 		 	"password: <strong>password</strong>",
 		 	admin);
 
-		 JArticle art4 = new JArticle(new Date(), null, null, "Redirecting",
-			"Due to \"heroku\" limitations You may create links based on only one root link: <strong>short-domain-name.herokuapp.com</strong><br>"+
-			"and only like <strong>short-domain-name.herokuapp.com/YOURWORD</strong><br>"+
-			"(you can't create links like this: <strong>YOURWORD.short-domain-name.herokuapp.com</strong>)",
-			admin);
+		//JArticle art4 = new JArticle(new Date(), null, null, "Redirecting",
+		//	"Due to \"heroku\" limitations You may create links based on only one root link: <strong>short-domain-name.herokuapp.com</strong><br>"+
+		//	"and only like <strong>short-domain-name.herokuapp.com/YOURWORD</strong><br>"+
+		//	"(you can't create links like this: <strong>YOURWORD.short-domain-name.herokuapp.com</strong>)",
+		//	admin);
 
 		 JArticle art5 = new JArticle(new Date(), null, null, "Redirecting",
-			"FreeLink (owner admin) <a target=\"_blank\" href=\"https://short-domain-name.herokuapp.com/qqwwee\"><strong>https://short-domain-name.herokuapp.com/qqwwee</strong></a> => google.com?search=qwerty<br>"+
-			"FreeLink (owner user) <a target=\"_blank\" href=\"https://short-domain-name.herokuapp.com/aassdd\"><strong>https://short-domain-name.herokuapp.com/aassdd</strong></a> => yahoo.com<br>"+
-			"PaidLink (owner admin) <a target=\"_blank\" href=\"https://short-domain-name.herokuapp.com/superadminlink\"><strong>https://short-domain-name.herokuapp.com/superadminlink</strong></a> => gmail.com<br>"+
-			"PaidLink (owner user) <a target=\"_blank\" href=\"https://short-domain-name.herokuapp.com/superuserlink\"><strong>https://short-domain-name.herokuapp.com/superuserlink</strong></a> => github.com<br>",
+			"FreeLink (owner admin) <a target=\"_blank\" href=\"short1.jca:10000/qqwwee\"><strong>https://short1.jca/qqwwee</strong></a> => google.com/search?q=java+spring<br>"+
+			"PaidLink (owner admin) <a target=\"_blank\" href=\"short1.jca:10000/adminlink\"><strong>https://short1.jca/adminlink</strong></a> => www.linkedin.com/in/anton-isaev<br>"+
+			"PaidLink (owner admin) <a target=\"_blank\" href=\"owesome.short1.jca:10000\"><strong>https://owesome.short1.jca</strong></a> => github.com/jcant<br>"+
+			
+			"FreeLink (owner user) <a target=\"_blank\" href=\"short2.jca:10000/aassdd\"><strong>https://short2.jca/aassdd</strong></a> => google.com/search?q=oop+principles<br>"+
+			"PaidLink (owner user) <a target=\"_blank\" href=\"short2.jca:10000/userlink\"><strong>https://short2.jca/userlink</strong></a> => github.com/jcant<br>"+
+			"PaidLink (owner user) <a target=\"_blank\" href=\"super.short2.jca:10000\"><strong>https://super.short2.jca</strong></a> => www.linkedin.com/in/anton-isaev<br>",
 			admin);
 
 
 		 articleService.addArticle(art1);
 		 articleService.addArticle(art2);
 		 articleService.addArticle(art3);
-		 articleService.addArticle(art4);
+		 //articleService.addArticle(art4);
 		 articleService.addArticle(art5);
 
 		JAdvertising adv1 = new JAdvertising("jCant Graduate Project", null, null, "Link Management",
@@ -122,12 +135,13 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 
 		Date dstart = JDate.incDay(JDate.setTime(new Date(), "0:0:1"), -1);
 		Date dfinish = JDate.incMonth(JDate.setTime(new Date(), "0:0:1"), 2);
-		JLink l1 = new JLink("short1.jca/qqwwee", "google.com", admin, dstart, dfinish, true, true);
-		JLink l2 = new JLink("short1.jca/adminlink", "gmail.com", admin, dstart, dfinish, true, false);
-		JLink l3 = new JLink("owesome.short1.jca", "gmail.com", admin, dstart, dfinish, true, false);
-		JLink l4 = new JLink("short2.jca/aassdd", "yahoo.com", ouser, dstart, dfinish, true, true);
-		JLink l5 = new JLink("short2.jca/userlink", "github.com", ouser, dstart, dfinish, true, false);
-		JLink l6 = new JLink("super.short2.jca", "github.com", ouser, dstart, dfinish, true, false);
+		JLink l1 = new JLink("short1.jca/qqwwee", "google.com/search?q=java+spring", admin, dstart, dfinish, true, true);
+		JLink l2 = new JLink("short1.jca/adminlink", "www.linkedin.com/in/anton-isaev", admin, dstart, dfinish, true, false);
+		JLink l3 = new JLink("owesome.short1.jca", "github.com/jcant", admin, dstart, dfinish, true, false);
+		
+		JLink l4 = new JLink("short2.jca/aassdd", "google.com/search?q=oop+principles", ouser, dstart, dfinish, true, true);
+		JLink l5 = new JLink("short2.jca/userlink", "github.com/jcant", ouser, dstart, dfinish, true, false);
+		JLink l6 = new JLink("super.short2.jca", "www.linkedin.com/in/anton-isaev", ouser, dstart, dfinish, true, false);
 
 		linkService.addLink(l1);
 		linkService.addLink(l2);
@@ -137,7 +151,7 @@ public class JLinkManagementApplication implements WebMvcConfigurer{
 		linkService.addLink(l6);
 	}
 	
-*/
+
 
     @Bean
     public UrlBasedViewResolver setupViewResolver() {

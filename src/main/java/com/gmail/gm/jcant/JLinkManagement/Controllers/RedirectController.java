@@ -23,7 +23,7 @@ public class RedirectController {
 	@Autowired
 	private Logger logger;
 
-	@Value("${frontend.domains[0]}")
+	@Value("${frontend.domains}")
 	private String frontEnd;
 
 	@Autowired
@@ -42,7 +42,7 @@ public class RedirectController {
 			logger.info("Sub-domain redirection: " + link);
 		} else {
 			logger.warn("Wrong link requested! " + getRequestDomain(request));
-			url = frontEnd;
+			url = wrapTarget(frontEnd);
 		}
 
 		RedirectView rv = new RedirectView(url, true);
@@ -60,7 +60,7 @@ public class RedirectController {
 			logger.info("Uri-link redirection: " + link);
 		} else {
 			logger.warn("Wrong link requested! " + getRequestDomain(request));
-			url = frontEnd;
+			url = wrapTarget(frontEnd);
 		}
 
 		RedirectView rv = new RedirectView(url, true);

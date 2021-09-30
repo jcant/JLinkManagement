@@ -5,7 +5,10 @@ import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertising;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingService;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticleException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,9 @@ import java.util.List;
 public class AdvertisingRestController {
 
     @Autowired
+    private Logger logger;
+    
+	@Autowired
     private JAdvertisingService advertisingService;
 
     @RequestMapping(value = "/promo/getActual")
@@ -41,34 +47,44 @@ public class AdvertisingRestController {
                                                 @RequestParam(required = false) String pubFinish
                                                 ) throws JAdvertisingException {
 
-        JDate.setDefaultDateFormat("yyyy-MM-dd");
-
-        JAdvertising advertising = null;
-
-        if (id != -1) {
-            advertising = advertisingService.getById(id);
-        } else {
-            advertising = new JAdvertising();
-        }
-
-        advertising.setHeader(header);
-        if (text != null) advertising.setText(text);
-        if (pubStart != null) advertising.setPubStart(JDate.getDate(pubStart));
-        if (pubFinish != null) advertising.setPubFinish(JDate.getDate(pubFinish));
-        advertising.setCompany(company);
-
-        JDate.setDefaultDateFormat("dd-MM-yyyy");
-
-        advertisingService.save(advertising);
-
-        return new JOperationInfo<JAdvertising>("Advertising update(create) success!", true);
+    	logger.warn("Sorry! It's a test server, Advertising operations are disabled!");
+    	
+    	return new JOperationInfo<JAdvertising>("Sorry! It's a test server, Advertising operations are disabled!", false);
+    	
+//        JDate.setDefaultDateFormat("yyyy-MM-dd");
+//
+//        JAdvertising advertising = null;
+//
+//        if (id != -1) {
+//            advertising = advertisingService.getById(id);
+//        } else {
+//            advertising = new JAdvertising();
+//        }
+//
+//        advertising.setHeader(header);
+//        if (text != null) advertising.setText(text);
+//        if (pubStart != null) advertising.setPubStart(JDate.getDate(pubStart));
+//        if (pubFinish != null) advertising.setPubFinish(JDate.getDate(pubFinish));
+//        advertising.setCompany(company);
+//
+//        JDate.setDefaultDateFormat("dd-MM-yyyy");
+//
+//        advertisingService.save(advertising);
+//
+//        return new JOperationInfo<JAdvertising>("Advertising update(create) success!", true);
     }
 
     @RequestMapping(value = "/promo/{id}", method = RequestMethod.DELETE)
     @JDomain(property = "frontend.domains")
     public JOperationInfo<JAdvertising> deleteAdv(@PathVariable(value = "id") long id) throws JAdvertisingException {
-        advertisingService.deleteById(id);
-        return new JOperationInfo<JAdvertising>("Advertising delete success!", true);
+    	
+    	logger.warn("Sorry! It's a test server, Advertising operations are disabled!");
+    	
+    	return new JOperationInfo<JAdvertising>("Sorry! It's a test server, Advertising operations are disabled!", false);
+    	
+    	
+//        advertisingService.deleteById(id);
+//        return new JOperationInfo<JAdvertising>("Advertising delete success!", true);
     }
 }
 

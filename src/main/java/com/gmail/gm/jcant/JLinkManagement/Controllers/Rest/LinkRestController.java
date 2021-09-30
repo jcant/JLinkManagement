@@ -9,6 +9,8 @@ import javax.naming.LinkException;
 
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JRoleHelper;
 import com.gmail.gm.jcant.JLinkManagement.Helpers.JSymbolsHelper;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,10 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gmail.develop.jcant.JDate;
 import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
+import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticle;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLink;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Link.JLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLink;
+import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUser;
 import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserException;
@@ -36,6 +40,8 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.User.JUserService;
 @RestController
 public class LinkRestController {
 
+	@Autowired
+	private Logger logger;
 	@Autowired
 	private JLinkService linkService;
 	@Autowired
@@ -137,8 +143,13 @@ public class LinkRestController {
 	@RequestMapping(value = "/link/{id}", method = RequestMethod.DELETE)
     @JDomain(property = "frontend.domains")
     public JOperationInfo<JLink> deleteLink(@PathVariable(value = "id") long id) throws JLinkException {
-		linkService.deleteById(id);
-        return new JOperationInfo<JLink>("Link delete success!", true);
+		
+		logger.warn("Sorry! It's a test server, Link operations are disabled!");
+    	
+    	return new JOperationInfo<JLink>("Sorry! It's a test server, Link operations are disabled!", false);
+		
+//		linkService.deleteById(id);
+//        return new JOperationInfo<JLink>("Link delete success!", true);
     }
 
 	private String generateRandLink(String rootUrl) {
