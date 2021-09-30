@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
 import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkException;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,9 @@ import com.gmail.gm.jcant.JLinkManagement.JPA.RootLink.JRootLinkService;
 public class RootLinkRestController {
 
     @Autowired
+    private Logger logger;
+	
+	@Autowired
     private JRootLinkService rootLinkService;
 
     @RequestMapping(value = "/rootlinks/getActual")
@@ -38,7 +43,9 @@ public class RootLinkRestController {
                                                  @RequestParam boolean enabled
                                                 ) throws JRootLinkException {
 
-    	throw new JRootLinkException("Sorry! It's a test server, Root link operations are disabled!");
+    	logger.warn("Sorry! It's a test server, Root link operations are disabled!");
+    	
+    	return new JOperationInfo<JRootLink>("Sorry! It's a test server, Root link operations are disabled!", false);
     	
 //        JRootLink rootLink = null;
 //
@@ -60,7 +67,9 @@ public class RootLinkRestController {
     @JDomain(property = "frontend.domains")
     public JOperationInfo<JRootLink> deleteRootLink(@PathVariable(value = "id") long id) throws JRootLinkException {
     	
-    	throw new JRootLinkException("Sorry! It's a test server, Root link operations are disabled!");
+    	logger.warn("Sorry! It's a test server, Root link operations are disabled!");
+    	
+    	return new JOperationInfo<JRootLink>("Sorry! It's a test server, Root link operations are disabled!", false);
     	
 //        rootLinkService.deleteById(id);
 //        return new JOperationInfo<JRootLink>("RootLink delete success!", true);

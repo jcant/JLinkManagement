@@ -5,7 +5,6 @@ import com.gmail.gm.jcant.JLinkManagement.DomainRouting.JDomain;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertising;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.Advertising.JAdvertisingService;
-import com.gmail.gm.jcant.JLinkManagement.JPA.Article.JArticleException;
 import com.gmail.gm.jcant.JLinkManagement.JPA.JOperationInfo;
 
 import org.apache.logging.log4j.Logger;
